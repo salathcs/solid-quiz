@@ -17,15 +17,14 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
     };
 
 	return (
-        <div className="container px-4">
-            <div className='jumbotron text-center'>
-                <h1 className='display'>Solid quiz login page</h1>
-                <p className='lead'>Choose a provider and log in to your pod!</p>
-            </div>
-                <div className='row text-center mt-3'>
+        <div className="container square-box d-flex flex-column text-center">
+            <h1>Solid quiz login page</h1>
+            <div className="container px-4 inner-box">
+                <p>Choose a provider and log in to your pod!</p> 
+                <div className='row mt-3'>
                     <div className='col'>
                         <input
-                            className=""
+                            className="inner-box-dropDown"
                             type="text"
                             name="oidcIssuer"
                             list="providers"
@@ -35,7 +34,7 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                         <Providers id="providers" />
                     </div>
                 </div>
-                <div className='row text-center mt-3'>
+                <div className='row mt-5'>
                     <div className='col'>
                         <LoginButton
                             oidcIssuer={oidcIssuer}
@@ -43,7 +42,8 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                             authOptions={authOptions}
                         />
                     </div>
-                </div>
+                </div> 
+            </div>               
         </div>
 	);
 }
