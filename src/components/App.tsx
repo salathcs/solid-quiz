@@ -7,17 +7,11 @@ import { SpinnerContextComponent } from './SpinnerContextComponent';
 function App() {
   const { session } = useSession();
 
-  if (!session.info.isLoggedIn){
-    return (
-      <SpinnerContextComponent>
-        <Authenticate />
-      </SpinnerContextComponent>
-    );
-  }
-  
+  const appContent = session.info.isLoggedIn ? <Page /> : <Authenticate />;
+
   return (
     <SpinnerContextComponent>
-      <Page />
+      {appContent}
     </SpinnerContextComponent>
   );
 }
