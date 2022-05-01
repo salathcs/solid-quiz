@@ -1,13 +1,15 @@
 import React from "react";
 
 export interface ISpinnerContext {
-    showSpinner: boolean;
-    toggleSpinner: () => void;
+  Spinner: boolean;
+  ShowSpinner: () => void;
+  HideSpinner: () => void;
   }
   
 export const defaultSpinnerState = {
-    showSpinner: true,
-    toggleSpinner: () => {}
+  Spinner: true,
+  ShowSpinner: () => {},
+  HideSpinner: () => {},
   };
   
   export const SpinnerContext = React.createContext<ISpinnerContext>(defaultSpinnerState);

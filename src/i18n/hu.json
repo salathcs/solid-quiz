@@ -1,0 +1,10 @@
+{
+    "lang.english": "Angol",
+    "lang.hungarian": "Magyar",
+
+    "auth.title": "Solid kvíz bejelentkezés",
+    "auth.label": "Válassz egy pod kiszolgálót a belépéshez!",
+    "auth.button.login": "Bejelentkezés",
+
+    "question.text": "Kérdés szövege"
+}

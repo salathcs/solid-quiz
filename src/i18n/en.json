@@ -1,0 +1,10 @@
+{
+    "lang.english": "English",
+    "lang.hungarian": "Hungarian",
+
+    "auth.title": "Solid quiz login page",
+    "auth.label": "Choose a provider and log in to your pod!",
+    "auth.button.login": "Log in",
+
+    "question.text": "Question text"
+}

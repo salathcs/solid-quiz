@@ -1,23 +1,21 @@
 import React, { useContext, useEffect } from 'react';
 import { Props } from './types';
 import './styles.css';
-import { SpinnerContext } from './../../../contexts/SpinnerContext';
+import { SpinnerContext } from '../../../../contexts/SpinnerContext';
 
 export const Spinner: React.FC<Props> = (props: Props) => {
-	const { showSpinner, toggleSpinner } = useContext(SpinnerContext);
+	const { Spinner, HideSpinner } = useContext(SpinnerContext);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-		  toggleSpinner();
+			HideSpinner();
 		}, 1000);
 		return () => clearTimeout(timer);
-		// eslint-disable-next-line
-	  }, []);
+	  }, [HideSpinner]);
 
 	return (	
 		<>
-			{props.children}
-			{showSpinner &&
+			{Spinner &&
 			<div className="spinner-uter-container">
 				<div className='flex-container-spinner'>
 					<div className="spinner-container">

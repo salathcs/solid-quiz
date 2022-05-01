@@ -1,8 +1,9 @@
 import { useSession } from '@inrupt/solid-ui-react';
 import './App.css';
-import { Authenticate } from './Auth';
-import { Page } from './Page';
-import { SpinnerContextComponent } from './SpinnerContextComponent';
+import { Authenticate } from './auth';
+import { SpinnerContextComponent } from './common/spinnerContextComponent';
+import { TranslateContextComponent } from './common/translateContextComponent';
+import { Page } from './page';
 
 function App() {
   const { session } = useSession();
@@ -11,7 +12,9 @@ function App() {
 
   return (
     <SpinnerContextComponent>
-      {appContent}
+      <TranslateContextComponent>
+        {appContent}
+      </TranslateContextComponent>
     </SpinnerContextComponent>
   );
 }

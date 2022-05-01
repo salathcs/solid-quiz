@@ -1,11 +1,15 @@
 import { LoginButton } from '@inrupt/solid-ui-react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { APP_NAME } from '../../constants/DefaultValues';
-import { Providers } from './Providers';
 import { Props } from './types';
+import { Providers } from './providers';
 import './styles.css';
+import { TranslateContext } from '../../contexts/TranslateContext';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 
 export const Authenticate: React.FC<Props> = (props: Props) => {
+	const { t } = useContext(TranslateContext);
+
     const authOptions = {
         clientName: APP_NAME,
       };
@@ -16,13 +20,13 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
       setOidcIssuer(event.target.value);
     };
 
-	return (
-        <div className="container square-box d-flex flex-column text-center">
-            <h1>Solid quiz login page</h1>
-            <div className="container px-4 inner-box">
-                <p>Choose a provider and log in to your pod!</p> 
-                <div className='row mt-3'>
-                    <div className='col'>
+    return (
+        <Container className='square-box d-flex flex-column text-center'>
+            <h1>{t("auth.title")}</h1>
+            <Container className='px-4 inner-box'>
+                <p>{t("auth.label")}</p>
+                <Row className='mt-3'>
+                    <Col>
                         <input
                             className="inner-box-dropDown"
                             type="text"
@@ -32,18 +36,20 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                             onChange={handleChange}
                         />
                         <Providers id="providers" />
-                    </div>
-                </div>
-                <div className='row mt-5'>
-                    <div className='col'>
+                    </Col>
+                </Row>
+                <Row className='mt-5'>
+                    <Col>
                         <LoginButton
                             oidcIssuer={oidcIssuer}
                             redirectUrl={window.location.href}
                             authOptions={authOptions}
-                        />
-                    </div>
-                </div> 
-            </div>               
-        </div>
-	);
+                        >
+                            <Button variant="primary" size='lg'>{t("auth.button.login")}</Button>
+                        </LoginButton>
+                    </Col>
+                </Row>
+            </Container>
+        </Container>
+    );
 }
