@@ -45,7 +45,7 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                             redirectUrl={window.location.href}
                             authOptions={authOptions}
                         >
-                            <Button variant="primary" size='lg'>{t("auth.button.login")}</Button>
+                            <Button variant="primary" size='lg' className='login-btn'>{t("auth.button.login")}</Button>
                         </LoginButton>
                     </Col>
                 </Row>

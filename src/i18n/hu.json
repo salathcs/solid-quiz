@@ -6,5 +6,22 @@
     "auth.label": "Válassz egy pod kiszolgálót a belépéshez!",
     "auth.button.login": "Bejelentkezés",
 
+    "page.title": "Solid Kvíz",
+    "page.common.back": "Vissza",
+
+    "mainMenu.title": "Főmenü",
+    "mainMenu.btn.playGame": "Játék",
+    "mainMenu.btn.createQuiz": "Új kvíz",
+    "mainMenu.btn.leaderboard": "Ranglisták",
+    "mainMenu.btn.helpPage": "Súgó",
+
+    "playGame.title": "Új játék",
+
+    "createQuiz.title": "Kvíz létrehozása",
+
+    "leaderboard.title": "Ranglisták",
+
+    "helpPage.title": "Súgó",
+
     "question.text": "Kérdés szövege"
 }

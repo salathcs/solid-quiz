@@ -14,3 +14,8 @@
 .inner-box-dropDown{
   min-width: 370px;
 }
+
+.login-btn{
+  height: 60px;
+  width: 160px;
+}
