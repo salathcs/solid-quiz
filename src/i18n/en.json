@@ -8,16 +8,24 @@
 
     "page.title": "Solid Quiz",
     "page.common.back": "Back",
+    "page.common.required": "This field is required!",
+    "page.common.alphanumeric": "The field can only contain alphanumeric characters (a-z, A-Z, 0-9)!",
 
     "mainMenu.title": "Main menu",
     "mainMenu.btn.playGame": "Play game",
     "mainMenu.btn.createQuiz": "Create quiz",
+    "mainMenu.btn.modifyQuiz": "Modify quiz",
     "mainMenu.btn.leaderboard": "Leaderboards",
     "mainMenu.btn.helpPage": "Help page",
 
     "playGame.title": "New game",
 
     "createQuiz.title": "Create quiz",
+    "createQuiz.quiz.submit": "Create first question",
+    "createQuiz.quiz.name": "Name for the new quiz",
+    "createQuiz.quiz.multiLang": "Multi language support",
+
+    "modifyQuiz.title": "Modify quiz",
 
     "leaderboard.title": "Leaderboard",
 

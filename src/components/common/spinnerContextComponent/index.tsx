@@ -19,11 +19,21 @@ export const SpinnerContextComponent: React.FC<Props> = (props: Props) => {
 		setShowSpinner(spinner);
 	}, [spinnerCounter]);
 
+	const SpinAround = useCallback(async (delegate: () => Promise<void>) => {
+		ShowSpinner();
+		await delegate().catch((error: any) => {
+			console.log(error);
+		}).finally(() =>{
+		  HideSpinner();
+		});
+	}, [ShowSpinner, HideSpinner]);
+
 	return (
 		<SpinnerContext.Provider value={{
 				Spinner: showSpinner,
 				ShowSpinner,
 				HideSpinner,
+				SpinAround,
 			}}>
 				{props.children}
 				<Spinner />

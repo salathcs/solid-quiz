@@ -1,0 +1,56 @@
+import React, { useContext, useEffect, useState } from 'react';
+import { Props } from './types';
+import './styles.scoped.css';
+import { SolidDataset_Type } from '../../../helpers/SolidDatasetType';
+import { defaultWorkspaceContext, WorkspaceContext } from '../../../contexts/WorkspaceContext';
+import { SpinnerContext } from '../../../contexts/SpinnerContext';
+import { useSession } from '@inrupt/solid-ui-react';
+import * as workspaceService from '../../../services/WorkspaceService';
+
+export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
+	const { session } = useSession();
+	const { SpinAround } = useContext(SpinnerContext);
+	const [workspace, setWorkspace] = useState<SolidDataset_Type | null>(defaultWorkspaceContext.workspace);
+	const [workspaceUrl, setWorkspaceUrl] = useState(defaultWorkspaceContext.workspaceUrl);
+	const [webId, setWebId] = useState(defaultWorkspaceContext.webId);
+
+	const getWorkspace = () => {
+		if (workspace === null) {
+			return defaultWorkspaceContext.getWorkspace();
+		}
+
+		return workspace;
+	}
+
+	useEffect(() => {
+		if (!session || !session.info.isLoggedIn) return;
+
+		if (session.info.webId === undefined) {
+			throw new Error("WebId cannot be determined!");
+		}
+
+		setWebId(session.info.webId);
+
+		SpinAround(async () => {
+			const profileThing = await workspaceService.getProfileThing(webId, session.fetch);
+
+			const workSpaceLocation = workspaceService.getWorkSpaceLocation(profileThing);
+
+			const fetchedWorkspace = await workspaceService.getOrCreateWorkSpace(workSpaceLocation, session.fetch);
+
+			setWorkspaceUrl(workSpaceLocation);
+			setWorkspace(fetchedWorkspace);
+		});
+	  }, [session, session.info.isLoggedIn, webId, SpinAround]);
+
+	return (
+		<WorkspaceContext.Provider value={{
+			workspace,
+			getWorkspace,
+			workspaceUrl,
+			webId
+		}}>
+			{props.children}
+		</WorkspaceContext.Provider>
+	);
+}

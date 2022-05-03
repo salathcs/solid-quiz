@@ -1,9 +1,34 @@
-import { createSolidDataset, getSolidDataset, getThingAll, getUrl, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
+import { createSolidDataset, getSolidDataset, getThing, getThingAll, getUrl, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
 import { RDF } from '@inrupt/vocab-common-rdf';
-import { SolidDataset_Type } from "../helpers/SolidDatasetType";
+import { WS } from "@inrupt/vocab-solid";
+import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
+import { SolidFetch_Type, SolidDataset_Type } from "../helpers/SolidDatasetType";
   
-export async function getOrCreateWorkSpace(containerUri: string, fetch: (url: RequestInfo, init?: RequestInit | undefined) => Promise<Response>): Promise<SolidDataset_Type> {
-    const indexUrl = `${containerUri}index.ttl`;
+export async function getProfileThing(webId: string, fetch: SolidFetch_Type): Promise<Thing> {
+  const profileDataset = await getSolidDataset(webId, {
+    fetch: fetch,
+  });
+  const profileThing = getThing(profileDataset, webId);
+
+  if (profileThing !== null) {
+    return profileThing;
+  }
+  
+  throw new Error('Fetching profile failed!');
+}
+
+export function getWorkSpaceLocation(profileThing: Thing): string {
+  const podRoot = getUrl(profileThing, WS.storage);
+
+  if (podRoot === null) {
+    throw new Error('Determining pod root failed!');
+  }
+
+  return `${podRoot}${SOLID_QUIZ_WORKSPACE}`;
+}
+
+export async function getOrCreateWorkSpace(workspaceUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type> {
+    const indexUrl = `${workspaceUri}index.ttl`;
     try {
       const workspace = await getSolidDataset(indexUrl, { fetch });
       return workspace;
@@ -18,9 +43,27 @@ export async function getOrCreateWorkSpace(containerUri: string, fetch: (url: Re
         );
         return workspace;
       }
+
+      console.log(error);
     }
 
     throw new Error('unkown error in getOrCreateWorkSpace');
+  }
+
+  export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, quizContainerUri: string, fetch: SolidFetch_Type): Promise<boolean> {
+    const indexUrl = `${quizContainerUri}${quizTitle}`;
+    try {
+      await getSolidDataset(indexUrl, { fetch });
+      return true;
+    } catch (error: any) {
+      if (error.statusCode === 404) {
+        return false;
+      }
+
+      console.log(error);
+    }
+
+    throw new Error('unkown error in checkQuizTitleIsAlreadyReserved');
   }
 
 export async function getFirstThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Promise<Thing | null> {

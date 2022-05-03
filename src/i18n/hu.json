@@ -8,16 +8,24 @@
 
     "page.title": "Solid Kvíz",
     "page.common.back": "Vissza",
+    "page.common.required": "A mező kitöltése kötelező!",
+    "page.common.alphanumeric": "A mező csak alfanumerikus karaktereket tartalmazhat (a-z, A-Z, 0-9)!",
 
     "mainMenu.title": "Főmenü",
     "mainMenu.btn.playGame": "Játék",
     "mainMenu.btn.createQuiz": "Új kvíz",
+    "mainMenu.btn.modifyQuiz": "Kvíz szerkesztése",
     "mainMenu.btn.leaderboard": "Ranglisták",
     "mainMenu.btn.helpPage": "Súgó",
 
     "playGame.title": "Új játék",
 
     "createQuiz.title": "Kvíz létrehozása",
+    "createQuiz.quiz.submit": "Első kérdés létrehozása",
+    "createQuiz.quiz.name": "Az új kvíz neve",
+    "createQuiz.quiz.multiLang": "Többnyelvű",
+
+    "modifyQuiz.title": "Kvíz szerkesztése",
 
     "leaderboard.title": "Ranglisták",
 
