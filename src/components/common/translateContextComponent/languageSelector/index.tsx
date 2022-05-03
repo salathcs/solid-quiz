@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Props } from './types';
-import './styles.css';
+import './styles.scoped.css';
 import { Col, Container, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import { TranslateContext } from '../../../../contexts/TranslateContext';
 

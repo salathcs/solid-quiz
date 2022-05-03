@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Props } from './types';
-import './styles.css';
+import './styles.scoped.css';
 import { Container } from 'react-bootstrap';
 import { TranslateContext } from '../../contexts/TranslateContext';
 

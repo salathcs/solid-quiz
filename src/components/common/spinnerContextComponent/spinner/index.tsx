@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Props } from './types';
-import './styles.css';
+import './styles.scoped.css';
 import { SpinnerContext } from '../../../../contexts/SpinnerContext';
 
 export const Spinner: React.FC<Props> = (props: Props) => {

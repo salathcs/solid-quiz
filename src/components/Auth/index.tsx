@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { APP_NAME } from '../../constants/DefaultValues';
 import { Props } from './types';
 import { Providers } from './providers';
-import './styles.css';
+import './styles.scoped.css';
 import { TranslateContext } from '../../contexts/TranslateContext';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 

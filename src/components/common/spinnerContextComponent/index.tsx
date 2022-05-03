@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Props } from './types';
-import './styles.css';
+import './styles.scoped.css';
 import { defaultSpinnerState, SpinnerContext } from '../../../contexts/SpinnerContext';
 import { Spinner } from './spinner';
 import SpinnerCounter from '../../../helpers/SpinnerCounter';
