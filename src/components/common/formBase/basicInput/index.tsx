@@ -13,7 +13,7 @@ export const BasicInput: React.FC<Props> = (props: Props) => {
 			label={props.label}
 			className="mb-3 basic-input-style"
 		>
-			<Form.Control type={props.type} placeholder={props.label} {...field} isInvalid={!!meta.error} />
+			<Form.Control type={props.type} placeholder={props.label} {...field} isInvalid={meta.touched && !!meta.error} />
 			<Form.Control.Feedback type="invalid">{meta.error}</Form.Control.Feedback>
 		</FloatingLabel>
    	);

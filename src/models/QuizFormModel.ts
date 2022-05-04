@@ -1,4 +1,6 @@
 export interface QuizFormModel{
-    quizTitle: string,
-    multiLang: boolean
+    quizTitleEn: string,
+    quizTitleHu: string,
+    multiLang: boolean,
+    lang: string
 }

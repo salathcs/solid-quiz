@@ -20,10 +20,24 @@
 
     "playGame.title": "New game",
 
-    "createQuiz.title": "Create quiz",
+    "createQuiz.quiz.title": "Create quiz",
     "createQuiz.quiz.submit": "Create first question",
-    "createQuiz.quiz.name": "Name for the new quiz",
+    "createQuiz.quiz.nameHu": "Hungarian name for the new quiz",
+    "createQuiz.quiz.nameEn": "English name for the new quiz",
     "createQuiz.quiz.multiLang": "Multi language support",
+    "createQuiz.quiz.maxExceeded": "Character count must not exceed 50!",
+    "createQuiz.quiz.nameIsAlreadyReserved": "Quiz name is already occupied!",
+    "createQuiz.question.title": "question creation!",
+    "createQuiz.question.text": "Question text",
+    "createQuiz.question.textEn": "English question text",
+    "createQuiz.question.textHu": "Hungarian question text",
+    "createQuiz.question.addAnswerOption": "Add answer option",
+    "createQuiz.question.prevQuestion": "Previous question",
+    "createQuiz.question.nextQuestion": "Next question",
+    "createQuiz.question.finishQuiz": "Finish quiz",
+    "createQuiz.question.answerOption": "Answer option",
+    "createQuiz.question.answerOptionEn": "English answer option",
+    "createQuiz.question.answerOptionHu": "Hungarian answer option",
 
     "modifyQuiz.title": "Modify quiz",
 

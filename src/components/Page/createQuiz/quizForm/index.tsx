@@ -1,44 +1,43 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { FormBase } from '../../../common/formBase';
-import { BasicInput } from '../../../common/formBase/basicInput';
 import { TranslateContext } from '../../../../contexts/TranslateContext';
 import { FormikValues } from 'formik';
-import * as Yup from 'yup';
-import { Checkbox } from '../../../common/formBase/checkBox';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
+import { MultiLang } from './multiLang';
+import { MonoLang } from './monoLang';
 
 export const QuizForm: React.FC<Props> = (props: Props) => {
-	const { t } = useContext(TranslateContext);
-
-	const schema = Yup.object({
-		quizTitle: Yup.string()
-					 .required(t("page.common.required"))
-					 .matches(/^([0-9a-zA-ZáéiíoóöőuúüűÁÉIÍOÓÖŐUÚÜŰ])*$/, t("page.common.alphanumeric")),
-	});
-
-	const initialValues = {
-		quizTitle: "",
-		multiLang: false
-	};
+	const { t, lang } = useContext(TranslateContext);
+	const [isMultiLang, setIsMultiLang] = useState(false);
 
 	const onSubmit = (values: FormikValues) => {
 		props.afterFormSubmit(
 			{
-				quizTitle: values.quizTitle, 
-				multiLang: values.multiLang
+				quizTitleEn: values.quizTitleEn ?? "", 
+				quizTitleHu: values.quizTitleHu ?? "", 
+				multiLang: isMultiLang,
+				lang
 			});
-	}
+	};
+
+	const handleLangChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setIsMultiLang(!!event.target.checked);
+	};
+
+	const formContent = isMultiLang ? 
+		<MultiLang onSubmit={onSubmit} /> :
+		<MonoLang onSubmit={onSubmit} />;
 
 	return (
-			<FormBase onSubmit={onSubmit} schema={schema} initialValues={initialValues} submitLabel={t("createQuiz.quiz.submit")}>
-				<BasicInput formikId="quizTitle" label={t("createQuiz.quiz.name")} type='text' />
-				<Row className="justify-content-md-center">
-					<Col md="3">
-						<Checkbox formikId='multiLang' label={t("createQuiz.quiz.multiLang")} />
-					</Col>
-				</Row>
-			</FormBase>
+		<>
+			<h3 className='main-title'>{t("createQuiz.quiz.title")}</h3>
+			<Row className="justify-content-md-center checkbox-row">
+				<Col md="3">				
+					<Form.Check id="quizFormCheckbox" label={t("createQuiz.quiz.multiLang")} checked={isMultiLang} onChange={handleLangChange} />
+				</Col>
+			</Row>
+			{formContent}
+		</>
 	);
 }

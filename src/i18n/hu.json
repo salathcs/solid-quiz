@@ -20,10 +20,24 @@
 
     "playGame.title": "Új játék",
 
-    "createQuiz.title": "Kvíz létrehozása",
+    "createQuiz.quiz.title": "Kvíz létrehozása",
     "createQuiz.quiz.submit": "Első kérdés létrehozása",
-    "createQuiz.quiz.name": "Az új kvíz neve",
+    "createQuiz.quiz.nameHu": "Az új kvíz magyar neve",
+    "createQuiz.quiz.nameEn": "Az új kvíz angol neve",
     "createQuiz.quiz.multiLang": "Többnyelvű",
+    "createQuiz.quiz.maxExceeded": "A karakterekszáma nem haladhatja meg az 50-et!",
+    "createQuiz.quiz.nameIsAlreadyReserved": "A kvíz név már foglalt!",
+    "createQuiz.question.title": "kérdés létrehozása!",
+    "createQuiz.question.text": "Kérdés szövege",
+    "createQuiz.question.textEn": "Kérdés angol szövege",
+    "createQuiz.question.textHu": "Kérdés magyar szövege",
+    "createQuiz.question.addAnswerOption": "Válasz lehetőség hozzáadása",
+    "createQuiz.question.prevQuestion": "Előző kérdés",
+    "createQuiz.question.nextQuestion": "Következő kérdés",
+    "createQuiz.question.finishQuiz": "Kvíz befejezése",
+    "createQuiz.question.answerOption": "Válasz lehetőség",
+    "createQuiz.question.answerOptionEn": "Angol válasz lehetőség",
+    "createQuiz.question.answerOptionHu": "Magyar válasz lehetőség",
 
     "modifyQuiz.title": "Kvíz szerkesztése",
 

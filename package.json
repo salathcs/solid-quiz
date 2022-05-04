@@ -8,6 +8,7 @@
     "@inrupt/solid-ui-react": "^2.7.0",
     "@inrupt/vocab-common-rdf": "^1.0.3",
     "@inrupt/vocab-solid": "^1.0.3",
+    "@react-icons/all-files": "^4.1.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",

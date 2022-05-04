@@ -50,22 +50,6 @@ export async function getOrCreateWorkSpace(workspaceUri: string, fetch: SolidFet
     throw new Error('unkown error in getOrCreateWorkSpace');
   }
 
-  export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, quizContainerUri: string, fetch: SolidFetch_Type): Promise<boolean> {
-    const indexUrl = `${quizContainerUri}${quizTitle}`;
-    try {
-      await getSolidDataset(indexUrl, { fetch });
-      return true;
-    } catch (error: any) {
-      if (error.statusCode === 404) {
-        return false;
-      }
-
-      console.log(error);
-    }
-
-    throw new Error('unkown error in checkQuizTitleIsAlreadyReserved');
-  }
-
 export async function getFirstThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Promise<Thing | null> {
     const allThings = getThingAll(workspace);
 

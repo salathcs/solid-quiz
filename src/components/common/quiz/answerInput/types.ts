@@ -1,3 +1,3 @@
 export interface Props {
-    multiLang: boolean
+    label: string,
 }
