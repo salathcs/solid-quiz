@@ -38,6 +38,10 @@
     "createQuiz.question.answerOption": "Válasz lehetőség",
     "createQuiz.question.answerOptionEn": "Angol válasz lehetőség",
     "createQuiz.question.answerOptionHu": "Magyar válasz lehetőség",
+    "createQuiz.question.bothLanguageRequired": "Mindkét nyelven kötelező a kitöltés!",
+    "createQuiz.question.textRequired": "Kérdés szövege kötelező!",
+    "createQuiz.question.answerCountRequired": "Legalább két válaszlehetőség kitöltése kötelező!",
+    "createQuiz.question.correctAnswerRequired": "A helyes válasz kitöltése kötelező!",
 
     "modifyQuiz.title": "Kvíz szerkesztése",
 

@@ -38,6 +38,10 @@
     "createQuiz.question.answerOption": "Answer option",
     "createQuiz.question.answerOptionEn": "English answer option",
     "createQuiz.question.answerOptionHu": "Hungarian answer option",
+    "createQuiz.question.bothLanguageRequired": "Need to fill both language fields!",
+    "createQuiz.question.textRequired": "Question text is required!",
+    "createQuiz.question.answerCountRequired": "Need to fill at least two answer options!",
+    "createQuiz.question.correctAnswerRequired": "Correct answer is required!",
 
     "modifyQuiz.title": "Modify quiz",
 

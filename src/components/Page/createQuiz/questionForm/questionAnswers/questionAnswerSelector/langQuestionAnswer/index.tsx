@@ -20,8 +20,8 @@ export const LangQuestionAnswer: React.FC<Props> = (props: Props) => {
 					<ToggleBtnCheck value={props.answerId} defaultChecked={props.answerId === "0"} onChange={() => {}} disabled={true} />
 				</Col>
 				<Col md="10">
-						<AnswerInput label={props.labelEn} />
-						<AnswerInput label={props.labelHu} />
+						<AnswerInput label={props.labelEn} onChange={props.onChangeEn} defaultValue={props.defaultValueEn} />
+						<AnswerInput label={props.labelHu} onChange={props.onChangeHu} defaultValue={props.defaultValueHu} />
 				</Col>
 				<Col md="1" className='close-button-style'>
 					<CloseButton onClick={handleOnCloseClick} disabled={props.onCloseAnswer === undefined} />

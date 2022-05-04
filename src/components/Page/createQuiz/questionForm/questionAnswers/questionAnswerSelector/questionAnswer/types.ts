@@ -2,5 +2,7 @@ export interface Props {
     answerId: string,
     onCloseAnswer?: (answerId: string) => void,
 
-    label: string
+    label: string,
+    defaultValue: string,
+    onChange: (value: string) => void
 }

@@ -1,3 +1,6 @@
+import { QuestionCreateModel } from './../../../../models/QuestionCreateModel';
+
 export interface Props {
-    multiLang: boolean
+    multiLang: boolean,
+    questionSubmitted: (model: QuestionCreateModel) => void
 }

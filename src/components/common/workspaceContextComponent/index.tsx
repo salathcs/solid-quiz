@@ -25,14 +25,15 @@ export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		if (!session || !session.info.isLoggedIn) return;
 
-		if (session.info.webId === undefined) {
-			throw new Error("WebId cannot be determined!");
-		}
-
-		setWebId(session.info.webId);
-
 		SpinAround(async () => {
-			const profileThing = await workspaceService.getProfileThing(webId, session.fetch);
+			
+			if (session.info.webId === undefined) {
+				throw new Error("WebId cannot be determined!");
+			}
+
+			setWebId(session.info.webId);
+
+			const profileThing = await workspaceService.getProfileThing(session.info.webId, session.fetch);
 
 			const workSpaceLocation = workspaceService.getWorkSpaceLocation(profileThing);
 

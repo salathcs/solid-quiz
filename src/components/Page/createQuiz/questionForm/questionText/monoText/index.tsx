@@ -7,7 +7,7 @@ export const MonoText: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<QuestionTextInput label={props.label} onChange={props.onChange} />
+			<QuestionTextInput label={props.label} onChange={props.onChange} defaultValue={props.defaultValue} />
 		</>
 	);
 }

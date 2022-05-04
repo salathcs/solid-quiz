@@ -19,7 +19,7 @@ export const QuestionAnswer: React.FC<Props> = (props: Props) => {
 				<ToggleBtnCheck value={props.answerId} defaultChecked={props.answerId === "0"} onChange={() => {}} disabled={true} />
 			</Col>
 			<Col md="10">
-				<AnswerInput label={props.label} /> 
+				<AnswerInput label={props.label} onChange={props.onChange} defaultValue={props.defaultValue} /> 
 			</Col>
 			<Col md="1" className='close-button-style'>
 				<CloseButton onClick={handleOnCloseClick} disabled={props.onCloseAnswer === undefined} />

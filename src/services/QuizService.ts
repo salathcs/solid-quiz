@@ -18,7 +18,7 @@ export function createQuizContainer(quizName: string, quizFormModel: QuizFormMod
 
     const quizThing = quizThingBuilder.build();
 
-    return { quizFormModel, quiz: quizThing, questions: [] };
+    return { quizName, quizFormModel, quiz: quizThing, questions: [] };
 }
 
 //quiz resource name, contained inside the pod, when saving will get file extension: .ttl
@@ -32,8 +32,12 @@ export function getQuizzesContainer(workspaceUri: string) {
     return `${workspaceUri}${QUIZZES_CONTAINER}`;
 }
 
+export function getQuizzesUri(workspaceUri: string, quizTitle: string) {
+    return `${getQuizzesContainer(workspaceUri)}${quizTitle}.ttl`;
+}
+
 export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, workspaceUri: string, fetch: SolidFetch_Type): Promise<boolean> {
-  const indexUrl = `${getQuizzesContainer(workspaceUri)}${quizTitle}`;
+  const indexUrl = getQuizzesUri(workspaceUri, quizTitle);
   try {
     await getSolidDataset(indexUrl, { fetch });
     return true;
@@ -54,10 +58,8 @@ function addTitlesToQuizBasedOnLang(quizThingBuilder: ThingBuilder<ThingLocal>, 
     if (quizFormModel.multiLang) {
         quizThingBuilder.addStringWithLocale(TITLE, quizFormModel.quizTitleEn, "en")
                         .addStringWithLocale(TITLE, quizFormModel.quizTitleHu, "hu");
-        return;
     }
-
-    if (quizFormModel.lang === 'hu') {
+    else if (quizFormModel.lang === 'hu') {
         quizThingBuilder.addStringNoLocale(TITLE, quizFormModel.quizTitleHu);
     }
     else{

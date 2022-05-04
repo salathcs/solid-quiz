@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { Row, Col } from 'react-bootstrap';
@@ -7,8 +7,9 @@ import { LangText } from './langText';
 import { MonoText } from './monoText';
 
 export const QuestionText: React.FC<Props> = (props: Props) => {
-	const { t, lang } = useContext(TranslateContext);	
-
+	const { t, lang } = useContext(TranslateContext);
+	const [defaultValue] = useState("");
+	
 	const handleChange = (value: string) => {
 		props.onChange((model) => {
 			let rv = {
@@ -24,7 +25,7 @@ export const QuestionText: React.FC<Props> = (props: Props) => {
 
 			return rv;
 		});
-	}
+	};
 
 	const handleChangeEn = (value: string) => {
 		props.onChange((model) => {
@@ -33,7 +34,7 @@ export const QuestionText: React.FC<Props> = (props: Props) => {
 				textEn: value
 			};
 		});
-	}
+	};
 
 	const handleChangeHu = (value: string) => {
 		props.onChange((model) => {
@@ -42,15 +43,17 @@ export const QuestionText: React.FC<Props> = (props: Props) => {
 				textHu: value
 			};
 		});
-	}
+	};
 
 	const content = props.multiLang ? 
 		<LangText 
 			labelEn={t("createQuiz.question.textEn")} 
 			labelHu={t("createQuiz.question.textHu")} 
+			defaultValueEn={defaultValue}
+			defaultValueHu={defaultValue}
 			onChangeEn={handleChangeEn}
 			onChangeHu={handleChangeHu} /> :
-		<MonoText label={t("createQuiz.question.text")} onChange={handleChange} />
+		<MonoText label={t("createQuiz.question.text")} defaultValue={defaultValue} onChange={handleChange} />
 
 	return (
 		<Row>

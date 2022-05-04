@@ -7,8 +7,8 @@ export const LangText: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<QuestionTextInput label={props.labelEn} onChange={props.onChangeEn} />
-			<QuestionTextInput label={props.labelHu} onChange={props.onChangeHu} />
+			<QuestionTextInput label={props.labelEn} onChange={props.onChangeEn} defaultValue={props.defaultValueEn} />
+			<QuestionTextInput label={props.labelHu} onChange={props.onChangeHu} defaultValue={props.defaultValueHu} />
 		</>
 	);
 }
