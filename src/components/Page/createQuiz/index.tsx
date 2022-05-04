@@ -49,7 +49,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 		}
 
 		//create question container
-		const quizUri = quizService.getQuizzesUri(workspaceUrl, quizContainer.quizName);
+		const quizUri = quizService.getSpecificQuizUri(workspaceUrl, quizContainer.quizName);
 		const questionContainer = questionService.createQuestionThing(questionModel, quizUri);
 
 		//update container
@@ -68,10 +68,23 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 		});
 	}
 
+	const finishQuiz = () => {
+		SpinAround(async () => {	
+			if (quizContainer === null) {
+				console.log("finishQuiz called when quizContainer is null!");
+				return;
+			}
+			
+			await quizService.saveNewQuiz(quizContainer, workspaceUrl, session.fetch);
+
+			GoBack();
+		});	
+	}
+
 	const content = quizContainer === null ? 
 		<QuizForm afterFormSubmit={quizFormSubmitted} /> : 
 		<QuestionCreationContextComponent>
-			<QuestionForm multiLang={quizContainer.quizFormModel.multiLang} questionSubmitted={questionSubmitted} />
+			<QuestionForm multiLang={quizContainer.quizFormModel.multiLang} questionSubmitted={questionSubmitted} finishQuiz={finishQuiz} />
 		</QuestionCreationContextComponent>
 
 	return (

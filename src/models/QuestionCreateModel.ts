@@ -5,6 +5,7 @@ export interface QuestionCreateModel{
     textEn: string,
     textHu: string,
     answerOptions: AnswerCreateModel[],
+    correctAnswerId: string,
     multiLang: boolean,
     lang: string
 }

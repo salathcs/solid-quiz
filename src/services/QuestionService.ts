@@ -16,7 +16,7 @@ export function createQuestionThing(questionModel: QuestionCreateModel, quizUri:
 
     addTextToQuestionBasedOnLang(questionThingBuilder, questionModel);
 
-    addAnswersToQuestion(questionThingBuilder, questionModel.answerOptions, quizUri);
+    addAnswersToQuestion(questionThingBuilder, questionModel.answerOptions, quizUri, questionModel.correctAnswerId);
 
     const questionThing = questionThingBuilder.build();
 
@@ -78,9 +78,9 @@ function addTextToQuestionBasedOnLang(questionThingBuilder: ThingBuilder<ThingLo
     }
 }
 
-function addAnswersToQuestion(questionThingBuilder: ThingBuilder<ThingLocal>, answerOptions: AnswerCreateModel[], quizUri: string) {
-    const correctAnswerUri = getCorrectAnswerUri(answerOptions, quizUri);
-    questionThingBuilder.addUrl(SOLIDQUIZ.answerOption.value, correctAnswerUri);
+function addAnswersToQuestion(questionThingBuilder: ThingBuilder<ThingLocal>, answerOptions: AnswerCreateModel[], quizUri: string, correctAnswerId: string) {
+    const correctAnswerUri = getCorrectAnswerUri(answerOptions, quizUri, correctAnswerId);
+    questionThingBuilder.addUrl(SOLIDQUIZ.correctAnswerOption.value, correctAnswerUri);
 
     for (let i = 0; i < answerOptions.length; i++) {
         const answer = answerOptions[i];
@@ -93,12 +93,12 @@ function addAnswersToQuestion(questionThingBuilder: ThingBuilder<ThingLocal>, an
     }
 }
 
-function getCorrectAnswerUri(answerOptions: AnswerCreateModel[], quizUri: string): string {
-    const correctAnswer = answerOptions.find((item) => item.answerId === "0");
+function getCorrectAnswerUri(answerOptions: AnswerCreateModel[], quizUri: string, correctAnswerId: string): string {
+    const correctAnswer = answerOptions.find((item) => item.answerId === correctAnswerId);
 
     if (correctAnswer === undefined) {
         throw new Error('Correct answer with answerId: 0; is missing!');
     }
 
-    return `${quizUri}#${createAnswerName(correctAnswer)}`;;
+    return `${quizUri}#${createAnswerName(correctAnswer)}`;
 }

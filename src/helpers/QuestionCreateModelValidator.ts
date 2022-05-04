@@ -37,7 +37,7 @@ function validateAnswers(model: QuestionCreateModel): string | null {
         return "createQuiz.question.answerCountRequired";
     }
 
-    const correctAnswer = model.answerOptions.find((item) => item.answerId === "0");
+    const correctAnswer = model.answerOptions.find((item) => item.answerId === model.correctAnswerId);
 
     if (correctAnswer === undefined) {
         return "createQuiz.question.correctAnswerRequired";

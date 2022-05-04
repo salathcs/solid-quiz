@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { CloseButton, Col, Row } from 'react-bootstrap';
 import { AnswerInput } from '../../../../../../common/quiz/answerInput';
 import { ToggleBtnCheck } from '../../../../../../common/quiz/toggleBtnCheck';
+import { QuestionCreationContext } from '../../../../../../../contexts/QuestionCreationContext';
 
 export const QuestionAnswer: React.FC<Props> = (props: Props) => {	
+	const { correctAnswerId } = useContext(QuestionCreationContext);
 
 	const handleOnCloseClick = () => {
 		if (props.onCloseAnswer !== undefined) {
@@ -16,7 +18,7 @@ export const QuestionAnswer: React.FC<Props> = (props: Props) => {
 	return (
 		<Row>
 			<Col md="1" className='check-button-style'>
-				<ToggleBtnCheck value={props.answerId} defaultChecked={props.answerId === "0"} onChange={() => {}} disabled={true} />
+				<ToggleBtnCheck value={props.answerId} defaultChecked={props.answerId === correctAnswerId.toString()} onChange={() => {}} disabled={true} />
 			</Col>
 			<Col md="10">
 				<AnswerInput label={props.label} onChange={props.onChange} defaultValue={props.defaultValue} /> 

@@ -11,22 +11,22 @@ import { QuestionCreationContext } from '../../../../contexts/QuestionCreationCo
 
 export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
-	const { questionNumber, increaseQuestionNumber } = useContext(QuestionCreationContext);
+	const { questionNumber, setQuestionNumber, setAnswerNumber, setActAnswerNumber, correctAnswerId, setCorrectAnswerId } = useContext(QuestionCreationContext);
 	const [questionModel, setQuestionModel] = useState<QuestionCreateModel>(
-			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], multiLang: props.multiLang, lang }
+			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
 		);
 	const [alert, setAlert] = useState<string | null>(null);
 
 	useEffect(() => {
 		setQuestionModel(
-			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], multiLang: props.multiLang, lang }
+			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
 		);
-	}, [questionNumber, props.multiLang, lang]);
+	}, [questionNumber, correctAnswerId, props.multiLang, lang]);
 
 	const handleNextClick = () => {
 		const error = questionCreateModelValidator.validateModel(questionModel);
 		if (error !== null) {
-			setAlert(t(error));
+			setAlert(t(error)); 
 			return;
 		}
 		
@@ -34,7 +34,14 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 
 		props.questionSubmitted(questionModel);
 
-		increaseQuestionNumber();
+		setQuestionNumber(act => act + 1);
+		setAnswerNumber(act => act + questionModel.answerOptions.length);
+		setActAnswerNumber(act => act + questionModel.answerOptions.length + 2);		//+2 mert mindíg 2 default-tal indulunk
+		setCorrectAnswerId(act => act + questionModel.answerOptions.length);
+	}
+
+	const handleClickFinish = () => {
+		props.finishQuiz();
 	}
 
 	return (
@@ -56,7 +63,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 			<Row className='alert-row'><Alert variant='danger'>{alert}</Alert></Row>}
 			<Row className='finish-btn-row'>
 				<Col>
-					<Button variant="success" size='lg'>{t("createQuiz.question.finishQuiz")}</Button>
+					<Button variant="success" size='lg' onClick={handleClickFinish}>{t("createQuiz.question.finishQuiz")}</Button>
 				</Col>
 			</Row>
 		</Container>

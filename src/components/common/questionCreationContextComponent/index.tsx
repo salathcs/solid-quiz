@@ -5,15 +5,20 @@ import { defaultQuestionCreationState, QuestionCreationContext } from '../../../
 
 export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) => {
 	const [questionNumber, setQuestionNumber] = useState(defaultQuestionCreationState.questionNumber);
-
-	const increaseQuestionNumber = () => {
-		setQuestionNumber(actNumber => actNumber + 1);
-	}
+	const [answerNumber, setAnswerNumber] = useState(defaultQuestionCreationState.questionNumber);
+	const [actAnswerNumber, setActAnswerNumber] = useState(defaultQuestionCreationState.questionNumber);
+	const [correctAnswerId, setCorrectAnswerId] = useState(defaultQuestionCreationState.questionNumber);
 
 	return (
 		<QuestionCreationContext.Provider value={{
 			questionNumber,
-			increaseQuestionNumber
+			setQuestionNumber,
+			answerNumber,
+			setAnswerNumber,
+			actAnswerNumber,
+			setActAnswerNumber,
+			correctAnswerId,
+			setCorrectAnswerId
 		}}>
 			{props.children}
 		</QuestionCreationContext.Provider>

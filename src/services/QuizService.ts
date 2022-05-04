@@ -1,11 +1,13 @@
-import { buildThing, createThing, getSolidDataset, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
+import { addInteger, addUrl, buildThing, createSolidDataset, createThing, getSolidDataset, saveSolidDatasetAt, setThing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { QUIZZES_CONTAINER } from '../constants/DefaultValues';
-import { CREATED, MULTI_LANGUAGE_SUPPORT, TITLE } from '../constants/SolidQuizMissingValues';
+import { CREATED, MULTI_LANGUAGE_SUPPORT, NUMBER_OF_QUESTIONS, TITLE } from '../constants/SolidQuizMissingValues';
 import { SolidFetch_Type } from '../helpers/SolidDatasetType';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
 import { QuizFormModel } from '../models/QuizFormModel';
 import { QuizContainer } from './../models/QuizContainer';
+import { QuestionContainer } from './../models/QuestionContainer';
+import { NestedLocalDataset } from '../models/NestedLocalDataset';
 
 export function createQuizContainer(quizName: string, quizFormModel: QuizFormModel, webId: string): QuizContainer {
     const quizThingBuilder = buildThing(createThing({ name: quizName }))
@@ -32,14 +34,14 @@ export function getQuizzesContainer(workspaceUri: string) {
     return `${workspaceUri}${QUIZZES_CONTAINER}`;
 }
 
-export function getQuizzesUri(workspaceUri: string, quizTitle: string) {
+export function getSpecificQuizUri(workspaceUri: string, quizTitle: string) {
     return `${getQuizzesContainer(workspaceUri)}${quizTitle}.ttl`;
 }
 
 export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, workspaceUri: string, fetch: SolidFetch_Type): Promise<boolean> {
-  const indexUrl = getQuizzesUri(workspaceUri, quizTitle);
+  const quizUrl = getSpecificQuizUri(workspaceUri, quizTitle);
   try {
-    await getSolidDataset(indexUrl, { fetch });
+    await getSolidDataset(quizUrl, { fetch });
     return true;
   } catch (error: any) {
     if (error.statusCode === 404) {
@@ -50,6 +52,22 @@ export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, workspa
   }
 
   throw new Error('unkown error in checkQuizTitleIsAlreadyReserved');
+}
+
+export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: string, fetch: SolidFetch_Type) {
+  const quizUrl = getSpecificQuizUri(workspaceUri, quizContainer.quizName);
+
+  addQuestionsToQuiz(quizContainer, quizUrl);
+
+
+  let localeDataset = createSolidDataset();
+  localeDataset = setThing(localeDataset, quizContainer.quiz);
+  const nestedDateset = { localeDataset };
+  addQuestionsToDataset(nestedDateset, quizContainer);
+  
+  await saveSolidDatasetAt(quizUrl, nestedDateset.localeDataset, {
+    fetch: fetch,
+  });
 }
 
 
@@ -65,4 +83,33 @@ function addTitlesToQuizBasedOnLang(quizThingBuilder: ThingBuilder<ThingLocal>, 
     else{
         quizThingBuilder.addStringNoLocale(TITLE, quizFormModel.quizTitleEn);
     }
+}
+
+function addQuestionsToQuiz(quizContainer: QuizContainer, quizUrl: string){
+  for (let i = 0; i < quizContainer.questions.length; i++) {
+    const questionContainer = quizContainer.questions[i];
+    
+    const questionUrl = `${quizUrl}#${questionContainer.questionName}`
+
+    quizContainer.quiz = addUrl(quizContainer.quiz, SOLIDQUIZ.quizQuestion.value, questionUrl);
+  }
+
+  quizContainer.quiz = addInteger(quizContainer.quiz, NUMBER_OF_QUESTIONS, quizContainer.questions.length);
+}
+
+function addQuestionsToDataset(nestedDataset: NestedLocalDataset, quizContainer: QuizContainer) {
+  for (let i = 0; i < quizContainer.questions.length; i++) {
+    const questionContainer = quizContainer.questions[i];
+    
+    nestedDataset.localeDataset = setThing(nestedDataset.localeDataset, questionContainer.question);
+    addAnswersToDataset(nestedDataset, questionContainer);
+  }
+}
+
+function addAnswersToDataset(nestedDataset: NestedLocalDataset, questionContainer: QuestionContainer) {
+  for (let i = 0; i < questionContainer.answers.length; i++) {
+    const answer = questionContainer.answers[i].answer;
+    
+    nestedDataset.localeDataset = setThing(nestedDataset.localeDataset, answer);
+  }
 }
