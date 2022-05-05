@@ -11,7 +11,7 @@ import { QuestionCreationContext } from '../../../../contexts/QuestionCreationCo
 
 export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
-	const { questionNumber, setQuestionNumber, setAnswerNumber, setActAnswerNumber, correctAnswerId, setCorrectAnswerId } = useContext(QuestionCreationContext);
+	const { questionNumber, setQuestionNumber, answerNumber, setAnswerNumber, correctAnswerId, setCorrectAnswerId } = useContext(QuestionCreationContext);
 	const [questionModel, setQuestionModel] = useState<QuestionCreateModel>(
 			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
 		);
@@ -35,9 +35,8 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 		props.questionSubmitted(questionModel);
 
 		setQuestionNumber(act => act + 1);
-		setAnswerNumber(act => act + questionModel.answerOptions.length);
-		setActAnswerNumber(act => act + questionModel.answerOptions.length + 2);		//+2 mert mindíg 2 default-tal indulunk
-		setCorrectAnswerId(act => act + questionModel.answerOptions.length);
+		setCorrectAnswerId(() => answerNumber);		//answerNumber is after increase, so the current value is not in use
+		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)
 	}
 
 	const handleClickFinish = () => {

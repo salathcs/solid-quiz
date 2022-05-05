@@ -5,8 +5,6 @@ export interface IQuestionCreationContext {
     setQuestionNumber: (delegate: (val: number) => number) => void,
     answerNumber: number,
     setAnswerNumber: (delegate: (val: number) => number) => void,
-    actAnswerNumber: number,
-    setActAnswerNumber: (delegate: (val: number) => number) => void,
     correctAnswerId: number,
     setCorrectAnswerId: (delegate: (val: number) => number) => void
   }
@@ -14,10 +12,8 @@ export interface IQuestionCreationContext {
 export const defaultQuestionCreationState = {
     questionNumber: 1,
     setQuestionNumber: () => {},
-    answerNumber: 1,
+    answerNumber: 3,     //head start, first two are always there (answer options)
     setAnswerNumber: () => {},
-    actAnswerNumber: 1,
-    setActAnswerNumber: () => {},
     correctAnswerId: 1,
     setCorrectAnswerId: () => {}
   };

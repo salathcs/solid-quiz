@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { Button, Col, Row } from 'react-bootstrap';
@@ -8,8 +8,12 @@ import { QuestionCreationContext } from '../../../../../contexts/QuestionCreatio
 
 export const QuestionAnswers: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
-	const { answerNumber, actAnswerNumber, setActAnswerNumber } = useContext(QuestionCreationContext);
+	const { questionNumber, answerNumber, setAnswerNumber, correctAnswerId } = useContext(QuestionCreationContext);
 	const [answers, setAnswers] = useState<JSX.Element[]>([]);
+
+	useEffect(() => {
+		setAnswers([]);
+	}, [questionNumber]);
 
 	const closeAnswer = useCallback((answerId: string) => {
 		setAnswers(arr => {
@@ -28,25 +32,25 @@ export const QuestionAnswers: React.FC<Props> = (props: Props) => {
 	const addAnswer = () => {
 		setAnswers(arr => [...arr, 
 			<QuestionAnswerSelector 
-				key={actAnswerNumber.toString()} 
-				answerId={actAnswerNumber.toString()} 
+				key={answerNumber.toString()} 
+				answerId={answerNumber.toString()} 
 				multiLang={props.multiLang} 
 				onCloseAnswer={closeAnswer}
 				onChange={props.onChange} />]);
 
-		setActAnswerNumber(act => act + 1);
+		setAnswerNumber(act => act + 1);
 	}
 
 	return (
 		<>
 			<QuestionAnswerSelector 
-				key={answerNumber.toString()} 
-				answerId={answerNumber.toString()}
+				key={correctAnswerId.toString()} 
+				answerId={correctAnswerId.toString()}
 				multiLang={props.multiLang} 
 				onChange={props.onChange} />, 
 			<QuestionAnswerSelector 
-				key={(answerNumber + 1).toString()} 
-				answerId={(answerNumber + 1).toString()} 
+				key={(correctAnswerId + 1).toString()} 
+				answerId={(correctAnswerId + 1).toString()} 
 				multiLang={props.multiLang} 
 				onChange={props.onChange} />
 			{answers}

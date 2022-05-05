@@ -5,9 +5,8 @@ import { defaultQuestionCreationState, QuestionCreationContext } from '../../../
 
 export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) => {
 	const [questionNumber, setQuestionNumber] = useState(defaultQuestionCreationState.questionNumber);
-	const [answerNumber, setAnswerNumber] = useState(defaultQuestionCreationState.questionNumber);
-	const [actAnswerNumber, setActAnswerNumber] = useState(defaultQuestionCreationState.questionNumber);
-	const [correctAnswerId, setCorrectAnswerId] = useState(defaultQuestionCreationState.questionNumber);
+	const [answerNumber, setAnswerNumber] = useState(defaultQuestionCreationState.answerNumber);
+	const [correctAnswerId, setCorrectAnswerId] = useState(defaultQuestionCreationState.correctAnswerId);
 
 	return (
 		<QuestionCreationContext.Provider value={{
@@ -15,8 +14,6 @@ export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) 
 			setQuestionNumber,
 			answerNumber,
 			setAnswerNumber,
-			actAnswerNumber,
-			setActAnswerNumber,
 			correctAnswerId,
 			setCorrectAnswerId
 		}}>
