@@ -9,7 +9,7 @@ import { QuizContainer } from '../models/QuizContainer';
 import { AnswerContainer } from './../models/AnswerContainer';
 import { AnswerCreateModel } from './../models/AnswerCreateModel';
 
-export function createQuestionThing(questionModel: QuestionCreateModel, quizUri: string): QuestionContainer {
+export function createQuestionContainer(questionModel: QuestionCreateModel, quizUri: string): QuestionContainer {
     const questionName = createQuestionName(questionModel);
     const answerContainers = createAnswerThings(questionModel);
 

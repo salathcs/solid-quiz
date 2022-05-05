@@ -23,7 +23,8 @@ export const QuestionAnswers: React.FC<Props> = ({ questionModel, onChange }) =>
 			}
 
 			const toCloseIndex = rv.answerOptions.indexOf(toClose); 
-			rv.answerOptions = rv.answerOptions.splice(toCloseIndex, 1);
+			rv.answerOptions.splice(toCloseIndex, 1);
+			rv.answerOptions = [...rv.answerOptions];	//splice doesn't trigger the useEffects reaload...
 
 			return rv;
 		})

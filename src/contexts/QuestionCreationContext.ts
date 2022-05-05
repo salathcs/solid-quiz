@@ -9,7 +9,7 @@ export interface IQuestionCreationContext {
 
     getQuizContainer: () => QuizContainer,
     isCrurrentQuestionCreatedYet: () => boolean,
-    isNextQuestionExists: () => boolean
+    isNextQuestionNew: () => boolean
   }
   
 export const defaultQuestionCreationState = {
@@ -20,7 +20,7 @@ export const defaultQuestionCreationState = {
 
     getQuizContainer: () => {throw new Error("you should not call this (defaultQuestionCreationState.getQuizContainer)!")},
     isCrurrentQuestionCreatedYet: () => {throw new Error("you should not call this (defaultQuestionCreationState.isCrurrentLastQuestion)!")},
-    isNextQuestionExists: () => {throw new Error("you should not call this (defaultQuestionCreationState.isNextQuestionExists)!")}
+    isNextQuestionNew: () => {throw new Error("you should not call this (defaultQuestionCreationState.isNextQuestionExists)!")}
   };
   
 export const QuestionCreationContext = React.createContext<IQuestionCreationContext>(defaultQuestionCreationState);

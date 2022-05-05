@@ -13,7 +13,7 @@ import * as questionService from '../../../../services/QuestionService';
 export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
 	const { questionNumber, setQuestionNumber, answerNumber, setAnswerNumber, 
-			getQuizContainer, isNextQuestionExists } = useContext(QuestionCreationContext);
+			getQuizContainer, isCrurrentQuestionCreatedYet, isNextQuestionNew } = useContext(QuestionCreationContext);
 	const [questionModel, setQuestionModel] = useState<QuestionCreateModel>(
 			{ questionNumber: questionNumber, 
 				textEn: "", 
@@ -43,6 +43,9 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 	}
 
 	const onPrev = () => {
+		if (!isCrurrentQuestionCreatedYet()) {
+			props.questionSubmitted(questionModel);
+		}
 
 		const prevQuestionModel = questionService.getQuestionContainer(questionNumber - 1, getQuizContainer()).questionModel;
 		setQuestionModel(prevQuestionModel);
@@ -51,8 +54,9 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 	}
 
 	const onNext = () => {
+		props.questionSubmitted(questionModel);
 
-		if (isNextQuestionExists()) {
+		if (isNextQuestionNew()) {
 			setToNewEmptyForm();
 		}
 		else{

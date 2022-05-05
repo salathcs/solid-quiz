@@ -50,7 +50,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 
 		//create question container
 		const quizUri = quizService.getSpecificQuizUri(workspaceUrl, quizContainer.quizName);
-		const questionContainer = questionService.createQuestionThing(questionModel, quizUri);
+		const questionContainer = questionService.createQuestionContainer(questionModel, quizUri);
 
 		//update container
 		setQuizContainer((model) => {
@@ -62,7 +62,15 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 				...model
 			};
 
-			rv.questions.push(questionContainer);
+			//replace or push new to questions
+			const element = rv.questions.find((item) => item.questionName === questionContainer.questionName);
+			if (element !== undefined) {
+				const indexOf = rv.questions.indexOf(element);
+				rv.questions[indexOf] = questionContainer;
+			}
+			else{ 
+				rv.questions.push(questionContainer);
+			}
 
 			return rv;
 		});
