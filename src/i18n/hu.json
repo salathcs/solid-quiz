@@ -10,6 +10,10 @@
     "page.common.back": "Vissza",
     "page.common.required": "A mező kitöltése kötelező!",
     "page.common.alphanumeric": "A mező csak alfanumerikus karaktereket tartalmazhat (a-z, A-Z, 0-9)!",
+    "page.common.yesno.accept": "Elfogad",
+    "page.common.yesno.refuse": "Bezár",
+    "page.common.yesno.title": "Megerősítés szükséges",
+    "page.common.yesno.confirmDeleteText": "Biztosan törli a kijelölt elemet?",
 
     "mainMenu.title": "Főmenü",
     "mainMenu.btn.playGame": "Játék",

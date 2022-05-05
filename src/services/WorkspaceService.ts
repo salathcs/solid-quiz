@@ -1,8 +1,9 @@
-import { createSolidDataset, getSolidDataset, getThing, getThingAll, getUrl, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
-import { RDF } from '@inrupt/vocab-common-rdf';
+import { createSolidDataset, getSolidDataset, getThing, getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
+import { LDP, RDF } from '@inrupt/vocab-common-rdf';
 import { WS } from "@inrupt/vocab-solid";
 import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
 import { SolidFetch_Type, SolidDataset_Type } from "../helpers/SolidDatasetType";
+import SOLIDQUIZ from "../helpers/SOLIDQUIZ";
   
 export async function getProfileThing(webId: string, fetch: SolidFetch_Type): Promise<Thing> {
   const profileDataset = await getSolidDataset(webId, {
@@ -50,7 +51,7 @@ export async function getOrCreateWorkSpace(workspaceUri: string, fetch: SolidFet
     throw new Error('unkown error in getOrCreateWorkSpace');
   }
 
-export async function getFirstThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Promise<Thing | null> {
+export function getFirstThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Thing | null {
     const allThings = getThingAll(workspace);
 
     for (let i = 0; i < allThings.length; i++) {
@@ -64,7 +65,7 @@ export async function getFirstThingByRDFType(workspace: SolidDataset_Type, rdfTy
     return null;    
 }
 
-export async function getAllThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Promise<Array<Thing>> {
+export function getAllThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Array<Thing> {
     const allThings = getThingAll(workspace);
     let result: Array<Thing> = [];
 
@@ -76,4 +77,28 @@ export async function getAllThingByRDFType(workspace: SolidDataset_Type, rdfType
     });
 
     return result;    
+}
+
+export async function getQuizDatasets(quizzesContainer: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
+  const quizzesContainerDataset = await getSolidDataset(quizzesContainer, { fetch });
+  const things = getThingAll(quizzesContainerDataset);
+
+  const quizDatasets: SolidDataset_Type[] = [];
+
+  for (let i = 0; i < things.length; i++) {
+    const thing = things[i];
+    
+    const typeUrls = getUrlAll(thing, RDF.type);
+
+    const resourceTypeUrl = typeUrls.find((item) => item === LDP.Resource);
+    if (resourceTypeUrl !== undefined) {
+      const quizDataset = await getSolidDataset(thing.url, { fetch });
+
+      if (getFirstThingByRDFType(quizDataset, SOLIDQUIZ.Quiz.value) !== null) {
+        quizDatasets.push(quizDataset);
+      }
+    }
+  }  
+
+  return quizDatasets;
 }

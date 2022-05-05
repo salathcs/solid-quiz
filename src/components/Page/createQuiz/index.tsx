@@ -100,7 +100,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 			{content}
 			{alert !== null && 
 			<Alert variant='danger'>{alert}</Alert>}
-			<Button className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
+			<Button variant='light' className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
 		</>
 	);
 }

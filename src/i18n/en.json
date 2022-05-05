@@ -10,6 +10,10 @@
     "page.common.back": "Back",
     "page.common.required": "This field is required!",
     "page.common.alphanumeric": "The field can only contain alphanumeric characters (a-z, A-Z, 0-9)!",
+    "page.common.yesno.accept": "Understood",
+    "page.common.yesno.refuse": "Close",
+    "page.common.yesno.title": "Confirmation required",
+    "page.common.yesno.confirmDeleteText": "Are you sure to delete the selected element?",
 
     "mainMenu.title": "Main menu",
     "mainMenu.btn.playGame": "Play game",
