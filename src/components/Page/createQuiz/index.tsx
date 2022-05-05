@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { TranslateContext } from '../../../contexts/TranslateContext';
@@ -8,6 +8,7 @@ import { QuizForm } from './quizForm';
 import { QuizContainer } from './../../../models/QuizContainer';
 import * as quizService from '../../../services/QuizService'
 import * as questionService from '../../../services/QuestionService'
+import * as quizContainerConverter from '../../../helpers/QuizContainerConverter'
 import { QuizFormModel } from '../../../models/QuizFormModel';
 import { WorkspaceContext } from './../../../contexts/WorkspaceContext';
 import { QuestionForm } from './questionForm';
@@ -15,15 +16,36 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuestionCreateModel } from './../../../models/QuestionCreateModel';
 import { QuestionCreationContextComponent } from '../../common/questionCreationContextComponent';
+import { InfoModal } from '../../common/infoModal';
 
 export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
-	const { t } = useContext(TranslateContext);
+	const { t, lang } = useContext(TranslateContext);
 	const { GoBack } = useContext(PageSwitcherContext);
 	const { workspaceUrl, webId } = useContext(WorkspaceContext);
 	const { SpinAround } = useContext(SpinnerContext);
 	const [alert, setAlert] = useState<string | null>(null);
 	const [quizContainer, setQuizContainer] = useState<QuizContainer | null>(null);
+	const [firstFormModel, setFirstFormModel] = useState<QuestionCreateModel | undefined>(undefined);
+	const [modalErrorMsg, setModalErrorMsg] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (props.datasetAndThing !== undefined) {
+			let propQuizContainer: QuizContainer | null = null;
+
+			try {
+				propQuizContainer = quizContainerConverter.convert(props.datasetAndThing.thing, props.datasetAndThing.dataset, lang);
+			} catch (error) {
+				console.log(error);
+				setModalErrorMsg(t("modifyQuiz.modal.modificationFailed"));
+			}
+
+			setQuizContainer(propQuizContainer);
+			if (propQuizContainer !== null) {
+				setFirstFormModel(propQuizContainer.questions.find((item) => item.questionModel.questionNumber === 1)?.questionModel);
+			}
+		}
+	}, [props.datasetAndThing, lang, t]);
 
 	const quizFormSubmitted = (quizFormModel: QuizFormModel) => {
 		SpinAround(async () => {
@@ -92,7 +114,11 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	const content = quizContainer === null ? 
 		<QuizForm afterFormSubmit={quizFormSubmitted} /> : 
 		<QuestionCreationContextComponent quizContainer={quizContainer}> 
-			<QuestionForm multiLang={quizContainer.quizFormModel.multiLang} questionSubmitted={questionSubmitted} finishQuiz={finishQuiz} />
+			<QuestionForm 
+				multiLang={quizContainer.quizFormModel.multiLang} 
+				questionSubmitted={questionSubmitted} 
+				finishQuiz={finishQuiz} 
+				questionCreateModel={firstFormModel} />
 		</QuestionCreationContextComponent>
 
 	return (
@@ -101,6 +127,8 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 			{alert !== null && 
 			<Alert variant='danger'>{alert}</Alert>}
 			<Button variant='light' className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
+
+			<InfoModal show={modalErrorMsg !== null} onHide={() => setModalErrorMsg(null)} body={modalErrorMsg ?? "error"} />
 		</>
 	);
 }

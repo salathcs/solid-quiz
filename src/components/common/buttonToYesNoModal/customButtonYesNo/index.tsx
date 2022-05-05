@@ -14,7 +14,7 @@ export const CustomButtonYesNo: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<Button variant={props.variant} onClick={() => setModalShow(true)}>
+			<Button variant={props.variant} size='lg' onClick={() => setModalShow(true)}>
 				{props.children}
 			</Button>
 	

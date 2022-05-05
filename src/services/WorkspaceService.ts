@@ -1,4 +1,4 @@
-import { createSolidDataset, getSolidDataset, getThing, getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
+import { createSolidDataset, deleteSolidDataset, getSolidDataset, getThing, getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
 import { LDP, RDF } from '@inrupt/vocab-common-rdf';
 import { WS } from "@inrupt/vocab-solid";
 import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
@@ -50,6 +50,12 @@ export async function getOrCreateWorkSpace(workspaceUri: string, fetch: SolidFet
 
     throw new Error('unkown error in getOrCreateWorkSpace');
   }
+  
+export async function deleteDataset(dataset: SolidDataset_Type, fetch: SolidFetch_Type) {
+    const uri = dataset.internal_resourceInfo.sourceIri;
+
+    deleteSolidDataset(uri, { fetch });
+  }
 
 export function getFirstThingByRDFType(workspace: SolidDataset_Type, rdfType: Url | UrlString): Thing | null {
     const allThings = getThingAll(workspace);
@@ -73,6 +79,20 @@ export function getAllThingByRDFType(workspace: SolidDataset_Type, rdfType: Url 
         const typeUrl = getUrl(thing, RDF.type);
         if (typeUrl === rdfType) {
             result.push(thing);
+        }
+    });
+
+    return result;    
+}
+
+export function getAllThingByUris(workspace: SolidDataset_Type, uris: string[]): Array<Thing> {
+    let result: Array<Thing> = [];
+
+    uris.forEach(uri => {
+        const thing = getThing(workspace, uri);
+
+        if (thing !== null) {
+          result.push(thing);
         }
     });
 

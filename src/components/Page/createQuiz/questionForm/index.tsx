@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
@@ -24,6 +24,13 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 				multiLang: props.multiLang, 
 				lang }
 	);
+	const [titleCreateOrModify, setTitleCreateOrModify] = useState(t("createQuiz.question.titleCreate"));
+
+	useEffect(() => {
+		if (props.questionCreateModel !== undefined) {
+			setQuestionModel(props.questionCreateModel);
+		}
+	}, [props.questionCreateModel]);
 
 	const setToNewEmptyForm = () => {
 		setQuestionModel({ 
@@ -40,6 +47,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 
 		setQuestionNumber(act => act + 1);
 		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)	
+		setTitleCreateOrModify(t("createQuiz.question.titleCreate"));
 	}
 
 	const onPrev = () => {
@@ -51,6 +59,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 		setQuestionModel(prevQuestionModel);
 
 		setQuestionNumber(act => act - 1);
+		setTitleCreateOrModify(t("createQuiz.question.titleModify"));
 	}
 
 	const onNext = () => {
@@ -64,13 +73,14 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 			setQuestionModel(nextQuestionModel);
 
 			setQuestionNumber(act => act + 1);
+			setTitleCreateOrModify(t("createQuiz.question.titleModify"));
 		}
 	}
 
 	const onNextNew = () => {
 		props.questionSubmitted(questionModel);
 
-		setToNewEmptyForm();	
+		setToNewEmptyForm();		
 	}
 
 	const handleClickFinish = () => {
@@ -79,7 +89,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 
 	return (
 		<Container className="justify-content-md-center">
-			<h3 className='main-title'>{questionNumber.toString()}. {t("createQuiz.question.title")}</h3>
+			<h3 className='main-title'>{questionNumber.toString()}. {titleCreateOrModify}</h3>
 
 			<QuestionTextLoader questionModel={questionModel} onChange={setQuestionModel} />
 			<QuestionAnswers questionModel={questionModel} onChange={setQuestionModel} /> 

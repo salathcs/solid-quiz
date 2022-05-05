@@ -14,6 +14,8 @@
     "page.common.yesno.refuse": "Close",
     "page.common.yesno.title": "Confirmation required",
     "page.common.yesno.confirmDeleteText": "Are you sure to delete the selected element?",
+    "page.common.info.btnOk": "Ok",
+    "page.common.info.title": "Information",
 
     "mainMenu.title": "Main menu",
     "mainMenu.btn.playGame": "Play game",
@@ -31,7 +33,8 @@
     "createQuiz.quiz.multiLang": "Multi language support",
     "createQuiz.quiz.maxExceeded": "Character count must not exceed 50!",
     "createQuiz.quiz.nameIsAlreadyReserved": "Quiz name is already occupied!",
-    "createQuiz.question.title": "question creation!",
+    "createQuiz.question.titleCreate": "question creation!",
+    "createQuiz.question.titleModify": "question modification!",
     "createQuiz.question.text": "Question text",
     "createQuiz.question.textEn": "English question text",
     "createQuiz.question.textHu": "Hungarian question text",
@@ -49,6 +52,8 @@
     "createQuiz.question.answerRequired": "Need to fill every answer options!",
 
     "modifyQuiz.title": "Modify quiz",
+    "modifyQuiz.modal.text": "Do you want to edit the selected item?",
+    "modifyQuiz.modal.modificationFailed": "Item failed to load, edit is not possible!",
 
     "leaderboard.title": "Leaderboard",
 

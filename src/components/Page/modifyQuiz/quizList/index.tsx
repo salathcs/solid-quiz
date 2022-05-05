@@ -5,13 +5,13 @@ import * as workspaceService from '../../../../services/WorkspaceService';
 import SOLIDQUIZ from './../../../../helpers/SOLIDQUIZ';
 import { Container } from 'react-bootstrap';
 import { QuizRow } from './quizRow';
-import { Thing } from '@inrupt/solid-client';
+import { DatasetAndThing } from '../../../../models/DatasetAndThing';
 
 export const QuizList: React.FC<Props> = (props: Props) => {
 	const [quizRows, setQuizRows] = useState<JSX.Element[]>([]);
 	
 	useEffect(() => {
-		const quizThings: Thing[] = [];
+		const quizThings: DatasetAndThing[] = [];
 
 		for (let i = 0; i < props.quizDatasets.length; i++) {
 			const quizDataset = props.quizDatasets[i];
@@ -19,15 +19,15 @@ export const QuizList: React.FC<Props> = (props: Props) => {
 			const quizThing = workspaceService.getFirstThingByRDFType(quizDataset, SOLIDQUIZ.Quiz.value);
 
 			if (quizThing !== null) {
-				quizThings.push(quizThing);
+				quizThings.push({ dataset: quizDataset, thing: quizThing });
 			}
 		}
 
 		setQuizRows(
-			quizThings.map((quizThing) => 
-				<QuizRow quizThing={quizThing} />)
+			quizThings.map((datasetAndThing, indx) => 
+				<QuizRow key={indx} datasetAndThing={datasetAndThing} handleDelete={props.handleDelete} />)
 		);
-	}, [props.quizDatasets]);
+	}, [props.quizDatasets, props.handleDelete]);
 
 	return (
 		<Container className="justify-content-md-center">

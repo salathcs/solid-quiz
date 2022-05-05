@@ -4,4 +4,6 @@ export interface Props {
     multiLang: boolean,
     questionSubmitted: (model: QuestionCreateModel) => void,
     finishQuiz: () => void,
+
+    questionCreateModel?: QuestionCreateModel
 }

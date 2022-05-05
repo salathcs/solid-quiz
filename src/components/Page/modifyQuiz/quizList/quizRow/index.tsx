@@ -16,10 +16,10 @@ export const QuizRow: React.FC<Props> = (props: Props) => {
 				<Button variant='light'><IoMdShare /></Button>
 			</Col>
 			<Col md="10" className='content-style'>
-				<QuizBtn quizThing={props.quizThing} />
+				<QuizBtn datasetAndThing={props.datasetAndThing} />
 			</Col>
 			<Col md="1" className='close-button-style'>
-				<CloseButtonYesNo modalText={t("page.common.yesno.confirmDeleteText")} onConfirm={() => {}} />
+				<CloseButtonYesNo modalText={t("page.common.yesno.confirmDeleteText")} onConfirm={() => props.handleDelete(props.datasetAndThing)} />
 			</Col>
 		</Row>
 	);

@@ -8,7 +8,7 @@ export interface IPageSwitcherContext {
   
 export const defaultPageSwitcherState = {
     ActualPage: null,
-    SwitchTo: (page: JSX.Element) => {},
+    SwitchTo: () => {},
     GoBack: () => {},
   };
   

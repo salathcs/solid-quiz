@@ -79,8 +79,40 @@ export function isAnswerExists(answerId: string, questionNumber: number, quizCon
     }
 }
 
+export function getQuestionNumber(questionName: string): number {
+    const indexOfSeparator = questionName.indexOf('_');
+
+    const str = questionName.substring(indexOfSeparator + 1);
+
+    return +(str);
+}
+
+export function getAnswerNumber(answerName: string): number {
+    const indexOfSeparator = answerName.indexOf('_');
+
+    const str =  answerName.substring(indexOfSeparator + 1);
+
+    return +(str);
+}
+
 
 //privates
+function createQuestionName(questionModel: QuestionCreateModel): string {
+    return `question_${questionModel.questionNumber}`;
+}
+
+function createQuestionNameFromNumber(questionNumber: number): string {
+    return `question_${questionNumber.toString()}`;
+}
+
+function createAnswerName(answerOption: AnswerCreateModel): string {
+    return `answer_${answerOption.answerId}`;
+}
+
+function createAnswerNameFromAnswerId(answerNumber: string): string {
+    return `answer_${answerNumber}`;
+}
+
 function createAnswerThings(questionModel: QuestionCreateModel): AnswerContainer[] {
     const arr: AnswerContainer[] = [];
 
@@ -100,22 +132,6 @@ function createAnswerThings(questionModel: QuestionCreateModel): AnswerContainer
     }
 
     return arr;
-}
-
-function createQuestionName(questionModel: QuestionCreateModel): string {
-    return `question_${questionModel.questionNumber}`;
-}
-
-function createQuestionNameFromNumber(questionNumber: number): string {
-    return `question_${questionNumber.toString()}`;
-}
-
-function createAnswerName(answerOption: AnswerCreateModel): string {
-    return `answer_${answerOption.answerId}`;
-}
-
-function createAnswerNameFromAnswerId(answerNumber: string): string {
-    return `answer_${answerNumber}`;
 }
 
 function addTextToAnswerBasedOnLang(answerThingBuilder: ThingBuilder<ThingLocal>, questionModel: QuestionCreateModel, answerOption: AnswerCreateModel) {

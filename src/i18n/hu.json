@@ -14,6 +14,8 @@
     "page.common.yesno.refuse": "Bezár",
     "page.common.yesno.title": "Megerősítés szükséges",
     "page.common.yesno.confirmDeleteText": "Biztosan törli a kijelölt elemet?",
+    "page.common.info.btnOk": "Rendben",
+    "page.common.info.title": "Információ",
 
     "mainMenu.title": "Főmenü",
     "mainMenu.btn.playGame": "Játék",
@@ -31,7 +33,8 @@
     "createQuiz.quiz.multiLang": "Többnyelvű",
     "createQuiz.quiz.maxExceeded": "A karakterekszáma nem haladhatja meg az 50-et!",
     "createQuiz.quiz.nameIsAlreadyReserved": "A kvíz név már foglalt!",
-    "createQuiz.question.title": "kérdés létrehozása!",
+    "createQuiz.question.titleCreate": "kérdés létrehozása!",
+    "createQuiz.question.titleModify": "kérdés szerkesztése!",
     "createQuiz.question.text": "Kérdés szövege",
     "createQuiz.question.textEn": "Kérdés angol szövege",
     "createQuiz.question.textHu": "Kérdés magyar szövege",
@@ -49,6 +52,8 @@
     "createQuiz.question.answerRequired": "Minden felvett válasz kitöltése kötelező!",
 
     "modifyQuiz.title": "Kvíz szerkesztése",
+    "modifyQuiz.modal.text": "Szeretné szerkeszteni a kiválasztott elemet?",
+    "modifyQuiz.modal.modificationFailed": "Az elem betöltése sikertelen, nem lehetséges a szerkesztés!",
 
     "leaderboard.title": "Ranglisták",
 
