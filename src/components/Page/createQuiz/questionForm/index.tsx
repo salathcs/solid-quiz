@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
-import { QuestionText } from './questionText';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { TranslateContext } from '../../../../contexts/TranslateContext';
 import { QuestionAnswers } from './questionAnswers';
 import { QuestionCreateModel } from '../../../../models/QuestionCreateModel';
-import * as questionCreateModelValidator from '../../../../helpers/QuestionCreateModelValidator'
 import { QuestionCreationContext } from '../../../../contexts/QuestionCreationContext';
+import { QuestionNavigationButtons } from './questionNavigationButtons';
+import { QuestionTextLoader } from './questionTextLoader';
 
 export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
@@ -15,28 +15,28 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const [questionModel, setQuestionModel] = useState<QuestionCreateModel>(
 			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
 		);
-	const [alert, setAlert] = useState<string | null>(null);
 
-	useEffect(() => {
-		setQuestionModel(
-			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
-		);
-	}, [questionNumber, correctAnswerId, props.multiLang, lang]);
+	const onPrev = () => {
 
-	const handleNextClick = () => {
-		const error = questionCreateModelValidator.validateModel(questionModel);
-		if (error !== null) {
-			setAlert(t(error)); 
-			return;
-		}
-		
-		setAlert(null);
+		setQuestionNumber(act => act - 1);
+	}
 
+	const onNext = () => {
+
+		setQuestionNumber(act => act + 1);
+	}
+
+	const onNextNew = () => {
 		props.questionSubmitted(questionModel);
+
+		//manually set, because state setting not applied immediately
+		setQuestionModel(
+			{ questionNumber: questionNumber + 1, textEn: "", textHu: "", answerOptions: [], correctAnswerId: answerNumber.toString(), multiLang: props.multiLang, lang }
+		);
 
 		setQuestionNumber(act => act + 1);
 		setCorrectAnswerId(() => answerNumber);		//answerNumber is after increase, so the current value is not in use
-		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)
+		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)		
 	}
 
 	const handleClickFinish = () => {
@@ -47,19 +47,11 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 		<Container className="justify-content-md-center">
 			<h3 className='main-title'>{questionNumber.toString()}. {t("createQuiz.question.title")}</h3>
 
-			<QuestionText multiLang={props.multiLang} onChange={setQuestionModel} />
+			<QuestionTextLoader multiLang={props.multiLang} onChange={setQuestionModel} />
 			<QuestionAnswers multiLang={props.multiLang} onChange={setQuestionModel} /> 
 
-			<Row className='question-btn-row'>
-				<Col>
-					<Button variant="secondary" size='lg' className='question-btn'>{t("createQuiz.question.prevQuestion")}</Button>
-				</Col>
-				<Col>
-					<Button variant="secondary" size='lg' className='question-btn' onClick={handleNextClick}>{t("createQuiz.question.nextQuestion")}</Button>
-				</Col>
-			</Row>
-			{alert !== null && 
-			<Row className='alert-row'><Alert variant='danger'>{alert}</Alert></Row>}
+			<QuestionNavigationButtons questionModel={questionModel} onPrev={onPrev} onNext={onNext} onNextNew={onNextNew} />
+
 			<Row className='finish-btn-row'>
 				<Col>
 					<Button variant="success" size='lg' onClick={handleClickFinish}>{t("createQuiz.question.finishQuiz")}</Button>

@@ -8,6 +8,14 @@ export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) 
 	const [answerNumber, setAnswerNumber] = useState(defaultQuestionCreationState.answerNumber);
 	const [correctAnswerId, setCorrectAnswerId] = useState(defaultQuestionCreationState.correctAnswerId);
 
+	const getQuizContainer = () => {
+		return props.quizContainer;
+	}
+
+	const isCrurrentQuestionCreatedYet = () => {
+		return props.quizContainer.questions.length < questionNumber;		//questionNumber is larger then the length, means its not inside it
+	}
+
 	return (
 		<QuestionCreationContext.Provider value={{
 			questionNumber,
@@ -15,7 +23,10 @@ export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) 
 			answerNumber,
 			setAnswerNumber,
 			correctAnswerId,
-			setCorrectAnswerId
+			setCorrectAnswerId,
+
+			getQuizContainer,
+			isCrurrentQuestionCreatedYet
 		}}>
 			{props.children}
 		</QuestionCreationContext.Provider>

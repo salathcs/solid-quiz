@@ -83,7 +83,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 
 	const content = quizContainer === null ? 
 		<QuizForm afterFormSubmit={quizFormSubmitted} /> : 
-		<QuestionCreationContextComponent>
+		<QuestionCreationContextComponent quizContainer={quizContainer}> 
 			<QuestionForm multiLang={quizContainer.quizFormModel.multiLang} questionSubmitted={questionSubmitted} finishQuiz={finishQuiz} />
 		</QuestionCreationContextComponent>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { QuestionTextInput } from '../../../../../common/quiz/questionTextInput';
+import { QuestionTextInput } from '../../../../../../common/quiz/questionTextInput';
 
 export const MonoText: React.FC<Props> = (props: Props) => {	
 

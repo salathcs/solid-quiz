@@ -1,9 +1,11 @@
-import { buildThing, createThing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
+import { buildThing, createThing, getStringNoLocale, getStringWithLocale, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { ANSWER_TEXT, QUESTION_TEXT } from '../constants/SolidQuizMissingValues';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
+import { MultiLangText } from '../models/MultiLangText';
 import { QuestionContainer } from '../models/QuestionContainer';
 import { QuestionCreateModel } from '../models/QuestionCreateModel';
+import { QuizContainer } from '../models/QuizContainer';
 import { AnswerContainer } from './../models/AnswerContainer';
 import { AnswerCreateModel } from './../models/AnswerCreateModel';
 
@@ -21,6 +23,32 @@ export function createQuestionThing(questionModel: QuestionCreateModel, quizUri:
     const questionThing = questionThingBuilder.build();
 
     return { questionName, questionModel, question: questionThing, answers: answerContainers }; 
+}
+
+export function getQuestionText(quizContainer: QuizContainer, questionNumber: number) : MultiLangText {
+    const questionName = createQuestionNameFromNumber(questionNumber);
+
+    const questionThing = quizContainer.questions.find((container) => container.questionName === questionName)?.question;
+
+    if (questionThing === undefined) {
+        throw new Error(`cannot find question based on ${questionName}`);
+    }
+
+    if (quizContainer.quizFormModel.multiLang) {
+        const textEn = getStringWithLocale(questionThing, QUESTION_TEXT, "en") ?? "";
+        const textHu = getStringWithLocale(questionThing, QUESTION_TEXT, "hu") ?? "";
+        return { textEn , textHu };
+    }
+    else{
+        const text = getStringNoLocale(questionThing, QUESTION_TEXT) ?? "";
+
+        if (quizContainer.quizFormModel.lang === 'hu') {
+            return { textEn: "" , textHu: text };
+        }
+        else{
+            return { textEn: text , textHu: "" };
+        }
+    }
 }
 
 
@@ -46,6 +74,10 @@ function createAnswerThings(questionModel: QuestionCreateModel): AnswerContainer
 
 function createQuestionName(questionModel: QuestionCreateModel): string {
     return `question_${questionModel.questionNumber}`;
+}
+
+function createQuestionNameFromNumber(questionNumber: number): string {
+    return `question_${questionNumber.toString()}`;
 }
 
 function createAnswerName(answerOption: AnswerCreateModel): string {
