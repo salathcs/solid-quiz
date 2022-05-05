@@ -6,7 +6,7 @@ import { TranslateContext } from '../../../../../../../contexts/TranslateContext
 import { QuestionAnswer } from './questionAnswer';
 import * as answerArrayHelper from '../../../../../../../helpers/AnswerArrayHelper';
 
-export const QuestionAnswerSelector: React.FC<Props> = ({ multiLang, onChange, answerId, onCloseAnswer, defaultValue, defaultValueEn, defaultValueHu }) => {
+export const QuestionAnswerSelector: React.FC<Props> = ({ multiLang, onChange, answerId, correctAnswerId, onCloseAnswer, defaultValue, defaultValueEn, defaultValueHu }) => {
 	const { t, lang } = useContext(TranslateContext);
 
 	const handleChange = useCallback((value: string) => {
@@ -59,6 +59,7 @@ export const QuestionAnswerSelector: React.FC<Props> = ({ multiLang, onChange, a
 	const content = multiLang ? 
 		<LangQuestionAnswer 
 			answerId={answerId} 
+			correctAnswerId = {correctAnswerId}
 			onCloseAnswer={onCloseAnswer} 
 			labelEn={t("createQuiz.question.answerOptionEn")} 
 			labelHu={t("createQuiz.question.answerOptionHu")}
@@ -67,7 +68,8 @@ export const QuestionAnswerSelector: React.FC<Props> = ({ multiLang, onChange, a
 			onChangeEn={handleChangeEn}
 			onChangeHu={handleChangeHu} /> :
 		<QuestionAnswer 
-			answerId={answerId} 
+			answerId={answerId}
+			correctAnswerId = {correctAnswerId} 
 			onCloseAnswer={onCloseAnswer} 
 			label={t("createQuiz.question.answerOption")}
 			onChange={handleChange}

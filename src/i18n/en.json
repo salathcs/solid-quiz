@@ -42,6 +42,7 @@
     "createQuiz.question.textRequired": "Question text is required!",
     "createQuiz.question.answerCountRequired": "Need to fill at least two answer options!",
     "createQuiz.question.correctAnswerRequired": "Correct answer is required!",
+    "createQuiz.question.answerRequired": "Need to fill every answer options!",
 
     "modifyQuiz.title": "Modify quiz",
 

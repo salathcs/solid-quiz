@@ -10,8 +10,7 @@ export const AnswerInput: React.FC<Props> = ({ label, defaultValue, onChange}) =
 
 	useEffect(() => {
 		setActValue(defaultValue);
-		onChange(defaultValue);
-	}, [defaultValue, questionNumber, onChange]);
+	}, [defaultValue, questionNumber]);
 	
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setActValue(event.target.value);

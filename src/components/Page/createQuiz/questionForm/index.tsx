@@ -13,40 +13,41 @@ import * as questionService from '../../../../services/QuestionService';
 export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
 	const { questionNumber, setQuestionNumber, answerNumber, setAnswerNumber, 
-		correctAnswerId, setCorrectAnswerId, getQuizContainer, isNextQuestionExists } = useContext(QuestionCreationContext);
+			getQuizContainer, isNextQuestionExists } = useContext(QuestionCreationContext);
 	const [questionModel, setQuestionModel] = useState<QuestionCreateModel>(
-			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
-		);
+			{ questionNumber: questionNumber, 
+				textEn: "", 
+				textHu: "", 
+				answerOptions: [{answerId: "1", textEn: "", textHu: ""},
+								{answerId: "2", textEn: "", textHu: ""}], 
+				correctAnswerId: "1", 
+				multiLang: props.multiLang, 
+				lang }
+	);
 
-	const resetQuestionModel = (questionNr: number, crAnswerId: string) => {
+	const setToNewEmptyForm = () => {
 		setQuestionModel({ 
-			questionNumber: questionNr, 
+			questionNumber: questionNumber + 1, 
 			textEn: "", 
 			textHu: "", 
-			answerOptions: [], 
-			correctAnswerId: crAnswerId, 
+			answerOptions: [ {answerId: answerNumber.toString(), textEn: "", textHu: ""},
+							 {answerId: (answerNumber + 1).toString(), textEn: "", textHu: ""}
+		 	], 
+			correctAnswerId: answerNumber.toString(), 
 			multiLang: props.multiLang, 
 			lang 
 		});
-	}
-
-	const setToNewEmptyForm = () => {
-		resetQuestionModel(questionNumber + 1, answerNumber.toString());
 
 		setQuestionNumber(act => act + 1);
-		setCorrectAnswerId(() => answerNumber);		//answerNumber is after increase, so the current value is not in use
 		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)	
 	}
 
 	const onPrev = () => {
 
-		const questionsCorrectnswerId = questionService.getQuestionContainer(questionNumber - 1, getQuizContainer()).questionModel.correctAnswerId;
-
-		resetQuestionModel(questionNumber - 1, questionsCorrectnswerId);
+		const prevQuestionModel = questionService.getQuestionContainer(questionNumber - 1, getQuizContainer()).questionModel;
+		setQuestionModel(prevQuestionModel);
 
 		setQuestionNumber(act => act - 1);
-		setCorrectAnswerId(() => +(questionsCorrectnswerId));			//cast to number +()
-		setAnswerNumber(() => +(questionsCorrectnswerId) + 2);			//cast to number +()
 	}
 
 	const onNext = () => {
@@ -55,13 +56,10 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 			setToNewEmptyForm();
 		}
 		else{
-			const questionsCorrectnswerId = questionService.getQuestionContainer(questionNumber + 1, getQuizContainer()).questionModel.correctAnswerId;
-
-			resetQuestionModel(questionNumber + 1, questionsCorrectnswerId);
+			const nextQuestionModel = questionService.getQuestionContainer(questionNumber + 1, getQuizContainer()).questionModel;
+			setQuestionModel(nextQuestionModel);
 
 			setQuestionNumber(act => act + 1);
-			setCorrectAnswerId(() => +(questionsCorrectnswerId));			//cast to number +()
-			setAnswerNumber(() => +(questionsCorrectnswerId) + 2);			//cast to number +()
 		}
 	}
 
@@ -79,8 +77,8 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 		<Container className="justify-content-md-center">
 			<h3 className='main-title'>{questionNumber.toString()}. {t("createQuiz.question.title")}</h3>
 
-			<QuestionTextLoader multiLang={props.multiLang} onChange={setQuestionModel} />
-			<QuestionAnswers multiLang={props.multiLang} onChange={setQuestionModel} /> 
+			<QuestionTextLoader questionModel={questionModel} onChange={setQuestionModel} />
+			<QuestionAnswers questionModel={questionModel} onChange={setQuestionModel} /> 
 
 			<QuestionNavigationButtons questionModel={questionModel} onPrev={onPrev} onNext={onNext} onNextNew={onNextNew} />
 

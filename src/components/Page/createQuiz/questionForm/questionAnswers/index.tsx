@@ -5,54 +5,67 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { TranslateContext } from '../../../../../contexts/TranslateContext';
 import { QuestionAnswerLoader } from './questionAnswerLoader';
 import { QuestionCreationContext } from '../../../../../contexts/QuestionCreationContext';
+import { AnswerCreateModel } from '../../../../../models/AnswerCreateModel';
 
-export const QuestionAnswers: React.FC<Props> = (props: Props) => {
+export const QuestionAnswers: React.FC<Props> = ({ questionModel, onChange }) => {
 	const { t } = useContext(TranslateContext);
-	const { questionNumber, answerNumber, setAnswerNumber, correctAnswerId } = useContext(QuestionCreationContext);
+	const { questionNumber, answerNumber, setAnswerNumber } = useContext(QuestionCreationContext);
 	const [answers, setAnswers] = useState<JSX.Element[]>([]);
 
-	useEffect(() => {
-		setAnswers([]);
-	}, [questionNumber]);
-
 	const closeAnswer = useCallback((answerId: string) => {
-		setAnswers(arr => {
-			const toClose = arr.find((item) => item.props.answerId === answerId);
+		onChange(model => {
+			let rv = { ...model };
+
+			const toClose = rv.answerOptions.find((item) => item.answerId === answerId);
 
 			if (toClose === undefined) { 
-				return [...arr];			//deref important! never return arr directly
+				return rv;			//deref important! never return arr directly
 			}
 
-			const toCloseIndex = arr.indexOf(toClose); 
+			const toCloseIndex = rv.answerOptions.indexOf(toClose); 
+			rv.answerOptions = rv.answerOptions.splice(toCloseIndex, 1);
 
-			return arr.splice(toCloseIndex, 1);
-		}
-	)}, []);
+			return rv;
+		})
+	}, [onChange]);
 
-	const addAnswer = () => {
-		setAnswers(arr => [...arr, 
-			<QuestionAnswerLoader 
-				key={answerNumber.toString()} 
-				answerId={answerNumber.toString()} 
-				multiLang={props.multiLang} 
-				onCloseAnswer={closeAnswer}
-				onChange={props.onChange} />]);
+	const addAnswer = useCallback(() => {
+		onChange(model => {
+			let rv = { ...model };
 
+			rv.answerOptions = [...rv.answerOptions, { 
+				answerId: answerNumber.toString(),
+				textEn: "",
+				textHu: ""
+			 }]
+
+			return rv;
+		});
+		
 		setAnswerNumber(act => act + 1);
-	}
+	}, [answerNumber, onChange, setAnswerNumber]);
+
+	const isCloseDisabled = useCallback((answerOption: AnswerCreateModel) => {
+		return answerOption.answerId === questionModel.correctAnswerId ||
+			   (+(answerOption.answerId) - 1).toString() === questionModel.correctAnswerId;
+	}, [questionModel.correctAnswerId]);
+
+	useEffect(() => {
+		setAnswers(
+			questionModel.answerOptions.map((answerOption) => 
+				<QuestionAnswerLoader 
+					key={answerOption.answerId} 
+					answerId={answerOption.answerId}
+					correctAnswerId={questionModel.correctAnswerId}
+					multiLang={questionModel.multiLang} 
+					onChange={onChange}
+					onCloseAnswer={isCloseDisabled(answerOption) ? undefined : closeAnswer}
+					multiLangText={{ textEn: answerOption.textEn, textHu: answerOption.textHu }} />)
+		);
+	}, [questionNumber, closeAnswer, addAnswer, isCloseDisabled, onChange, questionModel.answerOptions, questionModel.multiLang, questionModel.correctAnswerId]);
 
 	return (
 		<>
-			<QuestionAnswerLoader 
-				key={correctAnswerId.toString()} 
-				answerId={correctAnswerId.toString()}
-				multiLang={props.multiLang} 
-				onChange={props.onChange} />
-			<QuestionAnswerLoader 
-				key={(correctAnswerId + 1).toString()} 
-				answerId={(correctAnswerId + 1).toString()} 
-				multiLang={props.multiLang} 
-				onChange={props.onChange} />
 			{answers}
 			<Row>
 				<Col>

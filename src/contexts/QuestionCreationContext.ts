@@ -6,8 +6,6 @@ export interface IQuestionCreationContext {
     setQuestionNumber: (delegate: (val: number) => number) => void,
     answerNumber: number,       //available answer option number (its an identificator), after use need to increase
     setAnswerNumber: (delegate: (val: number) => number) => void,
-    correctAnswerId: number,    //correct answer id of the actual question number
-    setCorrectAnswerId: (delegate: (val: number) => number) => void,
 
     getQuizContainer: () => QuizContainer,
     isCrurrentQuestionCreatedYet: () => boolean,
@@ -19,8 +17,6 @@ export const defaultQuestionCreationState = {
     setQuestionNumber: () => {},
     answerNumber: 3,     //head start, first two are always there (answer options)
     setAnswerNumber: () => {},
-    correctAnswerId: 1,
-    setCorrectAnswerId: () => {},
 
     getQuizContainer: () => {throw new Error("you should not call this (defaultQuestionCreationState.getQuizContainer)!")},
     isCrurrentQuestionCreatedYet: () => {throw new Error("you should not call this (defaultQuestionCreationState.isCrurrentLastQuestion)!")},

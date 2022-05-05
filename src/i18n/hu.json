@@ -42,6 +42,7 @@
     "createQuiz.question.textRequired": "Kérdés szövege kötelező!",
     "createQuiz.question.answerCountRequired": "Legalább két válaszlehetőség kitöltése kötelező!",
     "createQuiz.question.correctAnswerRequired": "A helyes válasz kitöltése kötelező!",
+    "createQuiz.question.answerRequired": "Minden felvett válasz kitöltése kötelező!",
 
     "modifyQuiz.title": "Kvíz szerkesztése",
 

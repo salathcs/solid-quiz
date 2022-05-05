@@ -47,5 +47,13 @@ function validateAnswers(model: QuestionCreateModel): string | null {
         return "createQuiz.question.correctAnswerRequired";
     }
 
+    for (let i = 0; i < model.answerOptions.length; i++) {
+        const answerOption = model.answerOptions[i];
+        
+        if (answerOption.textEn.length <= 0 && answerOption.textHu.length <= 0) {
+            return "createQuiz.question.answerRequired";
+        }
+    }
+
     return null;
 }

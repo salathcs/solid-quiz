@@ -2,7 +2,8 @@ import { QuestionCreateModel } from "../../../../../../../models/QuestionCreateM
 
 export interface Props {
     multiLang: boolean,
-    onChange: (delegate: (model: QuestionCreateModel) => QuestionCreateModel) => void
+    onChange: (delegate: (model: QuestionCreateModel) => QuestionCreateModel) => void,
+    correctAnswerId: string,
     
     answerId: string,
     onCloseAnswer?: (answerId: string) => void,
