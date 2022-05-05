@@ -8,35 +8,67 @@ import { QuestionCreateModel } from '../../../../models/QuestionCreateModel';
 import { QuestionCreationContext } from '../../../../contexts/QuestionCreationContext';
 import { QuestionNavigationButtons } from './questionNavigationButtons';
 import { QuestionTextLoader } from './questionTextLoader';
+import * as questionService from '../../../../services/QuestionService';
 
 export const QuestionForm: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
-	const { questionNumber, setQuestionNumber, answerNumber, setAnswerNumber, correctAnswerId, setCorrectAnswerId } = useContext(QuestionCreationContext);
+	const { questionNumber, setQuestionNumber, answerNumber, setAnswerNumber, 
+		correctAnswerId, setCorrectAnswerId, getQuizContainer, isNextQuestionExists } = useContext(QuestionCreationContext);
 	const [questionModel, setQuestionModel] = useState<QuestionCreateModel>(
 			{ questionNumber: questionNumber, textEn: "", textHu: "", answerOptions: [], correctAnswerId: correctAnswerId.toString(), multiLang: props.multiLang, lang }
 		);
 
+	const resetQuestionModel = (questionNr: number, crAnswerId: string) => {
+		setQuestionModel({ 
+			questionNumber: questionNr, 
+			textEn: "", 
+			textHu: "", 
+			answerOptions: [], 
+			correctAnswerId: crAnswerId, 
+			multiLang: props.multiLang, 
+			lang 
+		});
+	}
+
+	const setToNewEmptyForm = () => {
+		resetQuestionModel(questionNumber + 1, answerNumber.toString());
+
+		setQuestionNumber(act => act + 1);
+		setCorrectAnswerId(() => answerNumber);		//answerNumber is after increase, so the current value is not in use
+		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)	
+	}
+
 	const onPrev = () => {
 
+		const questionsCorrectnswerId = questionService.getQuestionContainer(questionNumber - 1, getQuizContainer()).questionModel.correctAnswerId;
+
+		resetQuestionModel(questionNumber - 1, questionsCorrectnswerId);
+
 		setQuestionNumber(act => act - 1);
+		setCorrectAnswerId(() => +(questionsCorrectnswerId));			//cast to number +()
+		setAnswerNumber(() => +(questionsCorrectnswerId) + 2);			//cast to number +()
 	}
 
 	const onNext = () => {
 
-		setQuestionNumber(act => act + 1);
+		if (isNextQuestionExists()) {
+			setToNewEmptyForm();
+		}
+		else{
+			const questionsCorrectnswerId = questionService.getQuestionContainer(questionNumber + 1, getQuizContainer()).questionModel.correctAnswerId;
+
+			resetQuestionModel(questionNumber + 1, questionsCorrectnswerId);
+
+			setQuestionNumber(act => act + 1);
+			setCorrectAnswerId(() => +(questionsCorrectnswerId));			//cast to number +()
+			setAnswerNumber(() => +(questionsCorrectnswerId) + 2);			//cast to number +()
+		}
 	}
 
 	const onNextNew = () => {
 		props.questionSubmitted(questionModel);
 
-		//manually set, because state setting not applied immediately
-		setQuestionModel(
-			{ questionNumber: questionNumber + 1, textEn: "", textHu: "", answerOptions: [], correctAnswerId: answerNumber.toString(), multiLang: props.multiLang, lang }
-		);
-
-		setQuestionNumber(act => act + 1);
-		setCorrectAnswerId(() => answerNumber);		//answerNumber is after increase, so the current value is not in use
-		setAnswerNumber(act => act + 2);			//increase to the next available (after the 2 def)		
+		setToNewEmptyForm();	
 	}
 
 	const handleClickFinish = () => {

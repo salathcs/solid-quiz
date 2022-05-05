@@ -1,4 +1,4 @@
-import { buildThing, createThing, getStringNoLocale, getStringWithLocale, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
+import { buildThing, createThing, getStringNoLocale, getStringWithLocale, Thing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { ANSWER_TEXT, QUESTION_TEXT } from '../constants/SolidQuizMissingValues';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
@@ -25,29 +25,57 @@ export function createQuestionThing(questionModel: QuestionCreateModel, quizUri:
     return { questionName, questionModel, question: questionThing, answers: answerContainers }; 
 }
 
-export function getQuestionText(quizContainer: QuizContainer, questionNumber: number) : MultiLangText {
+export function getQuestionText(quizContainer: QuizContainer, questionNumber: number) : MultiLangText {    
+    const questionContainer = getQuestionContainer(questionNumber, quizContainer);
+
+    return getMultiLangTextFromThing(
+        quizContainer.quizFormModel.multiLang, 
+        quizContainer.quizFormModel.lang,
+        questionContainer.question,
+        QUESTION_TEXT); 
+}
+
+export function getAnswerText(quizContainer: QuizContainer, questionNumber: number, answerId: string) : MultiLangText {
+    const questionContainer = getQuestionContainer(questionNumber, quizContainer);
+
+    const answerName = createAnswerNameFromAnswerId(answerId);
+
+    const answerContainer = questionContainer.answers.find((container) => container.answerName === answerName);
+
+    if (answerContainer === undefined) {
+        throw new Error(`cannot find answer based on ${answerName}`);
+    }
+    
+    return getMultiLangTextFromThing(
+        quizContainer.quizFormModel.multiLang, 
+        quizContainer.quizFormModel.lang,
+        answerContainer.answer,
+        ANSWER_TEXT);
+}
+
+export function getQuestionContainer(questionNumber: number, quizContainer: QuizContainer): QuestionContainer {
     const questionName = createQuestionNameFromNumber(questionNumber);
 
-    const questionThing = quizContainer.questions.find((container) => container.questionName === questionName)?.question;
+    const questionContainer = quizContainer.questions.find((container) => container.questionName === questionName);
 
-    if (questionThing === undefined) {
+    if (questionContainer === undefined) {
         throw new Error(`cannot find question based on ${questionName}`);
     }
 
-    if (quizContainer.quizFormModel.multiLang) {
-        const textEn = getStringWithLocale(questionThing, QUESTION_TEXT, "en") ?? "";
-        const textHu = getStringWithLocale(questionThing, QUESTION_TEXT, "hu") ?? "";
-        return { textEn , textHu };
-    }
-    else{
-        const text = getStringNoLocale(questionThing, QUESTION_TEXT) ?? "";
+    return questionContainer;
+}
 
-        if (quizContainer.quizFormModel.lang === 'hu') {
-            return { textEn: "" , textHu: text };
-        }
-        else{
-            return { textEn: text , textHu: "" };
-        }
+export function isAnswerExists(answerId: string, questionNumber: number, quizContainer: QuizContainer): boolean {
+    try {
+        const questionContainer = getQuestionContainer(questionNumber, quizContainer);
+
+        const answerName = createAnswerNameFromAnswerId(answerId);
+
+        const answerContainer = questionContainer.answers.find((container) => container.answerName === answerName);
+        
+        return answerContainer !== undefined;
+    } catch {
+        return false;
     }
 }
 
@@ -59,14 +87,16 @@ function createAnswerThings(questionModel: QuestionCreateModel): AnswerContainer
     for (let i = 0; i < questionModel.answerOptions.length; i++) {
         const answerOption = questionModel.answerOptions[i];
         
-        const answerThingBuilder = buildThing(createThing({ name: createAnswerName(answerOption) }))
+        const answerName = createAnswerName(answerOption);
+
+        const answerThingBuilder = buildThing(createThing({ name: answerName }))
             .addUrl(RDF.type, SOLIDQUIZ.Answer.value);
 
         addTextToAnswerBasedOnLang(answerThingBuilder, questionModel, answerOption);
         
         const answerThing = answerThingBuilder.build();
         
-        arr.push({ answer: answerThing });
+        arr.push({ answerName: answerName, answer: answerThing });
     }
 
     return arr;
@@ -82,6 +112,10 @@ function createQuestionNameFromNumber(questionNumber: number): string {
 
 function createAnswerName(answerOption: AnswerCreateModel): string {
     return `answer_${answerOption.answerId}`;
+}
+
+function createAnswerNameFromAnswerId(answerNumber: string): string {
+    return `answer_${answerNumber}`;
 }
 
 function addTextToAnswerBasedOnLang(answerThingBuilder: ThingBuilder<ThingLocal>, questionModel: QuestionCreateModel, answerOption: AnswerCreateModel) {
@@ -133,4 +167,22 @@ function getCorrectAnswerUri(answerOptions: AnswerCreateModel[], quizUri: string
     }
 
     return `${quizUri}#${createAnswerName(correctAnswer)}`;
+}
+
+function getMultiLangTextFromThing(multiLang: boolean, lang: string, thing: Thing, propertyUrl: string): MultiLangText {
+    if (multiLang) {
+        const textEn = getStringWithLocale(thing, propertyUrl, "en") ?? "";
+        const textHu = getStringWithLocale(thing, propertyUrl, "hu") ?? "";
+        return { textEn , textHu };
+    }
+    else{
+        const text = getStringNoLocale(thing, propertyUrl) ?? "";
+
+        if (lang === 'hu') {
+            return { textEn: "" , textHu: text };
+        }
+        else{
+            return { textEn: text , textHu: "" };
+        }
+    }
 }

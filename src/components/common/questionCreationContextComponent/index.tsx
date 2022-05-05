@@ -16,6 +16,10 @@ export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) 
 		return props.quizContainer.questions.length < questionNumber;		//questionNumber is larger then the length, means its not inside it
 	}
 
+	const isNextQuestionExists = () => {
+		return props.quizContainer.questions.length < (questionNumber + 1);		//questionNumber is larger then the length, means its not inside it
+	}
+
 	return (
 		<QuestionCreationContext.Provider value={{
 			questionNumber,
@@ -26,7 +30,8 @@ export const QuestionCreationContextComponent: React.FC<Props> = (props: Props) 
 			setCorrectAnswerId,
 
 			getQuizContainer,
-			isCrurrentQuestionCreatedYet
+			isCrurrentQuestionCreatedYet,
+			isNextQuestionExists
 		}}>
 			{props.children}
 		</QuestionCreationContext.Provider>

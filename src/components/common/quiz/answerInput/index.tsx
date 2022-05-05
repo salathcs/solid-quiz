@@ -4,26 +4,27 @@ import './styles.scoped.css';
 import { FloatingLabel, Form } from 'react-bootstrap';
 import { QuestionCreationContext } from '../../../../contexts/QuestionCreationContext';
 
-export const AnswerInput: React.FC<Props> = (props: Props) => {
-	const [actValue, setActValue] = useState(props.defaultValue);
+export const AnswerInput: React.FC<Props> = ({ label, defaultValue, onChange}) => {
+	const [actValue, setActValue] = useState(defaultValue);
 	const { questionNumber } = useContext(QuestionCreationContext);
 
 	useEffect(() => {
-		setActValue(props.defaultValue);
-	}, [props.defaultValue, questionNumber]);
+		setActValue(defaultValue);
+		onChange(defaultValue);
+	}, [defaultValue, questionNumber, onChange]);
 	
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setActValue(event.target.value);
-		props.onChange(event.target.value);
+		onChange(event.target.value);
 	}
 
 	return (
 		<FloatingLabel
 			controlId="floatingInput"
-			label={props.label}
+			label={label}
 			className="mb-3"
 			>
-				<Form.Control type="text" placeholder={props.label} onChange={handleChange} value={actValue} />				
+				<Form.Control type="text" placeholder={label} onChange={handleChange} value={actValue} />				
 		</FloatingLabel>
 	);
 }

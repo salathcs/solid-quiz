@@ -6,6 +6,6 @@ export interface Props {
     labelHu: string,
     defaultValueEn: string,
     defaultValueHu: string,
-    onChangeEn: (value: string) => void
+    onChangeEn: (value: string) => void,
     onChangeHu: (value: string) => void
 }

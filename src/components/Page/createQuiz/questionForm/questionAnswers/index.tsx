@@ -3,7 +3,7 @@ import { Props } from './types';
 import './styles.scoped.css';
 import { Button, Col, Row } from 'react-bootstrap';
 import { TranslateContext } from '../../../../../contexts/TranslateContext';
-import { QuestionAnswerSelector } from './questionAnswerSelector';
+import { QuestionAnswerLoader } from './questionAnswerLoader';
 import { QuestionCreationContext } from '../../../../../contexts/QuestionCreationContext';
 
 export const QuestionAnswers: React.FC<Props> = (props: Props) => {
@@ -31,7 +31,7 @@ export const QuestionAnswers: React.FC<Props> = (props: Props) => {
 
 	const addAnswer = () => {
 		setAnswers(arr => [...arr, 
-			<QuestionAnswerSelector 
+			<QuestionAnswerLoader 
 				key={answerNumber.toString()} 
 				answerId={answerNumber.toString()} 
 				multiLang={props.multiLang} 
@@ -43,12 +43,12 @@ export const QuestionAnswers: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<QuestionAnswerSelector 
+			<QuestionAnswerLoader 
 				key={correctAnswerId.toString()} 
 				answerId={correctAnswerId.toString()}
 				multiLang={props.multiLang} 
-				onChange={props.onChange} />, 
-			<QuestionAnswerSelector 
+				onChange={props.onChange} />
+			<QuestionAnswerLoader 
 				key={(correctAnswerId + 1).toString()} 
 				answerId={(correctAnswerId + 1).toString()} 
 				multiLang={props.multiLang} 

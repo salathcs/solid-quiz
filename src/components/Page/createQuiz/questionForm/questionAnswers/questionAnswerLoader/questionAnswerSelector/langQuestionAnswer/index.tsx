@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { CloseButton, Col, Row } from 'react-bootstrap';
-import { AnswerInput } from '../../../../../../common/quiz/answerInput';
-import { ToggleBtnCheck } from '../../../../../../common/quiz/toggleBtnCheck';
-import { QuestionCreationContext } from '../../../../../../../contexts/QuestionCreationContext';
+import { AnswerInput } from '../../../../../../../common/quiz/answerInput';
+import { ToggleBtnCheck } from '../../../../../../../common/quiz/toggleBtnCheck';
+import { QuestionCreationContext } from '../../../../../../../../contexts/QuestionCreationContext';
 
 export const LangQuestionAnswer: React.FC<Props> = (props: Props) => {
 	const { correctAnswerId } = useContext(QuestionCreationContext);
