@@ -37,7 +37,7 @@ function createQuizFormModel(quizThing: Thing, multiLang: boolean, lang: string)
 }
 
 function createQuestionContainers(quizThing: Thing, quizDataset: SolidDataset_Type, multiLang: boolean, lang: string): QuestionContainer[] {
-    const questionUris = getUrlAll(quizThing, SOLIDQUIZ.quizQuestion);
+    const questionUris = getUrlAll(quizThing, SOLIDQUIZ.quizQuestion.value);
     
     const questionThings = workspaceService.getAllThingByUris(quizDataset, questionUris);
 

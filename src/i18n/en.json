@@ -26,6 +26,9 @@
 
     "playGame.title": "New game",
     "playGame.modal.confirmClose": "Caution all results will be lost. Are you sure you want to interrupt the game?",
+    "playGame.game.title": "Quiz",
+    "playGame.game.actQuestion": "Actual question",
+    "playGame.game.allQuestions": "All questions",
 
     "createQuiz.quiz.title": "Create quiz",
     "createQuiz.quiz.submit": "Create first question",

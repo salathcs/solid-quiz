@@ -4,13 +4,15 @@ import { DatasetAndThing } from './../models/DatasetAndThing';
 
 export interface IGameContext {
     getQuizData: () => DatasetAndThing,
+    multiLang: boolean,
     gameStatus: GameStatus,
     setGameStatus: (delegate: (val: GameStatus) => GameStatus) => void
 }
   
 export const defaultGameState = {
     getQuizData: () => {throw new Error("you should not call this (defaultPageSwitcherState.getQuizData)!")},
-    gameStatus: { actQuestionNumber: -1, allQuestions: -1 },
+    multiLang: false,
+    gameStatus: { actQuestionIndex: -1, allQuestions: -1 },
     setGameStatus: () => {}
 };
   

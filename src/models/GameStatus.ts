@@ -1,4 +1,4 @@
 export interface GameStatus {
-    actQuestionNumber: number,
+    actQuestionIndex: number,
     allQuestions: number
 }

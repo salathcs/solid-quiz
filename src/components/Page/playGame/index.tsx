@@ -16,11 +16,12 @@ export const PlayGame: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<h3 className='main-title'>{t("playGame.title")}</h3>
-
 			{
 				selectedQuiz === null ?
-				<QuizListLoader onQuizSelected={setSelectedQuiz} /> :
+				<>
+					<h3 className='main-title'>{t("playGame.title")}</h3>
+					<QuizListLoader onQuizSelected={setSelectedQuiz} /> 
+				</> :
 				<GameLoader quizData={selectedQuiz} /> 
 			}
 

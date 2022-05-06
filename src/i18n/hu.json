@@ -26,6 +26,9 @@
 
     "playGame.title": "Új játék",
     "playGame.modal.confirmClose": "Vigyázat minden eredménye elveszik. Biztosan félbe szakítja a játékot?",
+    "playGame.game.title": "Kvíz",
+    "playGame.game.actQuestion": "Aktuális kérdés",
+    "playGame.game.allQuestions": "Összes kérdés",
 
     "createQuiz.quiz.title": "Kvíz létrehozása",
     "createQuiz.quiz.submit": "Első kérdés létrehozása",
