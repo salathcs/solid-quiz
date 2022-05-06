@@ -23,6 +23,7 @@
     "mainMenu.btn.modifyQuiz": "Kvíz szerkesztése",
     "mainMenu.btn.leaderboard": "Ranglisták",
     "mainMenu.btn.helpPage": "Súgó",
+    "mainMenu.btn.logout": "Kijelentkezés",
 
     "playGame.title": "Új játék",
     "playGame.modal.confirmClose": "Vigyázat minden eredménye elveszik. Biztosan félbe szakítja a játékot?",
@@ -31,7 +32,7 @@
     "playGame.game.allQuestions": "Összes kérdés",
     "playGame.game.questionText": "Kérdés",
     "playGame.game.btn.nextQuestion": "Következő kérdés",
-    "playGame.gameResult.title": "Kvíz véget ért!",
+    "playGame.gameResult.title": "kvíz véget ért!",
     "playGame.gameResult.quizOverText": "Sikeresen befejezted a kvízt!",
     "playGame.gameResult.quizResultsAll": "Összes kérdés",
     "playGame.gameResult.quizResultsSuccess": "Ebből helyesen választoltál",

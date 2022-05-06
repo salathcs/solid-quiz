@@ -22,7 +22,7 @@ export const GameLoader: React.FC<Props> = (props: Props) => {
 		const quizResultThing = quizResultService.createQuizResult(props.quizData.thing, webId);
 
 		setMultiLang(multiLang);
-		setNewGameStatus({ actQuestionIndex: 0, allQuestions: questionsCount, quizResultNameUri, quizResultThing, questionResultThings: [] });
+		setNewGameStatus({ actQuestionIndex: 0, allQuestions: questionsCount, quizResultNameUri, quizResultThing, questionResultThings: [], multiLang });
 	}, [props.quizData, webId, workspaceUrl]);	
 
 	return (

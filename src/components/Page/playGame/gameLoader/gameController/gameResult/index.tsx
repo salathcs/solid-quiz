@@ -3,25 +3,29 @@ import { Props } from './types';
 import './styles.scoped.css';
 import { Alert, Button, Col, Row } from 'react-bootstrap';
 import { getInteger } from '@inrupt/solid-client';
-import { NUMBER_OF_CORRECT_ANSWERS } from '../../../../../../constants/SolidQuizMissingValues';
+import { TITLE, NUMBER_OF_CORRECT_ANSWERS } from '../../../../../../constants/SolidQuizMissingValues';
 import { TranslateContext } from '../../../../../../contexts/TranslateContext';
 import { IoMdShare } from "@react-icons/all-files/io/IoMdShare";
 import { PageSwitcherContext } from '../../../../../../contexts/PageSwitcherContext';
+import { getString } from './../../../../../../helpers/LangReader';
 
 export const GameResult: React.FC<Props> = (props: Props) => {
-	const { t } = useContext(TranslateContext);
+	const { t, lang } = useContext(TranslateContext);
 	const { GoBack } = useContext(PageSwitcherContext);
+	const [quizTitle, setQuizTitle] = useState("");
 	const [answersSucceded, setAnswersSucceded] = useState(0);
 
 	useEffect(() => {
+		const actualQuizTitle = getString(props.quizThing, TITLE, props.gameResult.multiLang, lang);
 		const actualAnswersSucceded = getInteger(props.gameResult.quizResultThing, NUMBER_OF_CORRECT_ANSWERS) ?? -1;
 
+		setQuizTitle(actualQuizTitle);
 		setAnswersSucceded(actualAnswersSucceded);
-	}, [props.gameResult]);
+	}, [props.gameResult, lang, props.quizThing]);
 
 	return (
 		<>
-			<h3 className='main-title'>{t("playGame.gameResult.title")}</h3>
+			<h3 className='main-title'>{quizTitle} {t("playGame.gameResult.title")}</h3>
 
 			<Row>
 				<Alert variant='success' className='quizOverText-style'>{t("playGame.gameResult.quizOverText")}</Alert>

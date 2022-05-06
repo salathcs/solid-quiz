@@ -9,6 +9,7 @@ import { CreateQuiz } from './../createQuiz/index';
 import { Leaderboard } from './../leaderboard/index';
 import { HelpPage } from './../helpPage/index';
 import { ModifyQuiz } from '../modifyQuiz';
+import { LogoutButton } from '@inrupt/solid-ui-react';
 
 export const MainMenu: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
@@ -30,6 +31,11 @@ export const MainMenu: React.FC<Props> = (props: Props) => {
 				<Button variant="light" size="lg" onClick={switchToLeaderboard}>{t("mainMenu.btn.leaderboard")}</Button>
 				<Button variant="info" size="lg" onClick={switchToHelpPage}>{t("mainMenu.btn.helpPage")}</Button>
 			</div>
+			<LogoutButton>
+				<div className="logout-btn-row d-grid gap-4">
+						<Button variant="outline-dark" size="lg">{t("mainMenu.btn.logout")}</Button>
+				</div>
+			</LogoutButton>
 		</>
 	);
 }

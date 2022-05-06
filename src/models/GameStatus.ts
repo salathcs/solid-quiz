@@ -6,5 +6,7 @@ export interface GameStatus {
 
     quizResultNameUri: string,
     quizResultThing: Thing,
-    questionResultThings: Thing[]
+    questionResultThings: Thing[],
+
+    multiLang: boolean
 }

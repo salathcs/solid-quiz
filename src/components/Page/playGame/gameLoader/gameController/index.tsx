@@ -41,7 +41,7 @@ export const GameController: React.FC<Props> = (props: Props) => {
 		<>
 			{
 				gameResult !== null ?
-				<GameResult gameResult={gameResult} /> :
+				<GameResult quizThing={getQuizData().thing} gameResult={gameResult} /> :
 				<GameContainer>
 					<QuestionController questions={questions} onCompleteGame={setGameResult} />
 				</GameContainer>

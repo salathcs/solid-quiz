@@ -13,7 +13,7 @@ export interface IGameContext {
 export const defaultGameState = {
     getQuizData: () => {throw new Error("you should not call this (defaultPageSwitcherState.getQuizData)!")},
     multiLang: false,
-    gameStatus: { actQuestionIndex: -1, allQuestions: -1, quizResultNameUri: "", quizResultThing: createThing(), questionResultThings: [] },
+    gameStatus: { actQuestionIndex: -1, allQuestions: -1, quizResultNameUri: "", quizResultThing: createThing(), questionResultThings: [], multiLang: false },
     setGameStatus: () => {}
 };
   

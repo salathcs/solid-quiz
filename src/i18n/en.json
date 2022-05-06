@@ -23,6 +23,7 @@
     "mainMenu.btn.modifyQuiz": "Modify quiz",
     "mainMenu.btn.leaderboard": "Leaderboards",
     "mainMenu.btn.helpPage": "Help page",
+    "mainMenu.btn.logout": "Logout",
 
     "playGame.title": "New game",
     "playGame.modal.confirmClose": "Caution all results will be lost. Are you sure you want to interrupt the game?",
@@ -31,7 +32,7 @@
     "playGame.game.allQuestions": "All questions",
     "playGame.game.questionText": "Question",
     "playGame.game.btn.nextQuestion": "Next question",
-    "playGame.gameResult.title": "Quiz over!",
+    "playGame.gameResult.title": "quiz over!",
     "playGame.gameResult.quizOverText": "You successfully finished the quiz!",
     "playGame.gameResult.quizResultsAll": "Questions in quiz",
     "playGame.gameResult.quizResultsSuccess": "Correctly answered",
