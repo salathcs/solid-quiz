@@ -1,4 +1,4 @@
-import { DatasetAndThing } from "../../../../../../models/DatasetAndThing";
+import { DatasetAndThing } from "../../../../../models/DatasetAndThing";
 
 export interface Props {
     datasetAndThing: DatasetAndThing,

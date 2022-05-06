@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { getBoolean } from '@inrupt/solid-client';
-import { MULTI_LANGUAGE_SUPPORT, TITLE } from '../../../../../../constants/SolidQuizMissingValues';
-import { TranslateContext } from '../../../../../../contexts/TranslateContext';
-import { getString } from '../../../../../../helpers/LangReader';
+import { MULTI_LANGUAGE_SUPPORT, TITLE } from '../../../../../constants/SolidQuizMissingValues';
+import { TranslateContext } from '../../../../../contexts/TranslateContext';
+import { getString } from '../../../../../helpers/LangReader';
 import { Button } from 'react-bootstrap';
 
 export const QuizBtn: React.FC<Props> = (props: Props) => {

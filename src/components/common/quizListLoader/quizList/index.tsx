@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { QuizBtn } from './quizBtn';
-import { getQuizzesFromDatasets } from '../../../../../helpers/QuizListHelper';
+import { getQuizzesFromDatasets } from '../../../../helpers/QuizListHelper';
 
 export const QuizList: React.FC<Props> = (props: Props) => {
 	const [quizBtns, setQuizBtns] = useState<JSX.Element[]>([]);

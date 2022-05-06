@@ -67,7 +67,7 @@
     "modifyQuiz.modal.text": "Do you want to edit the selected item?",
     "modifyQuiz.modal.modificationFailed": "Item failed to load, edit is not possible!",
 
-    "leaderboard.title": "Leaderboard",
+    "leaderboard.title": "Leaderboard based on quizzes",
 
     "helpPage.title": "Help page",
 

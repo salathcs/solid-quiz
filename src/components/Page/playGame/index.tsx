@@ -3,7 +3,7 @@ import { Props } from './types';
 import './styles.scoped.css';
 import { TranslateContext } from '../../../contexts/TranslateContext';
 import { DatasetAndThing } from './../../../models/DatasetAndThing';
-import { QuizListLoader } from './quizListLoader';
+import { QuizListLoader } from '../../common/quizListLoader';
 import { GameLoader } from './gameLoader';
 
 export const PlayGame: React.FC<Props> = (props: Props) => {

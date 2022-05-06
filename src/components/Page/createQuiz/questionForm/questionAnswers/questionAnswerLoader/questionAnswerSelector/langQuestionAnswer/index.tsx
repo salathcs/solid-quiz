@@ -2,8 +2,8 @@ import React from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { CloseButton, Col, Row } from 'react-bootstrap';
-import { AnswerInput } from '../../../../../../../common/quiz/answerInput';
-import { ToggleBtnCheck } from '../../../../../../../common/quiz/toggleBtnCheck';
+import { AnswerInput } from '../../../../../../../common/quizModification/answerInput';
+import { ToggleBtnCheck } from '../../../../../../../common/quizModification/toggleBtnCheck';
 
 export const LangQuestionAnswer: React.FC<Props> = (props: Props) => {
 	
