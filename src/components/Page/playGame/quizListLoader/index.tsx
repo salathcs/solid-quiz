@@ -9,11 +9,16 @@ import { SolidDataset_Type } from '../../../../helpers/SolidDatasetType';
 import { SpinnerContext } from '../../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
 import { getPublicDatasets } from '../../../../helpers/QuizListHelper';
+import { PageSwitcherContext } from '../../../../contexts/PageSwitcherContext';
+import { Button } from 'react-bootstrap';
+import { TranslateContext } from '../../../../contexts/TranslateContext';
 
 export const QuizListLoader: React.FC<Props> = (props: Props) => {
+	const { t } = useContext(TranslateContext);
 	const { session } = useSession();
 	const { workspaceUrl } = useContext(WorkspaceContext);
 	const { SpinAround } = useContext(SpinnerContext);
+	const { GoBack } = useContext(PageSwitcherContext);
 	const [quizDatasets, setQuizDatasets] = useState<SolidDataset_Type[]>([]);
 
 	useEffect(() => {
@@ -32,6 +37,8 @@ export const QuizListLoader: React.FC<Props> = (props: Props) => {
 	return (
 		<>
 			<QuizList quizDatasets={quizDatasets} onQuizSelected={props.onQuizSelected} />
+
+			<Button variant='light' className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
 		</>
 	);
 }

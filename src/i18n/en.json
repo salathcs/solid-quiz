@@ -29,6 +29,13 @@
     "playGame.game.title": "Quiz",
     "playGame.game.actQuestion": "Actual question",
     "playGame.game.allQuestions": "All questions",
+    "playGame.game.questionText": "Question",
+    "playGame.game.btn.nextQuestion": "Next question",
+    "playGame.gameResult.title": "Quiz over!",
+    "playGame.gameResult.quizOverText": "You successfully finished the quiz!",
+    "playGame.gameResult.quizResultsAll": "Questions in quiz",
+    "playGame.gameResult.quizResultsSuccess": "Correctly answered",
+    "playGame.gameResult.share": "Do you want to publish your result? Click!",
 
     "createQuiz.quiz.title": "Create quiz",
     "createQuiz.quiz.submit": "Create first question",

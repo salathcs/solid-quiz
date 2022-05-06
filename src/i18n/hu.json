@@ -29,6 +29,13 @@
     "playGame.game.title": "Kvíz",
     "playGame.game.actQuestion": "Aktuális kérdés",
     "playGame.game.allQuestions": "Összes kérdés",
+    "playGame.game.questionText": "Kérdés",
+    "playGame.game.btn.nextQuestion": "Következő kérdés",
+    "playGame.gameResult.title": "Kvíz véget ért!",
+    "playGame.gameResult.quizOverText": "Sikeresen befejezted a kvízt!",
+    "playGame.gameResult.quizResultsAll": "Összes kérdés",
+    "playGame.gameResult.quizResultsSuccess": "Ebből helyesen választoltál",
+    "playGame.gameResult.share": "Szeretnéd közzétenni az eredményt? KATTINTS!",
 
     "createQuiz.quiz.title": "Kvíz létrehozása",
     "createQuiz.quiz.submit": "Első kérdés létrehozása",

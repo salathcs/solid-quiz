@@ -1,0 +1,27 @@
+.main-title{
+    margin-top: 70px;
+    margin-bottom: 90px;
+}
+
+.quizOverText-style{
+    font-size: x-large;
+}
+
+.quizResults-style{
+    font-size: large;
+}
+
+.share-title{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.share-btn{
+    min-width: 70px;
+    min-height: 50px;
+}
+
+.back-btn{
+    margin-top: 70px;
+    margin-bottom: 20px;
+}

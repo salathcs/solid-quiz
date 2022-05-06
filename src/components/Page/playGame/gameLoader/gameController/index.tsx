@@ -3,17 +3,18 @@ import { Props } from './types';
 import './styles.scoped.css';
 import { GameContext } from './../../../../../contexts/GameContext';
 import { generateRandomSeries } from '../../../../../helpers/GameHelper';
-import * as workspaceService from '../../../../../services/WorkspaceService'
+import * as workspaceService from '../../../../../services/WorkspaceService';
 import { getUrlAll, Thing } from '@inrupt/solid-client';
 import SOLIDQUIZ from '../../../../../helpers/SOLIDQUIZ';
 import { GameResult } from './gameResult';
 import { QuestionController } from './questionController';
 import { GameContainer } from './gameContainer';
+import { GameStatus } from '../../../../../models/GameStatus';
 
 export const GameController: React.FC<Props> = (props: Props) => {
 	const { getQuizData } = useContext(GameContext);
 	const [questions, setQuestions] = useState<Thing[] | null>(null);
-	const [gameComplete, setGameComplete] = useState(false);
+	const [gameResult, setGameResult] = useState<GameStatus | null>(null);
 
 	useEffect(() => {
 		const quizData = getQuizData();
@@ -39,10 +40,10 @@ export const GameController: React.FC<Props> = (props: Props) => {
 	return (
 		<>
 			{
-				gameComplete ?
-				<GameResult /> :
+				gameResult !== null ?
+				<GameResult gameResult={gameResult} /> :
 				<GameContainer>
-					<QuestionController questions={questions} onCompleteGame={() => setGameComplete(true)} />
+					<QuestionController questions={questions} onCompleteGame={setGameResult} />
 				</GameContainer>
 			}
 		</>
