@@ -3,7 +3,6 @@ import { LDP, RDF } from '@inrupt/vocab-common-rdf';
 import { WS } from "@inrupt/vocab-solid";
 import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
 import { SolidFetch_Type, SolidDataset_Type } from "../helpers/SolidDatasetType";
-import SOLIDQUIZ from "../helpers/SOLIDQUIZ";
   
 export async function getProfileThing(webId: string, fetch: SolidFetch_Type): Promise<Thing> {
   const profileDataset = await getSolidDataset(webId, {
@@ -99,11 +98,11 @@ export function getAllThingByUris(workspace: SolidDataset_Type, uris: string[]):
     return result;    
 }
 
-export async function getQuizDatasets(quizzesContainer: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
-  const quizzesContainerDataset = await getSolidDataset(quizzesContainer, { fetch });
-  const things = getThingAll(quizzesContainerDataset);
+export async function getDatasetsFromContainerBasedOnType(container: string, type: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
+  const containerDataset = await getSolidDataset(container, { fetch });
+  const things = getThingAll(containerDataset);
 
-  const quizDatasets: SolidDataset_Type[] = [];
+  const datasets: SolidDataset_Type[] = [];
 
   for (let i = 0; i < things.length; i++) {
     const thing = things[i];
@@ -112,13 +111,13 @@ export async function getQuizDatasets(quizzesContainer: string, fetch: SolidFetc
 
     const resourceTypeUrl = typeUrls.find((item) => item === LDP.Resource);
     if (resourceTypeUrl !== undefined) {
-      const quizDataset = await getSolidDataset(thing.url, { fetch });
+      const dataset = await getSolidDataset(thing.url, { fetch });
 
-      if (getFirstThingByRDFType(quizDataset, SOLIDQUIZ.Quiz.value) !== null) {
-        quizDatasets.push(quizDataset);
+      if (getFirstThingByRDFType(dataset, type) !== null) {
+        datasets.push(dataset);
       }
     }
   }  
 
-  return quizDatasets;
+  return datasets;
 }

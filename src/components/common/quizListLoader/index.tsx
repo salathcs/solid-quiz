@@ -12,6 +12,7 @@ import { getPublicDatasets } from '../../../helpers/QuizListHelper';
 import { PageSwitcherContext } from '../../../contexts/PageSwitcherContext';
 import { Button } from 'react-bootstrap';
 import { TranslateContext } from '../../../contexts/TranslateContext';
+import SOLIDQUIZ from '../../../helpers/SOLIDQUIZ';
 
 export const QuizListLoader: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
@@ -25,7 +26,7 @@ export const QuizListLoader: React.FC<Props> = (props: Props) => {
 		SpinAround(async () => {
 			//load locales
 			const quizzesContainerUri = await quizService.getQuizzesContainer(workspaceUrl);
-			const fetchedQuizDatasets = await workspaceService.getQuizDatasets(quizzesContainerUri, session.fetch);
+			const fetchedQuizDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.Quiz.value, session.fetch);
 
 			//load public
 			const fetchedPublicQuizDatasets = await getPublicDatasets();

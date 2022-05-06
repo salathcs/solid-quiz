@@ -68,6 +68,11 @@
     "modifyQuiz.modal.modificationFailed": "Item failed to load, edit is not possible!",
 
     "leaderboard.title": "Leaderboard based on quizzes",
+    "leaderboard.quizResult.title": "quiz leaderboard",
+    "leaderboard.quizResult.order": "Order",
+    "leaderboard.quizResult.correctAnswers": "Correct answers",
+    "leaderboard.quizResult.createdBy": "Player",
+    "leaderboard.quizResult.created": "Created",
 
     "helpPage.title": "Help page",
 

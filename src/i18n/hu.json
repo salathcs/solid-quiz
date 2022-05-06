@@ -68,6 +68,11 @@
     "modifyQuiz.modal.modificationFailed": "Az elem betöltése sikertelen, nem lehetséges a szerkesztés!",
 
     "leaderboard.title": "Ranglista kvízek alapján",
+    "leaderboard.quizResult.title": "kvíz ranglistája",
+    "leaderboard.quizResult.order": "Sorszám",
+    "leaderboard.quizResult.correctAnswers": "Helyes válaszok",
+    "leaderboard.quizResult.createdBy": "Játékos",
+    "leaderboard.quizResult.created": "Keletkezett",
 
     "helpPage.title": "Súgó",
 

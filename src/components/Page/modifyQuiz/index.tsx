@@ -12,6 +12,7 @@ import { SolidDataset_Type } from '../../../helpers/SolidDatasetType';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
 import { DatasetAndThing } from './../../../models/DatasetAndThing';
+import SOLIDQUIZ from '../../../helpers/SOLIDQUIZ';
 
 export const ModifyQuiz: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -25,7 +26,7 @@ export const ModifyQuiz: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		SpinAround(async () => {
 			const quizzesContainerUri = await quizService.getQuizzesContainer(workspaceUrl);
-			const fetchedQuizDatasets = await workspaceService.getQuizDatasets(quizzesContainerUri, session.fetch);
+			const fetchedQuizDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.Quiz.value, session.fetch);
 	
 			setQuizDatasets(fetchedQuizDatasets);
 		});	
