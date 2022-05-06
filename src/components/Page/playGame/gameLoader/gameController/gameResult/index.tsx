@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { Alert, Button, Col, Row } from 'react-bootstrap';
+import { Alert, Button, Row } from 'react-bootstrap';
 import { getInteger } from '@inrupt/solid-client';
 import { TITLE, NUMBER_OF_CORRECT_ANSWERS } from '../../../../../../constants/SolidQuizMissingValues';
 import { TranslateContext } from '../../../../../../contexts/TranslateContext';
-import { IoMdShare } from "@react-icons/all-files/io/IoMdShare";
 import { PageSwitcherContext } from '../../../../../../contexts/PageSwitcherContext';
 import { getString } from './../../../../../../helpers/LangReader';
+import { ShareGameResult } from './shareGameResult';
 
 export const GameResult: React.FC<Props> = (props: Props) => {
 	const { t, lang } = useContext(TranslateContext);
@@ -37,14 +37,7 @@ export const GameResult: React.FC<Props> = (props: Props) => {
 					{t("playGame.gameResult.quizResultsSuccess")}: {answersSucceded}</Alert>
 			</Row>
 
-			<Row>
-				<h3 className='share-title'>{t("playGame.gameResult.share")}</h3> 
-			</Row>
-			<Row>
-				<Col>
-					<Button className='share-btn'><IoMdShare /></Button>
-				</Col>
-			</Row>
+			<ShareGameResult quizResultThing={props.gameResult.quizResultThing} />
 
 			<Button variant='light' className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
 		</>

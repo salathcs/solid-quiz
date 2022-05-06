@@ -22,6 +22,7 @@
     "mainMenu.btn.createQuiz": "Create quiz",
     "mainMenu.btn.modifyQuiz": "Modify quiz",
     "mainMenu.btn.leaderboard": "Leaderboards",
+    "mainMenu.btn.shares": "Shares",
     "mainMenu.btn.helpPage": "Help page",
     "mainMenu.btn.logout": "Logout",
 
@@ -37,6 +38,7 @@
     "playGame.gameResult.quizResultsAll": "Questions in quiz",
     "playGame.gameResult.quizResultsSuccess": "Correctly answered",
     "playGame.gameResult.share": "Do you want to publish your result? Click!",
+    "playGame.gameResult.shareComplete": "Shared!",
 
     "createQuiz.quiz.title": "Create quiz",
     "createQuiz.quiz.submit": "Create first question",
@@ -73,6 +75,8 @@
     "leaderboard.quizResult.correctAnswers": "Correct answers",
     "leaderboard.quizResult.createdBy": "Player",
     "leaderboard.quizResult.created": "Created",
+
+    "shares.title": "Shares",
 
     "helpPage.title": "Help page",
 

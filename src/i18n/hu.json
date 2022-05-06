@@ -22,6 +22,7 @@
     "mainMenu.btn.createQuiz": "Új kvíz",
     "mainMenu.btn.modifyQuiz": "Kvíz szerkesztése",
     "mainMenu.btn.leaderboard": "Ranglisták",
+    "mainMenu.btn.shares": "Megosztások",
     "mainMenu.btn.helpPage": "Súgó",
     "mainMenu.btn.logout": "Kijelentkezés",
 
@@ -37,6 +38,7 @@
     "playGame.gameResult.quizResultsAll": "Összes kérdés",
     "playGame.gameResult.quizResultsSuccess": "Ebből helyesen választoltál",
     "playGame.gameResult.share": "Szeretnéd közzétenni az eredményt? KATTINTS!",
+    "playGame.gameResult.shareComplete": "Megosztva!",
 
     "createQuiz.quiz.title": "Kvíz létrehozása",
     "createQuiz.quiz.submit": "Első kérdés létrehozása",
@@ -73,6 +75,8 @@
     "leaderboard.quizResult.correctAnswers": "Helyes válaszok",
     "leaderboard.quizResult.createdBy": "Játékos",
     "leaderboard.quizResult.created": "Keletkezett",
+
+    "shares.title": "Megosztások",
 
     "helpPage.title": "Súgó",
 

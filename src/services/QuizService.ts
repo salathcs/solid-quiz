@@ -89,7 +89,7 @@ function addQuestionsToQuiz(quizContainer: QuizContainer, quizUrl: string){
   for (let i = 0; i < quizContainer.questions.length; i++) {
     const questionContainer = quizContainer.questions[i];
     
-    const questionUrl = `${quizUrl}#${questionContainer.questionName}`
+    const questionUrl = `${quizUrl}#${questionContainer.questionName}`;
 
     quizContainer.quiz = addUrl(quizContainer.quiz, SOLIDQUIZ.quizQuestion.value, questionUrl);
   }

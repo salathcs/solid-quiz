@@ -7,27 +7,32 @@ import { Question } from './question';
 import { addNumberOfSuccessToQuizResult } from '../../../../../../helpers/GameHelper';
 import * as quizResultService from '../../../../../../services/QuizResultService';
 import { useSession } from '@inrupt/solid-ui-react';
+import { SpinnerContext } from '../../../../../../contexts/SpinnerContext';
 
 export const QuestionController: React.FC<Props> = ({ questions, onCompleteGame }) => {
 	const { session } = useSession();
 	const { gameStatus } = useContext(GameContext);
+	const { SpinAround } = useContext(SpinnerContext);
 	const [actQuestion, setActQuestion] = useState<Thing | null>(null);
 
 	useEffect(() => {
 		if (gameStatus.actQuestionIndex >= questions.length) {
-			addNumberOfSuccessToQuizResult(gameStatus);
-			quizResultService.saveQuizResult(
-				gameStatus.quizResultNameUri, 
-				gameStatus.quizResultThing, 
-				gameStatus.questionResultThings, 
-				session.fetch);
+			SpinAround(async () => {
+				addNumberOfSuccessToQuizResult(gameStatus);
 
-			onCompleteGame(gameStatus);
+				await quizResultService.saveQuizResult(
+					gameStatus.quizResultNameUri, 
+					gameStatus.quizResultThing, 
+					gameStatus.questionResultThings, 
+					session.fetch);
+		
+				onCompleteGame(gameStatus);
+			});	
 		}
 		else{
 			setActQuestion(questions[gameStatus.actQuestionIndex]);
 		}
-	}, [gameStatus.actQuestionIndex, questions, onCompleteGame, gameStatus, session.fetch]);
+	}, [gameStatus.actQuestionIndex, questions, onCompleteGame, gameStatus, session.fetch, SpinAround]);
 
 	return (
 		<>
