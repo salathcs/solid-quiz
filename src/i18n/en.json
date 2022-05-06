@@ -25,6 +25,7 @@
     "mainMenu.btn.helpPage": "Help page",
 
     "playGame.title": "New game",
+    "playGame.modal.confirmClose": "Caution all results will be lost. Are you sure you want to interrupt the game?",
 
     "createQuiz.quiz.title": "Create quiz",
     "createQuiz.quiz.submit": "Create first question",

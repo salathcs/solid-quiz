@@ -25,6 +25,7 @@
     "mainMenu.btn.helpPage": "Súgó",
 
     "playGame.title": "Új játék",
+    "playGame.modal.confirmClose": "Vigyázat minden eredménye elveszik. Biztosan félbe szakítja a játékot?",
 
     "createQuiz.quiz.title": "Kvíz létrehozása",
     "createQuiz.quiz.submit": "Első kérdés létrehozása",
