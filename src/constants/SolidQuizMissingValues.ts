@@ -10,3 +10,4 @@ export const NUMBER_OF_QUESTIONS = SOLIDQUIZ.NAMESPACE + "numberOfQuestions";
 export const QUIZ_RESULT_CREATED = SOLIDQUIZ.NAMESPACE + "quizResultCreated";
 export const SUCCESS_OF_QUESTION_RESULT = SOLIDQUIZ.NAMESPACE + "successOfQuestionResult";
 export const NUMBER_OF_CORRECT_ANSWERS = SOLIDQUIZ.NAMESPACE + "numberOfCorrectAnswers";
+export const SHARE_CREATED = SOLIDQUIZ.NAMESPACE + "shareCreated";

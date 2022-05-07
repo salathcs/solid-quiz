@@ -1,9 +1,11 @@
 import { DatasetAndThing } from "../models/DatasetAndThing";
 import { SolidDataset_Type } from "./SolidDatasetType";
 import * as workspaceService from '../services/WorkspaceService';
+import * as sharesService from '../services/SharesService';
 import SOLIDQUIZ from "./SOLIDQUIZ";
 import { getUrl, Thing, getInteger, getDatetime } from '@inrupt/solid-client';
 import { NUMBER_OF_CORRECT_ANSWERS, QUIZ_RESULT_CREATED } from "../constants/SolidQuizMissingValues";
+import { getSolidDataset } from '@inrupt/solid-client';
 
 export function getQuizResultsFromDatasets(quizResultDatasets: SolidDataset_Type[], quizResultOf: Thing): DatasetAndThing[] {
     const quizResultsThings: DatasetAndThing[] = [];
@@ -47,9 +49,38 @@ export function getSavedQuizResultName(datasetUri: string, localThing: Thing) {
     return `${datasetUri}#${resultsName}`;
 }
 
-export async function getPublicQuizResultDatasets(): Promise<DatasetAndThing[]> {
-    //TODO
-    return [];
+export async function getPublicQuizResultDatasets(quizResultOf: Thing): Promise<DatasetAndThing[]> {
+    const publicQuizResultThings = await sharesService.getPublishedShares(SOLIDQUIZ.QuizResult.value);
+
+    const rv: DatasetAndThing[] = [];
+
+    for (let i = 0; i < publicQuizResultThings.length; i++) {
+        const thing = publicQuizResultThings[i];
+        
+        const quizResultDatasetUri = getUrl(thing, SOLIDQUIZ.sharedResource.value) ?? "error";
+
+        const quizResultsDataset = await checkQuizResultsQuizOf(quizResultDatasetUri, quizResultOf);
+
+        if (quizResultsDataset !== null) {
+            rv.push(quizResultsDataset);
+        }
+    }
+
+    return rv;
+}
+
+export function mergeQuizResults(localResults: DatasetAndThing[], publicResults: DatasetAndThing[]): DatasetAndThing[] {    
+    const rv: DatasetAndThing[] = [...localResults];
+
+    publicResults.forEach(publisResult => {
+        const conflict = localResults.find(item => publisResult.thing.url === item.thing.url);
+
+        if (conflict === undefined) {
+            rv.push(publisResult);
+        }
+    });
+
+    return rv;
 }
 
 
@@ -66,4 +97,20 @@ function compareByNewer(thingA: Thing, thingB: Thing): number {
     const dateB = getDatetime(thingB, QUIZ_RESULT_CREATED)?.getTime() ?? 0;
 
     return dateB - dateA;
+}
+
+async function checkQuizResultsQuizOf(quizResultUri: string, quizResultOf: Thing): Promise<DatasetAndThing | null> {
+    const quizResultDataset = await getSolidDataset(quizResultUri);
+    
+    //find quizResult thing inside the dataset (there are also questionResults)
+    const quizResultThing = workspaceService.getFirstThingByRDFType(quizResultDataset, SOLIDQUIZ.QuizResult.value);
+    if (quizResultThing !== null) {
+        const quizUri = getUrl(quizResultThing, SOLIDQUIZ.quizResultOf.value);
+
+        if (quizUri === quizResultOf.url){
+            return { dataset: quizResultDataset, thing: quizResultThing };
+        }
+    }
+
+    return null;
 }
