@@ -1,7 +1,7 @@
-import { GameStatus } from "../../../../../../models/GameStatus";
 import { Thing } from '@inrupt/solid-client';
+import { GameResultData } from "../../../../../../models/GameResultData";
 
 export interface Props {
     quizThing: Thing, 
-    gameResult: GameStatus
+    gameResult: GameResultData
 }

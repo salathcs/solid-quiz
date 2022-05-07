@@ -9,12 +9,12 @@ import SOLIDQUIZ from '../../../../../helpers/SOLIDQUIZ';
 import { GameResult } from './gameResult';
 import { QuestionController } from './questionController';
 import { GameContainer } from './gameContainer';
-import { GameStatus } from '../../../../../models/GameStatus';
+import { GameResultData } from '../../../../../models/GameResultData';
 
 export const GameController: React.FC<Props> = (props: Props) => {
 	const { getQuizData } = useContext(GameContext);
 	const [questions, setQuestions] = useState<Thing[] | null>(null);
-	const [gameResult, setGameResult] = useState<GameStatus | null>(null);
+	const [gameResult, setGameResult] = useState<GameResultData | null>(null);
 
 	useEffect(() => {
 		const quizData = getQuizData();

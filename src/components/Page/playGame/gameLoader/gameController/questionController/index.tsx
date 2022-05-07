@@ -8,6 +8,8 @@ import { addNumberOfSuccessToQuizResult } from '../../../../../../helpers/GameHe
 import * as quizResultService from '../../../../../../services/QuizResultService';
 import { useSession } from '@inrupt/solid-ui-react';
 import { SpinnerContext } from '../../../../../../contexts/SpinnerContext';
+import { getThing } from '@inrupt/solid-client';
+import { getSavedQuizResultName } from '../../../../../../helpers/QuizResultsListHelper';
 
 export const QuestionController: React.FC<Props> = ({ questions, onCompleteGame }) => {
 	const { session } = useSession();
@@ -20,13 +22,20 @@ export const QuestionController: React.FC<Props> = ({ questions, onCompleteGame 
 			SpinAround(async () => {
 				addNumberOfSuccessToQuizResult(gameStatus);
 
-				await quizResultService.saveQuizResult(
+				const updatedDataset = await quizResultService.saveQuizResult(
 					gameStatus.quizResultNameUri, 
 					gameStatus.quizResultThing, 
 					gameStatus.questionResultThings, 
 					session.fetch);
+
+				const savedThingName = getSavedQuizResultName(gameStatus.quizResultNameUri, gameStatus.quizResultThing);
+				const updatedThing = getThing(updatedDataset, savedThingName);
+
+				if (updatedThing === null) {
+					throw new Error("persist result failed!");
+				}
 		
-				onCompleteGame(gameStatus);
+				onCompleteGame({ gameStatus, savedQuizResultData: { dataset: updatedDataset, thing: updatedThing } });
 			});	
 		}
 		else{

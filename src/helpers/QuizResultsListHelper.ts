@@ -25,7 +25,7 @@ export function getQuizResultsFromDatasets(quizResultDatasets: SolidDataset_Type
     return quizResultsThings;
 }
 
-export function sorQuizResultDatas(quizResultDatas: DatasetAndThing[]) {
+export function sortQuizResultDatas(quizResultDatas: DatasetAndThing[]) {
     quizResultDatas.sort((a, b) => {
         const byCorrectAnswer = compareByCorrectAnswer(a.thing, b.thing);
 
@@ -39,7 +39,13 @@ export function sorQuizResultDatas(quizResultDatas: DatasetAndThing[]) {
     });
 }
 
+export function getSavedQuizResultName(datasetUri: string, localThing: Thing) {
+    const indexOfSeparator = localThing.url.lastIndexOf('/');
 
+    const resultsName = localThing.url.substring(indexOfSeparator + 1);
+    
+    return `${datasetUri}#${resultsName}`;
+}
 
 export async function getPublicQuizResultDatasets(): Promise<DatasetAndThing[]> {
     //TODO
@@ -52,12 +58,12 @@ function compareByCorrectAnswer(thingA: Thing, thingB: Thing): number {
     const correctAnswersA = getInteger(thingA, NUMBER_OF_CORRECT_ANSWERS) ?? 0;
     const correctAnswersB = getInteger(thingB, NUMBER_OF_CORRECT_ANSWERS) ?? 0;
 
-    return correctAnswersA - correctAnswersB;
+    return correctAnswersB - correctAnswersA;
 }
 
 function compareByNewer(thingA: Thing, thingB: Thing): number {
     const dateA = getDatetime(thingA, QUIZ_RESULT_CREATED)?.getTime() ?? 0;
     const dateB = getDatetime(thingB, QUIZ_RESULT_CREATED)?.getTime() ?? 0;
 
-    return dateA - dateB;
+    return dateB - dateA;
 }

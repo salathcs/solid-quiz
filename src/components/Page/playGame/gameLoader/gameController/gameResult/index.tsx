@@ -16,8 +16,8 @@ export const GameResult: React.FC<Props> = (props: Props) => {
 	const [answersSucceded, setAnswersSucceded] = useState(0);
 
 	useEffect(() => {
-		const actualQuizTitle = getString(props.quizThing, TITLE, props.gameResult.multiLang, lang);
-		const actualAnswersSucceded = getInteger(props.gameResult.quizResultThing, NUMBER_OF_CORRECT_ANSWERS) ?? -1;
+		const actualQuizTitle = getString(props.quizThing, TITLE, props.gameResult.gameStatus.multiLang, lang);
+		const actualAnswersSucceded = getInteger(props.gameResult.gameStatus.quizResultThing, NUMBER_OF_CORRECT_ANSWERS) ?? -1;
 
 		setQuizTitle(actualQuizTitle);
 		setAnswersSucceded(actualAnswersSucceded);
@@ -32,12 +32,12 @@ export const GameResult: React.FC<Props> = (props: Props) => {
 			</Row>
 			<Row>
 				<Alert variant='info' className='quizResults-style'>
-					{t("playGame.gameResult.quizResultsAll")}: {props.gameResult.allQuestions} 
+					{t("playGame.gameResult.quizResultsAll")}: {props.gameResult.gameStatus.allQuestions} 
 					<br />
 					{t("playGame.gameResult.quizResultsSuccess")}: {answersSucceded}</Alert>
 			</Row>
 
-			<ShareGameResult quizResultThing={props.gameResult.quizResultThing} />
+			<ShareGameResult quizResultData={props.gameResult.savedQuizResultData} />
 
 			<Button variant='light' className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
 		</>

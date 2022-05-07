@@ -1,5 +1,5 @@
-import { Thing } from '@inrupt/solid-client';
+import { DatasetAndThing } from './../../../../../../../models/DatasetAndThing';
 
 export interface Props {
-    quizResultThing: Thing
+    quizResultData: DatasetAndThing
 }
