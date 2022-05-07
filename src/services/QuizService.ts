@@ -1,8 +1,8 @@
-import { addInteger, addUrl, buildThing, createSolidDataset, createThing, getSolidDataset, saveSolidDatasetAt, setThing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
+import { addInteger, addUrl, buildThing, createSolidDataset, createThing, getSolidDataset, getSourceUrl, getThing, saveSolidDatasetAt, setThing, Thing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { QUIZZES_CONTAINER } from '../constants/DefaultValues';
 import { CREATED, MULTI_LANGUAGE_SUPPORT, NUMBER_OF_QUESTIONS, TITLE } from '../constants/SolidQuizMissingValues';
-import { SolidFetch_Type } from '../helpers/SolidDatasetType';
+import { SolidDataset_Type, SolidFetch_Type } from '../helpers/SolidDatasetType';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
 import { QuizFormModel } from '../models/QuizFormModel';
 import { QuizContainer } from './../models/QuizContainer';
@@ -54,7 +54,7 @@ export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, workspa
   throw new Error('unkown error in checkQuizTitleIsAlreadyReserved');
 }
 
-export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: string, fetch: SolidFetch_Type) {
+export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: string, fetch: SolidFetch_Type): Promise<Thing> {
   const quizUrl = getSpecificQuizUri(workspaceUri, quizContainer.quizName);
 
   addQuestionsToQuiz(quizContainer, quizUrl);
@@ -65,9 +65,18 @@ export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: st
   const nestedDateset = { localeDataset };
   addQuestionsToDataset(nestedDateset, quizContainer);
   
-  await saveSolidDatasetAt(quizUrl, nestedDateset.localeDataset, {
+  const updatedDataset = await saveSolidDatasetAt(quizUrl, nestedDateset.localeDataset, {
     fetch: fetch,
   });
+  
+  const savedThingUri = getSavedQuizThingsUri(quizContainer.quiz, updatedDataset);
+  const savedThing = getThing(updatedDataset, savedThingUri);
+
+  if (savedThing === null) {
+      throw new Error("creating share failed, cannot load it");
+  }
+
+  return savedThing;
 }
 
 
@@ -112,4 +121,14 @@ function addAnswersToDataset(nestedDataset: NestedLocalDataset, questionContaine
     
     nestedDataset.localeDataset = setThing(nestedDataset.localeDataset, answer);
   }
+}
+
+function getSavedQuizThingsUri(localThing: Thing, updatedDataset: SolidDataset_Type): string {
+    const indexOfSeparator = localThing.url.lastIndexOf('/');
+
+    const name = localThing.url.substring(indexOfSeparator + 1);
+
+    const datasetUri = getSourceUrl(updatedDataset);
+
+    return `${datasetUri}#${name}`;
 }

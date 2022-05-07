@@ -64,6 +64,9 @@
     "createQuiz.question.answerCountRequired": "Need to fill at least two answer options!",
     "createQuiz.question.correctAnswerRequired": "Correct answer is required!",
     "createQuiz.question.answerRequired": "Need to fill every answer options!",
+    "createQuiz.result.title": "Quiz successfully created!",
+    "createQuiz.result.quizTitle": "Quiz title:",
+    "createQuiz.result.questionNumber": "Questions number:",
 
     "modifyQuiz.title": "Modify quiz",
     "modifyQuiz.modal.text": "Do you want to edit the selected item?",

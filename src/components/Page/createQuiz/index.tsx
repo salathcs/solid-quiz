@@ -17,6 +17,8 @@ import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuestionCreateModel } from './../../../models/QuestionCreateModel';
 import { QuestionCreationContextComponent } from '../../common/questionCreationContextComponent';
 import { InfoModal } from '../../common/infoModal';
+import { CreationResult } from './creationResult';
+import { Thing } from '@inrupt/solid-client';
 
 export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -28,6 +30,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	const [quizContainer, setQuizContainer] = useState<QuizContainer | null>(null);
 	const [firstFormModel, setFirstFormModel] = useState<QuestionCreateModel | undefined>(undefined);
 	const [modalErrorMsg, setModalErrorMsg] = useState<string | null>(null);
+	const [creationResult, setCreationResult] = useState<Thing | null>(null);
 
 	useEffect(() => {
 		if (props.datasetAndThing !== undefined) {
@@ -105,10 +108,14 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 				return;
 			}
 			
-			await quizService.saveNewQuiz(quizContainer, workspaceUrl, session.fetch);
+			const savedQuizThing = await quizService.saveNewQuiz(quizContainer, workspaceUrl, session.fetch);
 
-			GoBack();
+			setCreationResult(savedQuizThing);
 		});	
+	}
+
+	if (creationResult !== null) {
+		return <CreationResult quizThing={creationResult} />;
 	}
 
 	const content = quizContainer === null ? 

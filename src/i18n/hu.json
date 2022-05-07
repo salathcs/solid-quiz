@@ -64,6 +64,9 @@
     "createQuiz.question.answerCountRequired": "Legalább két válaszlehetőség kitöltése kötelező!",
     "createQuiz.question.correctAnswerRequired": "A helyes válasz kitöltése kötelező!",
     "createQuiz.question.answerRequired": "Minden felvett válasz kitöltése kötelező!",
+    "createQuiz.result.title": "Sikeresen létrehoztad a kvízt!",
+    "createQuiz.result.quizTitle": "A kvíz neve:",
+    "createQuiz.result.questionNumber": "Létrehozott kérdések száma:",
 
     "modifyQuiz.title": "Kvíz szerkesztése",
     "modifyQuiz.modal.text": "Szeretné szerkeszteni a kiválasztott elemet?",
