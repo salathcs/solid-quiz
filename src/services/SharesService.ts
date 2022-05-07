@@ -6,7 +6,7 @@ import { Thing } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 
 export async function publishQuiz(quizUri: string, fetch: SolidFetch_Type) {
-    
+    //TODO
 }
 
 export async function publishQuizResult(quizResultUri: string) {
