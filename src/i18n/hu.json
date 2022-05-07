@@ -83,6 +83,12 @@
     "leaderboard.quizResult.created": "Keletkezett",
 
     "shares.title": "Megosztások",
+    "shares.listCol.type": "Típus",
+    "shares.listCol.title": "Megosztás tárgya",
+    "shares.listCol.created": "Létrehozva",
+    "shares.list.typeQuiz": "Kvíz",
+    "shares.list.typeQuizResult": "Kvíz eredmény",
+    "shares.list.modal.text": "Biztosan törli a megosztást?",
 
     "helpPage.title": "Súgó",
 

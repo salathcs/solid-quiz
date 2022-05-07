@@ -83,6 +83,12 @@
     "leaderboard.quizResult.created": "Created",
 
     "shares.title": "Shares",
+    "shares.listCol.type": "Type",
+    "shares.listCol.title": "Shared resource",
+    "shares.listCol.created": "Created",
+    "shares.list.typeQuiz": "Quiz",
+    "shares.list.typeQuizResult": "Quiz result",
+    "shares.list.modal.text": "Do you want to delete this sharing?",
 
     "helpPage.title": "Help page",
 
