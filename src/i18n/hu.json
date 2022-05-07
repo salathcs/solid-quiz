@@ -68,6 +68,12 @@
     "modifyQuiz.title": "Kvíz szerkesztése",
     "modifyQuiz.modal.text": "Szeretné szerkeszteni a kiválasztott elemet?",
     "modifyQuiz.modal.modificationFailed": "Az elem betöltése sikertelen, nem lehetséges a szerkesztés!",
+    "modifyQuiz.modal.share.title": "Megosztás",
+    "modifyQuiz.modal.share.text": "Szeretnéd megosztani a kvízt bizonyos személyekkel, vagy közzétenni mindenki számára?",
+    "modifyQuiz.modal.share.publish": "Közzététel",
+    "modifyQuiz.modal.share.share": "Megosztás",
+    "modifyQuiz.modal.share.publish.ok": "Közzététel sikeres!",
+    "modifyQuiz.modal.share.publish.alreadyPublished": "A kvízt már korábban közzétette!",
 
     "leaderboard.title": "Ranglista kvízek alapján",
     "leaderboard.quizResult.title": "kvíz ranglistája",

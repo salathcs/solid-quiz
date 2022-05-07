@@ -68,6 +68,12 @@
     "modifyQuiz.title": "Modify quiz",
     "modifyQuiz.modal.text": "Do you want to edit the selected item?",
     "modifyQuiz.modal.modificationFailed": "Item failed to load, edit is not possible!",
+    "modifyQuiz.modal.share.title": "Sharing",
+    "modifyQuiz.modal.share.text": "Do you want to share this quiz with the selected people, or do you want to publish it to everyone?",
+    "modifyQuiz.modal.share.publish": "Publish",
+    "modifyQuiz.modal.share.share": "Share",
+    "modifyQuiz.modal.share.publish.ok": "Publish completed!",
+    "modifyQuiz.modal.share.publish.alreadyPublished": "Quiz is already published!",
 
     "leaderboard.title": "Leaderboard based on quizzes",
     "leaderboard.quizResult.title": "quiz leaderboard",

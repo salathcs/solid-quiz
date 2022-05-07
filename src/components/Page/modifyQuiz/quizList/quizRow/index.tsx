@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { QuizBtn } from './quizBtn';
-import { IoMdShare } from "@react-icons/all-files/io/IoMdShare";
 import { CloseButtonYesNo } from '../../../../common/buttonToYesNoModal/closeButtonYesNo';
 import { TranslateContext } from '../../../../../contexts/TranslateContext';
+import { QuizShare } from './quizShare';
 
 export const QuizRow: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
@@ -13,7 +13,7 @@ export const QuizRow: React.FC<Props> = (props: Props) => {
 	return (
 		<Row>
 			<Col md="1" className='share-button-style'>
-				<Button variant='light'><IoMdShare /></Button>
+				<QuizShare datasetAndThing={props.datasetAndThing} />
 			</Col>
 			<Col md="10" className='content-style'>
 				<QuizBtn datasetAndThing={props.datasetAndThing} />

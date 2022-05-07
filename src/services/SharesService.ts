@@ -1,6 +1,6 @@
 import { getSolidDataset, saveSolidDatasetAt, createSolidDataset, setThing, createThing, buildThing } from '@inrupt/solid-client';
 import { SOLID_QUIZ_POD_SHARES_DATASET } from '../constants/DefaultValues';
-import { SolidDataset_Type, SolidFetch_Type } from '../helpers/SolidDatasetType';
+import { SolidDataset_Type } from '../helpers/SolidDatasetType';
 import SOLIDQUIZ from './../helpers/SOLIDQUIZ';
 import { Thing } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
@@ -8,8 +8,13 @@ import { SHARE_CREATED } from '../constants/SolidQuizMissingValues';
 import { getThingAll } from '@inrupt/solid-client';
 import { getUrl } from '@inrupt/solid-client';
 
-export async function publishQuiz(quizUri: string, fetch: SolidFetch_Type) {
-    //TODO
+export async function publishQuiz(quizUri: string) {
+    let publicSharesDataset = await getOrCreateShares(SOLID_QUIZ_POD_SHARES_DATASET);
+    const newPublicShareThing = createPublishedThing(quizUri, SOLIDQUIZ.Quiz.value);
+
+    publicSharesDataset = setThing(publicSharesDataset, newPublicShareThing);
+
+    await saveSolidDatasetAt(SOLID_QUIZ_POD_SHARES_DATASET, publicSharesDataset);
 }
 
 export async function publishQuizResult(quizResultUri: string) {

@@ -3,6 +3,15 @@ import * as sharesService from '../services/SharesService';
 import { DatasetAndThing } from './../models/DatasetAndThing';
 import { SolidDataset_Type, SolidFetch_Type } from './SolidDatasetType';
 
+export async function handlePublishQuiz(quizData: DatasetAndThing, fetch: SolidFetch_Type) {
+    await createPublicAclForNewResource(quizData.dataset, fetch);
+
+    //TODO: create local info of the share
+    //const datasetUrl = getSourceUrl(quizResultData.dataset);
+
+    await sharesService.publishQuiz(quizData.thing.url);
+}
+
 export async function handlePublishQuizResult(quizResultData: DatasetAndThing, fetch: SolidFetch_Type) {
     await createPublicAclForNewResource(quizResultData.dataset, fetch);
 
@@ -10,6 +19,11 @@ export async function handlePublishQuizResult(quizResultData: DatasetAndThing, f
     //const datasetUrl = getSourceUrl(quizResultData.dataset);
 
     await sharesService.publishQuizResult(quizResultData.thing.url);
+}
+
+export async function checkForQuizShare(quizData: DatasetAndThing, fetch: SolidFetch_Type): Promise<boolean> {
+    //TODO
+    return false;
 }
 
 async function createPublicAclForNewResource(dataset: SolidDataset_Type, fetch: SolidFetch_Type) {
