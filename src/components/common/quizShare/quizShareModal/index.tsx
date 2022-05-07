@@ -1,32 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Button, Container, Modal, Row } from 'react-bootstrap';
 import { TranslateContext } from '../../../../contexts/TranslateContext';
+import { QuizShareModalBody } from './quizShareModalBody';
 
 export const QuizShareModal: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
+	const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
 
 	return (
 		<>
 			<Modal show={props.show} onHide={props.onHide} centered>
 				<Modal.Header closeButton>
-					<Modal.Title>{t("modifyQuiz.modal.share.title")}</Modal.Title>
+					<Modal.Title>{t("shareQuiz.modal.share.title")}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-				{t("modifyQuiz.modal.share.text")}
-				</Modal.Body>
-				<Modal.Footer>
 					<Container>
 						<Row>
-							<Col>
-								<Button variant="primary" className='btn-style' onClick={props.onHide}>{t("modifyQuiz.modal.share.share")}</Button>
-							</Col>
-							<Col>
-								<Button variant="primary" className='btn-style' onClick={props.onConfirm}>{t("modifyQuiz.modal.share.publish")}</Button>
-							</Col>
+							{t("shareQuiz.modal.share.text")}
 						</Row>
+						<QuizShareModalBody friendList={props.friendList} setSelected={setSelectedPerson} />
 					</Container>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" className='btn-style' onClick={props.onHide}>{t("shareQuiz.modal.share.cancel")}</Button>
+					<Button 
+						variant="primary" 
+						className='btn-style' 
+						onClick={() => props.onConfirm(selectedPerson ?? "error")} 
+						disabled={selectedPerson === null}>
+							{t("shareQuiz.modal.share.share")}
+						</Button>
 				</Modal.Footer>
 			</Modal>
 		</>

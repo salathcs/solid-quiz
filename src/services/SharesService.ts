@@ -27,6 +27,24 @@ export async function publishQuiz(quizUri: string): Promise<Thing> {
     return savedThing;
 }
 
+export async function shareQuiz(friendsShareSpace: string, quizUri: string): Promise<Thing> {
+    const friendsSharesDataset = await getSolidDataset(friendsShareSpace);
+    const newPublicShareThing = createPublishedThing(quizUri, SOLIDQUIZ.Quiz.value);
+
+    let publicSharesDataset = setThing(friendsSharesDataset, newPublicShareThing);
+
+    const updatedDataset = await saveSolidDatasetAt(friendsShareSpace, publicSharesDataset);
+
+    const savedThingUri = getSavedShareThingsUri(newPublicShareThing, updatedDataset);
+    const savedThing = getThing(updatedDataset, savedThingUri);
+
+    if (savedThing === null) {
+        throw new Error("creating share failed, cannot load it");
+    }
+
+    return savedThing;
+}
+
 export async function publishQuizResult(quizResultUri: string): Promise<Thing> {
     let publicSharesDataset = await getOrCreateShares(SOLID_QUIZ_POD_SHARES_DATASET);
     const newPublicShareThing = createPublishedThing(quizResultUri, SOLIDQUIZ.QuizResult.value);
