@@ -6,6 +6,7 @@ import { defaultWorkspaceContext, WorkspaceContext } from '../../../contexts/Wor
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { useSession } from '@inrupt/solid-ui-react';
 import * as workspaceService from '../../../services/WorkspaceService';
+import { createSharesIndexForPublic } from '../../../services/SharesService';
 
 export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -38,6 +39,8 @@ export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
 			const workSpaceLocation = workspaceService.getWorkSpaceLocation(profileThing);
 
 			const fetchedWorkspace = await workspaceService.getOrCreateWorkSpace(workSpaceLocation, session.fetch);
+
+			await createSharesIndexForPublic(workSpaceLocation, session.fetch);
 
 			setWorkspaceUrl(workSpaceLocation);
 			setWorkspace(fetchedWorkspace);

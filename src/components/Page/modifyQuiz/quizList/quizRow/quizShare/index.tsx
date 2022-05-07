@@ -9,11 +9,13 @@ import { checkForQuizShare, handlePublishQuiz } from '../../../../../../helpers/
 import { useSession } from '@inrupt/solid-ui-react';
 import { InfoModal } from '../../../../../common/infoModal';
 import { TranslateContext } from '../../../../../../contexts/TranslateContext';
+import { WorkspaceContext } from './../../../../../../contexts/WorkspaceContext';
 
 export const QuizShare: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
 	const { t } = useContext(TranslateContext);
 	const { SpinAround } = useContext(SpinnerContext);
+	const { workspaceUrl } = useContext(WorkspaceContext);
 	const [shareModalShow, setAhareModalShow] = useState(false);
 	const [infoModal, setInfoModal] = useState<string | null>(null);
 
@@ -27,7 +29,7 @@ export const QuizShare: React.FC<Props> = (props: Props) => {
 				setInfoModal(t("modifyQuiz.modal.share.publish.alreadyPublished"));
 			}
 			else{
-				await handlePublishQuiz(props.datasetAndThing, session.fetch);
+				await handlePublishQuiz(workspaceUrl, props.datasetAndThing, session.fetch);
 	
 				setInfoModal(t("modifyQuiz.modal.share.publish.ok"));
 			}

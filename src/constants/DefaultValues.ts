@@ -6,7 +6,6 @@ export const QUIZZES_CONTAINER = "quizzes/";
 
 export const QUIZ_RESULTS_CONTAINER = "quizResults/";
 
-export const SHARES_CONTAINER = "shares/";
 export const SHARES_CONTAINER_DATASET = "shares/index.ttl";
 export const SHARE_LINKS_CONTAINER_DATASET = "shares/links.ttl";
 

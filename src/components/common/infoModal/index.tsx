@@ -9,7 +9,7 @@ export const InfoModal: React.FC<Props> = (props: Props) => {
 
 	return (
 		<> 
-			<Modal show={props.show} onHide={props.onHide}>
+			<Modal show={props.show} onHide={props.onHide} centered>
 				<Modal.Header closeButton>
 					<Modal.Title>{t("page.common.info.title")}</Modal.Title>
 				</Modal.Header>

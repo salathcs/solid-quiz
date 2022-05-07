@@ -7,16 +7,18 @@ import { SpinnerContext } from '../../../../../../../contexts/SpinnerContext';
 import { TranslateContext } from '../../../../../../../contexts/TranslateContext';
 import { useSession } from '@inrupt/solid-ui-react';
 import { handlePublishQuizResult } from '../../../../../../../helpers/SharesHelper';
+import { WorkspaceContext } from '../../../../../../../contexts/WorkspaceContext';
 
 export const ShareGameResult: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
 	const { SpinAround } = useContext(SpinnerContext);
+	const { workspaceUrl } = useContext(WorkspaceContext);
 	const { session } = useSession();
 	const [shared, setShared] = useState(false);
 
 	const onPublish = () => {
 		SpinAround(async () => {			
-			await handlePublishQuizResult(props.quizResultData, session.fetch);
+			await handlePublishQuizResult(workspaceUrl, props.quizResultData, session.fetch);
 
 			setShared(true);
 		});	
