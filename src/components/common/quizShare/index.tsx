@@ -4,12 +4,12 @@ import './styles.scoped.css';
 import { Button } from 'react-bootstrap';
 import { IoMdShare } from "@react-icons/all-files/io/IoMdShare";
 import { QuizShareModal } from './quizShareModal';
-import { SpinnerContext } from '../../../../../../contexts/SpinnerContext';
-import { checkForQuizShare, handlePublishQuiz } from '../../../../../../helpers/SharesHelper';
+import { SpinnerContext } from '../../../contexts/SpinnerContext';
+import { checkForQuizShare, handlePublishQuiz } from '../../../helpers/SharesHelper';
 import { useSession } from '@inrupt/solid-ui-react';
-import { InfoModal } from '../../../../../common/infoModal';
-import { TranslateContext } from '../../../../../../contexts/TranslateContext';
-import { WorkspaceContext } from './../../../../../../contexts/WorkspaceContext';
+import { InfoModal } from '../infoModal';
+import { TranslateContext } from '../../../contexts/TranslateContext';
+import { WorkspaceContext } from '../../../contexts/WorkspaceContext';
 
 export const QuizShare: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();

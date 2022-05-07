@@ -67,6 +67,7 @@
     "createQuiz.result.title": "Sikeresen létrehoztad a kvízt!",
     "createQuiz.result.quizTitle": "A kvíz neve:",
     "createQuiz.result.questionNumber": "Létrehozott kérdések száma:",
+    "createQuiz.result.share": "Szeretnéd megosztani a kvízt? KATTINTS!",
 
     "modifyQuiz.title": "Kvíz szerkesztése",
     "modifyQuiz.modal.text": "Szeretné szerkeszteni a kiválasztott elemet?",

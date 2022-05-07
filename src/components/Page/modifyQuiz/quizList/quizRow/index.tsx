@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import { QuizBtn } from './quizBtn';
 import { CloseButtonYesNo } from '../../../../common/buttonToYesNoModal/closeButtonYesNo';
 import { TranslateContext } from '../../../../../contexts/TranslateContext';
-import { QuizShare } from './quizShare';
+import { QuizShare } from '../../../../common/quizShare';
 
 export const QuizRow: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);

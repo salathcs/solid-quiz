@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
-import { TranslateContext } from '../../../../../../../contexts/TranslateContext';
+import { TranslateContext } from '../../../../contexts/TranslateContext';
 
 export const QuizShareModal: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);

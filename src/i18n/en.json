@@ -67,6 +67,7 @@
     "createQuiz.result.title": "Quiz successfully created!",
     "createQuiz.result.quizTitle": "Quiz title:",
     "createQuiz.result.questionNumber": "Questions number:",
+    "createQuiz.result.share": "Do you want to share the quiz? Click!",
 
     "modifyQuiz.title": "Modify quiz",
     "modifyQuiz.modal.text": "Do you want to edit the selected item?",

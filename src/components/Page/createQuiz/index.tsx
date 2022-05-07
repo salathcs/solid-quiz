@@ -18,7 +18,7 @@ import { QuestionCreateModel } from './../../../models/QuestionCreateModel';
 import { QuestionCreationContextComponent } from '../../common/questionCreationContextComponent';
 import { InfoModal } from '../../common/infoModal';
 import { CreationResult } from './creationResult';
-import { Thing } from '@inrupt/solid-client';
+import { DatasetAndThing } from '../../../models/DatasetAndThing';
 
 export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -30,7 +30,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	const [quizContainer, setQuizContainer] = useState<QuizContainer | null>(null);
 	const [firstFormModel, setFirstFormModel] = useState<QuestionCreateModel | undefined>(undefined);
 	const [modalErrorMsg, setModalErrorMsg] = useState<string | null>(null);
-	const [creationResult, setCreationResult] = useState<Thing | null>(null);
+	const [creationResult, setCreationResult] = useState<DatasetAndThing | null>(null);
 
 	useEffect(() => {
 		if (props.datasetAndThing !== undefined) {
@@ -115,7 +115,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	}
 
 	if (creationResult !== null) {
-		return <CreationResult quizThing={creationResult} />;
+		return <CreationResult quizData={creationResult} />;
 	}
 
 	const content = quizContainer === null ? 

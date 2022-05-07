@@ -8,6 +8,7 @@ import { QuizFormModel } from '../models/QuizFormModel';
 import { QuizContainer } from './../models/QuizContainer';
 import { QuestionContainer } from './../models/QuestionContainer';
 import { NestedLocalDataset } from '../models/NestedLocalDataset';
+import { DatasetAndThing } from '../models/DatasetAndThing';
 
 export function createQuizContainer(quizName: string, quizFormModel: QuizFormModel, webId: string): QuizContainer {
     const quizThingBuilder = buildThing(createThing({ name: quizName }))
@@ -54,7 +55,7 @@ export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, workspa
   throw new Error('unkown error in checkQuizTitleIsAlreadyReserved');
 }
 
-export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: string, fetch: SolidFetch_Type): Promise<Thing> {
+export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: string, fetch: SolidFetch_Type): Promise<DatasetAndThing> {
   const quizUrl = getSpecificQuizUri(workspaceUri, quizContainer.quizName);
 
   addQuestionsToQuiz(quizContainer, quizUrl);
@@ -76,7 +77,7 @@ export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: st
       throw new Error("creating share failed, cannot load it");
   }
 
-  return savedThing;
+  return { dataset: updatedDataset, thing: savedThing };
 }
 
 

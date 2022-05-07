@@ -7,3 +7,21 @@
     margin-top: 70px;
     margin-bottom: 20px;
 }
+
+.quizTitle-text{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: xx-large;
+}
+
+.questionNumber-text{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: large;
+}
+
+.sharing-text{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: x-large;
+}
