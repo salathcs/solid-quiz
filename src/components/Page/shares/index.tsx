@@ -8,8 +8,8 @@ import { WorkspaceContext } from '../../../contexts/WorkspaceContext';
 import { useSession } from '@inrupt/solid-ui-react';
 import { getAllShareThingByShareLink } from '../../../helpers/ShareLinksHelper';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
-import { Thing } from '@inrupt/solid-client';
 import { ShareList } from './shareList';
+import { ShareLinkModel } from '../../../models/ShareLinkModel';
 
 export const Shares: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -17,21 +17,22 @@ export const Shares: React.FC<Props> = (props: Props) => {
 	const { GoBack } = useContext(PageSwitcherContext);
 	const { workspaceUrl } = useContext(WorkspaceContext);
 	const { SpinAround } = useContext(SpinnerContext);
-	const [shareThings, setShareThings] = useState<Thing[]>([]);
+	const [shareLinkModels, setShareLinkModels] = useState<ShareLinkModel[]>([]);
+	const [syncState, setSyncState] = useState(0);
 
 	useEffect(() => {
 		SpinAround(async () => {
-			const actShareThings = await getAllShareThingByShareLink(workspaceUrl, session.fetch);
+			const actShareLinkModels = await getAllShareThingByShareLink(workspaceUrl, session.fetch);
 
-			setShareThings(actShareThings);
+			setShareLinkModels(actShareLinkModels);
 		});	
-	}, [workspaceUrl, session.fetch, SpinAround]);
+	}, [workspaceUrl, session.fetch, SpinAround, syncState]);
 	
 	return (
 		<>
 			<h3 className='main-title'>{t("shares.title")}</h3>
 
-			<ShareList shareThings={shareThings} />
+			<ShareList shareLinkModels={shareLinkModels} setSyncState={setSyncState} /> 
 
 			<Button className='back-btn' onClick={() => GoBack()}>{t("page.common.back")}</Button>
 		</>

@@ -24,7 +24,7 @@ export const QuizShareModalBody: React.FC<Props> = ({ friendList, setSelected })
 					<ToggleButton 
 						key={"btnKey" + indx} 
 						type="checkbox"
-						variant="outline-dark"
+						variant="outline-dark" 
 						checked={friend === elementActive}
         				value={friend}
 						onChange={onSelectChange} 

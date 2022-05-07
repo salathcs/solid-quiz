@@ -11,10 +11,10 @@ export const ShareList: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		setElements(
-			props.shareThings.map((thing, indx) => 
-				<ShareRow key={indx} shareThing={thing}  />)
+			props.shareLinkModels.map((shareLinkModel, indx) => 
+				<ShareRow key={indx} shareLinkModel={shareLinkModel} setSyncState={props.setSyncState}  />)
 		);
-	}, [props.shareThings]);
+	}, [props.shareLinkModels, props.setSyncState]);
 
 	return (
 		<Container>

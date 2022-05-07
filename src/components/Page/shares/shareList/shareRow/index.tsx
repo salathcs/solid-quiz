@@ -8,14 +8,21 @@ import { getDatetime, getUrl } from '@inrupt/solid-client';
 import SOLIDQUIZ from './../../../../../helpers/SOLIDQUIZ';
 import { ShareTypeSpecific } from './shareTypeSpecific';
 import { SHARE_CREATED } from '../../../../../constants/SolidQuizMissingValues';
+import { removeSharing } from '../../../../../helpers/ShareLinksHelper';
+import { useSession } from '@inrupt/solid-ui-react';
+import { InfoModal } from '../../../../common/infoModal';
+import { SpinnerContext } from '../../../../../contexts/SpinnerContext';
 
 export const ShareRow: React.FC<Props> = (props: Props) => {
+	const { session } = useSession();
 	const { t, lang } = useContext(TranslateContext);	
+	const { SpinAround } = useContext(SpinnerContext);
 	const [isQuizShare, setIsQuizShare] = useState<boolean | null>(null);
 	const [created, setCreated] = useState("");
+	const [showInfoModal, setShowInfoModal] = useState(false);
 	
 	useEffect(() => {
-		const typeUri = getUrl(props.shareThing, SOLIDQUIZ.sharedResourceType.value) ?? "error";
+		const typeUri = getUrl(props.shareLinkModel.shareThing, SOLIDQUIZ.sharedResourceType.value) ?? "error";
 		
 		if (typeUri === SOLIDQUIZ.Quiz.value) {
 			setIsQuizShare(true);
@@ -27,13 +34,22 @@ export const ShareRow: React.FC<Props> = (props: Props) => {
 			console.log("Error, typeUri is not recognizable" + typeUri)
 		}
 
-		const actCreated = getDatetime(props.shareThing, SHARE_CREATED) ?? "error";
+		const actCreated = getDatetime(props.shareLinkModel.shareThing, SHARE_CREATED) ?? "error";
 		setCreated(actCreated.toLocaleString(lang));
 
-	}, [props.shareThing, lang]);
+	}, [props.shareLinkModel.shareThing, lang]);
 
 	const onRemove = () => {
+		SpinAround(async () => {
+			await removeSharing(props.shareLinkModel, session.fetch);
 
+			setShowInfoModal(true);
+		});	
+	}
+
+	const onInfoHide = () => {
+		setShowInfoModal(false);
+		props.setSyncState(act => act + 1);
 	}
 
 	return (
@@ -44,7 +60,7 @@ export const ShareRow: React.FC<Props> = (props: Props) => {
 					<p>{isQuizShare ? t("shares.list.typeQuiz") : t("shares.list.typeQuizResult")}</p>
 				</Col>
 				
-				<ShareTypeSpecific shareThing={props.shareThing} isQuizShare={isQuizShare} />
+				<ShareTypeSpecific shareThing={props.shareLinkModel.shareThing} isQuizShare={isQuizShare} />
 
 				<Col md="3">
 					<p>{created}</p>
@@ -53,6 +69,8 @@ export const ShareRow: React.FC<Props> = (props: Props) => {
 					<CloseButtonYesNo modalText={t("shares.list.modal.text")} onConfirm={onRemove} />				
 				</Col>
 			</Row>}
+
+			<InfoModal show={showInfoModal} onHide={onInfoHide} body={t("shares.list.modal.shareOk")} />
 		</>
 	);
 }

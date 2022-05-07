@@ -1,5 +1,6 @@
-import { Thing } from "@inrupt/solid-client";
+import { ShareLinkModel } from "../../../../models/ShareLinkModel";
 
 export interface Props {
-    shareThings: Thing[]
+    shareLinkModels: ShareLinkModel[],
+    setSyncState: (delegate: (act: number) => number) => void
 }
