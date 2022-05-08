@@ -88,7 +88,7 @@ export function getAllThingByUris(workspace: SolidDataset_Type, uris: string[]):
     let result: Array<Thing> = [];
 
     uris.forEach(uri => {
-        const thing = getThing(workspace, uri);
+        const thing = getThing(workspace, encodeURI(uri));
 
         if (thing !== null) {
           result.push(thing);
@@ -111,13 +111,27 @@ export async function getDatasetsFromContainerBasedOnType(container: string, typ
 
     const resourceTypeUrl = typeUrls.find((item) => item === LDP.Resource);
     if (resourceTypeUrl !== undefined) {
-      const dataset = await getSolidDataset(thing.url, { fetch });
+      const dataset = await tryGetDataset(thing.url, fetch);
 
-      if (getFirstThingByRDFType(dataset, type) !== null) {
+      if (dataset !== null && getFirstThingByRDFType(dataset, type) !== null) {
         datasets.push(dataset);
       }
     }
   }  
 
   return datasets;
+}
+
+
+//privates
+async function tryGetDataset(datasetUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type | null> {
+  try {
+    const dataset = await getSolidDataset(datasetUri, { fetch });
+
+    return dataset
+  } catch (error) {
+    console.log("fetching dataset failed, error: " + error);
+  }
+
+  return null;
 }

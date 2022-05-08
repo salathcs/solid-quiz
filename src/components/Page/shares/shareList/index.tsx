@@ -19,11 +19,14 @@ export const ShareList: React.FC<Props> = (props: Props) => {
 	return (
 		<Container>
 			<Row className='row-style'>
-				<Col md="4">
+				<Col md="2">
 					{t("shares.listCol.type")}
 				</Col>
-				<Col md="4">
+				<Col md="3">
 					{t("shares.listCol.title")}
+				</Col>
+				<Col md="3">
+					{t("shares.listCol.shareType")}
 				</Col>
 				<Col md="3">
 					{t("shares.listCol.created")}

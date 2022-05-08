@@ -4,10 +4,12 @@ import './styles.scoped.css';
 import { defaultSpinnerState, SpinnerContext } from '../../../contexts/SpinnerContext';
 import { Spinner } from './spinner';
 import SpinnerCounter from '../../../helpers/SpinnerCounter';
+import { InfoModal } from '../infoModal';
 
 export const SpinnerContextComponent: React.FC<Props> = (props: Props) => {
 	const [showSpinner, setShowSpinner] = useState(defaultSpinnerState.Spinner);
 	const [spinnerCounter] = useState<SpinnerCounter>(new SpinnerCounter());
+	const [error, setError] = useState<string | null>(null);
 
 	const ShowSpinner = useCallback(() => {
 		const spinner = spinnerCounter.Increase();
@@ -23,6 +25,7 @@ export const SpinnerContextComponent: React.FC<Props> = (props: Props) => {
 		ShowSpinner();
 		await delegate().catch((error: any) => {
 			console.log(error);
+			setError(error);
 		}).finally(() =>{
 		  HideSpinner();
 		});
@@ -37,6 +40,7 @@ export const SpinnerContextComponent: React.FC<Props> = (props: Props) => {
 			}}>
 				{props.children}
 				<Spinner />
+				<InfoModal show={error !== null} onHide={() => setError(null)} body={error?.toString() ?? "error"} />
 		</SpinnerContext.Provider>
 	);
 }

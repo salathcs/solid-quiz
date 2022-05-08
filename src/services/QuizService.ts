@@ -39,6 +39,16 @@ export function getSpecificQuizUri(workspaceUri: string, quizTitle: string) {
     return `${getQuizzesContainer(workspaceUri)}${quizTitle}.ttl`;
 }
 
+export async function createQuizzesContainer(workspaceUri: string, fetch: SolidFetch_Type) {
+    const quizzesWorkspace = getQuizzesContainer(workspaceUri);
+
+    if (await isQuizzesExists(quizzesWorkspace)) {
+        return;
+    }
+
+    await saveSolidDatasetAt(quizzesWorkspace, createSolidDataset(), { fetch });
+}
+
 export async function checkQuizTitleIsAlreadyReserved(quizTitle: string, workspaceUri: string, fetch: SolidFetch_Type): Promise<boolean> {
   const quizUrl = getSpecificQuizUri(workspaceUri, quizTitle);
   try {
@@ -132,4 +142,13 @@ function getSavedQuizThingsUri(localThing: Thing, updatedDataset: SolidDataset_T
     const datasetUri = getSourceUrl(updatedDataset);
 
     return `${datasetUri}#${name}`;
+}
+
+async function isQuizzesExists(uri: string): Promise<boolean> {
+    try {
+      await getSolidDataset(uri);
+      return true;
+    } catch (error: any) {
+        return false;
+    }
 }

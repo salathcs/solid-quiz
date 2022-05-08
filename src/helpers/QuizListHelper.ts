@@ -1,5 +1,5 @@
 import { DatasetAndThing } from "../models/DatasetAndThing";
-import { SolidDataset_Type } from "./SolidDatasetType";
+import { SolidDataset_Type, SolidFetch_Type } from "./SolidDatasetType";
 import * as workspaceService from '../services/WorkspaceService';
 import SOLIDQUIZ from "./SOLIDQUIZ";
 import * as sharesService from '../services/SharesService';
@@ -31,7 +31,7 @@ export async function getPublicDatasets(): Promise<SolidDataset_Type[]> {
         
         const quizDatasetUri = getUrl(thing, SOLIDQUIZ.sharedResource.value) ?? "error";
 
-        const quizResultsDataset = await getSolidDataset(quizDatasetUri);
+        const quizResultsDataset = await tryGetDataset(quizDatasetUri, undefined);
 
         if (quizResultsDataset !== null) {
             rv.push(quizResultsDataset);
@@ -41,11 +41,32 @@ export async function getPublicDatasets(): Promise<SolidDataset_Type[]> {
     return rv;
 }
 
-export function mergeQuizzes(localResults: SolidDataset_Type[], publicResults: SolidDataset_Type[]): SolidDataset_Type[] {    
+export async function getLocalSharesDatasets(workspaceUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
+    const localSharesUri = sharesService.getSharesDataset(workspaceUri);
+    const localSharesQuizThings = await sharesService.getLocalShares(localSharesUri, SOLIDQUIZ.Quiz.value, fetch);
+
+    const rv: SolidDataset_Type[] = [];
+
+    for (let i = 0; i < localSharesQuizThings.length; i++) {
+        const thing = localSharesQuizThings[i];
+        
+        const quizDatasetUri = getUrl(thing, SOLIDQUIZ.sharedResource.value) ?? "error";
+
+        const quizResultsDataset = await tryGetDataset(quizDatasetUri, fetch);
+
+        if (quizResultsDataset !== null) {
+            rv.push(quizResultsDataset);
+        }
+    }
+
+    return rv;
+}
+
+export function mergeQuizzes(localResults: SolidDataset_Type[], publicSharesResults: SolidDataset_Type[], localharesResults: SolidDataset_Type[]): SolidDataset_Type[] {    
     const rv: SolidDataset_Type[] = [...localResults];
 
-    publicResults.forEach(publisResult => {
-        const conflict = localResults.find(item => {
+    publicSharesResults.forEach(publisResult => {
+        const conflict = rv.find(item => {
             const publishedUri = getSourceUrl(publisResult);
             const localUri = getSourceUrl(item);
 
@@ -57,5 +78,37 @@ export function mergeQuizzes(localResults: SolidDataset_Type[], publicResults: S
         }
     });
 
+    localharesResults.forEach(localShareResult => {
+        const conflict = rv.find(item => {
+            const publishedUri = getSourceUrl(localShareResult);
+            const localUri = getSourceUrl(item);
+
+            return publishedUri === localUri;
+        });
+
+        if (conflict === undefined) {
+            rv.push(localShareResult);
+        }
+    });
+
     return rv;
+}
+
+async function tryGetDataset(datasetUri: string, fetch: SolidFetch_Type | undefined): Promise<SolidDataset_Type | null> {
+    try {        
+        let dataset: SolidDataset_Type | null = null;
+
+        if (fetch === undefined) {
+            dataset = await getSolidDataset(datasetUri);
+        }
+        else {
+            dataset = await getSolidDataset(datasetUri, { fetch });
+        }
+
+        return dataset;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return null;
 }

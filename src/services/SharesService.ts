@@ -80,6 +80,23 @@ export async function getPublishedShares(shareTypeFilter: string): Promise<Thing
     return rv;
 }
 
+export async function getLocalShares(sharesDatasetUri: string, shareTypeFilter: string, fetch: SolidFetch_Type): Promise<Thing[]> {
+    const sharesDataset = await getSolidDataset(sharesDatasetUri, { fetch });
+    const localSharesThings = getThingAll(sharesDataset);
+
+    const rv: Thing[] = [];
+
+    localSharesThings.forEach(thing => {
+        const shareType = getUrl(thing, SOLIDQUIZ.sharedResourceType.value);
+
+        if (shareType === shareTypeFilter) {
+            rv.push(thing);
+        }
+    });
+
+    return rv;
+}
+
 export function getSharesDataset(workspaceUri: string) {
     return `${workspaceUri}${SHARES_CONTAINER_DATASET}`;
 }

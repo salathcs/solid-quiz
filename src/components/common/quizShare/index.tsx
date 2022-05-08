@@ -46,7 +46,7 @@ export const QuizShare: React.FC<Props> = (props: Props) => {
 				setInfoModal(t("shareQuiz.modal.publish.alreadyPublished"));
 			}
 			else {
-				await handlePublishQuiz(workspaceUrl, props.datasetAndThing, session.fetch);
+				await handlePublishQuiz(webId, workspaceUrl, props.datasetAndThing, session.fetch);
 	
 				setInfoModal(t("shareQuiz.modal.publish.ok"));
 			}
@@ -63,7 +63,7 @@ export const QuizShare: React.FC<Props> = (props: Props) => {
 				setInfoModal(t("shareQuiz.modal.publish.alreadyPublished"));
 			}
 			else {
-				await shareQuizWithFriend(agentUri, workspaceUrl, props.datasetAndThing, session.fetch);
+				await shareQuizWithFriend(webId, agentUri, workspaceUrl, props.datasetAndThing, session.fetch);
 	
 				setInfoModal(t("shareQuiz.modal.publish.ok"));
 			}

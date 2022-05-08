@@ -12,13 +12,13 @@ import { WorkspaceContext } from '../../../../../../../contexts/WorkspaceContext
 export const ShareGameResult: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
 	const { SpinAround } = useContext(SpinnerContext);
-	const { workspaceUrl } = useContext(WorkspaceContext);
+	const { workspaceUrl, webId } = useContext(WorkspaceContext);
 	const { session } = useSession();
 	const [shared, setShared] = useState(false);
 
 	const onPublish = () => {
 		SpinAround(async () => {			
-			await handlePublishQuizResult(workspaceUrl, props.quizResultData, session.fetch);
+			await handlePublishQuizResult(webId, workspaceUrl, props.quizResultData, session.fetch);
 
 			setShared(true);
 		});	

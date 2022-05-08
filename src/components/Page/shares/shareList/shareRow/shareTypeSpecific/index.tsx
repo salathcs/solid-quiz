@@ -33,7 +33,7 @@ export const ShareTypeSpecific: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<Col md="4">				
+			<Col md="3">				
 				<p>{title}</p>
 			</Col>
 		</>

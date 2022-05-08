@@ -1,4 +1,4 @@
-import { buildThing, createThing, Thing, createSolidDataset, setThing, saveSolidDatasetAt } from '@inrupt/solid-client';
+import { buildThing, createThing, Thing, createSolidDataset, setThing, saveSolidDatasetAt, getSolidDataset } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { QUIZ_RESULTS_CONTAINER } from '../constants/DefaultValues';
 import { QUIZ_RESULT_CREATED, SUCCESS_OF_QUESTION_RESULT } from '../constants/SolidQuizMissingValues';
@@ -46,6 +46,16 @@ export function createQuizResultUri(workspaceUri: string) {
     return `${getQuizResultsContainer(workspaceUri)}${new Date().getTime()}.ttl`;
 }
 
+export async function createQuizResultsContainer(workspaceUri: string, fetch: SolidFetch_Type) {
+    const quizResultsWorkspace = getQuizResultsContainer(workspaceUri);
+
+    if (await isQuizResultsExists(quizResultsWorkspace)) {
+        return;
+    }
+
+    await saveSolidDatasetAt(quizResultsWorkspace, createSolidDataset(), { fetch });
+}
+
 
 //privates
 function addQuestionResultssToDataset(nestedDataset: NestedLocalDataset, questionResultThings: Thing[]) {
@@ -53,5 +63,14 @@ function addQuestionResultssToDataset(nestedDataset: NestedLocalDataset, questio
       const questionResultThing = questionResultThings[i];
       
       nestedDataset.localeDataset = setThing(nestedDataset.localeDataset, questionResultThing);
+    }
+}
+
+async function isQuizResultsExists(uri: string): Promise<boolean> {
+    try {
+      await getSolidDataset(uri);
+      return true;
+    } catch (error: any) {
+        return false;
     }
 }

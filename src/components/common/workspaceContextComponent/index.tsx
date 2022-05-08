@@ -6,7 +6,9 @@ import { defaultWorkspaceContext, WorkspaceContext } from '../../../contexts/Wor
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { useSession } from '@inrupt/solid-ui-react';
 import * as workspaceService from '../../../services/WorkspaceService';
-import { createSharesIndexForPublic } from '../../../services/SharesService';
+import * as quizService from '../../../services/QuizService';
+import * as quizResultService from '../../../services/QuizResultService';
+import * as sharesService from '../../../services/SharesService';
 
 export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -40,7 +42,9 @@ export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
 
 			const fetchedWorkspace = await workspaceService.getOrCreateWorkSpace(workSpaceLocation, session.fetch);
 
-			await createSharesIndexForPublic(workSpaceLocation, session.fetch);
+			await quizService.createQuizzesContainer(workSpaceLocation, session.fetch);
+			await quizResultService.createQuizResultsContainer(workSpaceLocation, session.fetch);
+			await sharesService.createSharesIndexForPublic(workSpaceLocation, session.fetch);
 
 			setWorkspaceUrl(workSpaceLocation);
 			setWorkspace(fetchedWorkspace);

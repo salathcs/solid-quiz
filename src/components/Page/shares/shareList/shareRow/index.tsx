@@ -12,6 +12,7 @@ import { removeSharing } from '../../../../../helpers/ShareLinksHelper';
 import { useSession } from '@inrupt/solid-ui-react';
 import { InfoModal } from '../../../../common/infoModal';
 import { SpinnerContext } from '../../../../../contexts/SpinnerContext';
+import { LinkWithTooltip } from '../../../../common/linkWithTooltip';
 
 export const ShareRow: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -19,6 +20,7 @@ export const ShareRow: React.FC<Props> = (props: Props) => {
 	const { SpinAround } = useContext(SpinnerContext);
 	const [isQuizShare, setIsQuizShare] = useState<boolean | null>(null);
 	const [created, setCreated] = useState("");
+	const [individual, setIndividual] = useState("");
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	
 	useEffect(() => {
@@ -35,9 +37,11 @@ export const ShareRow: React.FC<Props> = (props: Props) => {
 		}
 
 		const actCreated = getDatetime(props.shareLinkModel.shareThing, SHARE_CREATED) ?? "error";
-		setCreated(actCreated.toLocaleString(lang));
+		const actIndividual = getUrl(props.shareLinkModel.shareLinkThing, SOLIDQUIZ.shareLinksIndividual.value) ?? "error";
 
-	}, [props.shareLinkModel.shareThing, lang]);
+		setCreated(actCreated.toLocaleString(lang));
+		setIndividual(actIndividual);
+	}, [props.shareLinkModel, lang]);
 
 	const onRemove = () => {
 		SpinAround(async () => {
@@ -56,12 +60,19 @@ export const ShareRow: React.FC<Props> = (props: Props) => {
 		<>
 			{(isQuizShare !== null) &&
 			<Row className='row-style'>
-				<Col md="4">
+				<Col md="2">
 					<p>{isQuizShare ? t("shares.list.typeQuiz") : t("shares.list.typeQuizResult")}</p>
 				</Col>
 				
 				<ShareTypeSpecific shareThing={props.shareLinkModel.shareThing} isQuizShare={isQuizShare} />
 
+				<Col md="3">
+					{
+						props.shareLinkModel.isPubliclyShared ?
+						<p>{t("shares.list.shareTypePublic")}</p> :
+						<LinkWithTooltip href={individual} tooltipText={individual} />
+					}
+				</Col>
 				<Col md="3">
 					<p>{created}</p>
 				</Col>

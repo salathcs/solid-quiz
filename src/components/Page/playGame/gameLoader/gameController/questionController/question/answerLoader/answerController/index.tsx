@@ -47,7 +47,7 @@ export const AnswerController: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		const correctAnswerThingUri = getUrl(props.questionThing, SOLIDQUIZ.correctAnswerOption.value);
-		setCorrectAnswer(correctAnswerThingUri);
+		setCorrectAnswer(encodeURI(correctAnswerThingUri ?? "error"));
 
 		setAnswerBtns(
 			props.answerThings.map((thing, indx) => 

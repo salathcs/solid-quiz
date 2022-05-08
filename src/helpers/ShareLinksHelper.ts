@@ -1,6 +1,6 @@
 import { SolidDataset_Type, SolidFetch_Type } from './SolidDatasetType';
 import * as shareLinksService from '../services/ShareLinksService';
-import { getSolidDataset, getBoolean, deleteAclFor, hasAccessibleAcl, removeThing } from '@inrupt/solid-client';
+import { getSolidDataset, getBoolean, hasAccessibleAcl, removeThing, getSolidDatasetWithAcl, getResourceAcl, setPublicResourceAccess, saveAclFor, setAgentResourceAccess } from '@inrupt/solid-client';
 import { getUrl } from '@inrupt/solid-client';
 import SOLIDQUIZ from './SOLIDQUIZ';
 import { getThing } from '@inrupt/solid-client';
@@ -8,7 +8,7 @@ import { MULTI_LANGUAGE_SUPPORT } from '../constants/SolidQuizMissingValues';
 import { getString } from './LangReader';
 import { TITLE } from './../constants/SolidQuizMissingValues';
 import { ShareLinkModel } from '../models/ShareLinkModel';
-import { SOLID_QUIZ_POD } from '../constants/DefaultValues';
+import { SOLID_QUIZ_POD_PROFILE } from '../constants/DefaultValues';
 import { Thing } from '@inrupt/solid-client';
 import { saveSolidDatasetAt } from '@inrupt/solid-client';
 
@@ -31,7 +31,7 @@ export async function getAllShareThingByShareLink(workspaceUrl: string, fetch: S
             const thing = getThing(shareDataset, resourceUri);
 
             if (thing !== null) {
-                const isPubliclyShared = checkIfPubliclyShared(thing.url);
+                const isPubliclyShared = checkIfPubliclyShared(shareLink);
 
                 rv.push({ shareThing: thing, shareLinkThing: shareLink, isPubliclyShared });
             }
@@ -69,10 +69,15 @@ export async function fetchQuizTitleFromResult(quizResultUri: string, lang: stri
 }
 
 export async function removeSharing(shareLinkModel: ShareLinkModel, fetch: SolidFetch_Type) {
-    //remove acl from resource
+    //take away acl from resource (set the specified acls every right to false)
     const resourceUri = getUrl(shareLinkModel.shareThing, SOLIDQUIZ.sharedResource.value) ?? "error";
-    const resourceDataset = await getSolidDataset(resourceUri, { fetch });
-    await removeAcl(resourceDataset, fetch);
+    if (shareLinkModel.isPubliclyShared) {
+        await takeAwayPublicAcl(resourceUri, fetch);
+    }
+    else {
+        const agentWebId = getUrl(shareLinkModel.shareLinkThing, SOLIDQUIZ.shareLinksIndividual.value) ?? "error";
+        await takeAwayAgentAcl(resourceUri, agentWebId, fetch);
+    }
     
     //remove shares source
     if (shareLinkModel.isPubliclyShared) {
@@ -90,7 +95,7 @@ export async function removeSharing(shareLinkModel: ShareLinkModel, fetch: Solid
 //privates
 async function tryGetShareWhitoutFetch(datasetUri: string): Promise<SolidDataset_Type | null> {
     try {
-        const shareDataset = getSolidDataset(datasetUri);
+        const shareDataset = await getSolidDataset(datasetUri);
         return shareDataset;
     } catch (error) {
         return null;
@@ -99,21 +104,17 @@ async function tryGetShareWhitoutFetch(datasetUri: string): Promise<SolidDataset
 
 async function tryGetShareWitchFetch(datasetUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type | null> {
     try {
-        const shareDataset = getSolidDataset(datasetUri, { fetch });
+        const shareDataset = await getSolidDataset(datasetUri, { fetch });
         return shareDataset;
     } catch (error) {
         return null;
     }
 }
 
-function checkIfPubliclyShared(shareUri: string){
-    return shareUri.startsWith(SOLID_QUIZ_POD);
-}
+function checkIfPubliclyShared(shareLinkThing: Thing){
+    const individualWebId = getUrl(shareLinkThing, SOLIDQUIZ.shareLinksIndividual.value);
 
-async function removeAcl(resourceDataset: SolidDataset_Type, fetch: SolidFetch_Type) {
-    if (hasAccessibleAcl(resourceDataset)) {
-        await deleteAclFor(resourceDataset, { fetch });
-    }
+    return individualWebId === SOLID_QUIZ_POD_PROFILE;
 }
 
 async function removePublicShares(shareThing: Thing) {
@@ -138,4 +139,51 @@ async function removeShareLink(shareLinkThing: Thing, fetch: SolidFetch_Type) {
     shareLinkDataset = removeThing(shareLinkDataset, shareLinkThing.url);
 
     await saveSolidDatasetAt(shareLinkThing.url, shareLinkDataset, { fetch });
+}
+
+async function takeAwayPublicAcl(resourceUri: string, fetch: SolidFetch_Type) {
+    const resourceDataset = await getSolidDatasetWithAcl(resourceUri, { fetch });
+
+    //check for control right (createAcl wont work if this check missing)
+    if (!hasAccessibleAcl(resourceDataset)) {
+        throw new Error("Has no control right!");
+    }
+
+    const resourceAcl = getResourceAcl(resourceDataset);
+
+    if (resourceAcl === null) {
+        return;
+    }
+
+    const updatedAcl = setPublicResourceAccess(
+        resourceAcl,
+        { read: false, append: false, write: false, control: false }
+      );
+      
+      // save the new public Acl:
+      await saveAclFor(resourceDataset, updatedAcl, { fetch });
+}
+
+async function takeAwayAgentAcl(resourceUri: string, agentWebId: string, fetch: SolidFetch_Type) {
+    const resourceDataset = await getSolidDatasetWithAcl(resourceUri, { fetch });
+
+    //check for control right (createAcl wont work if this check missing)
+    if (!hasAccessibleAcl(resourceDataset)) {
+        throw new Error("Has no control right!");
+    }
+
+    const resourceAcl = getResourceAcl(resourceDataset);
+
+    if (resourceAcl === null) {
+        return;
+    }
+
+    const updatedAcl = setAgentResourceAccess(
+        resourceAcl,
+        agentWebId,
+        { read: false, append: false, write: false, control: false }
+      );
+      
+      // save the new public Acl:
+      await saveAclFor(resourceDataset, updatedAcl, { fetch });
 }

@@ -4,13 +4,14 @@ import { SHARE_LINKS_CONTAINER_DATASET } from "../constants/DefaultValues";
 import { SolidDataset_Type, SolidFetch_Type } from "../helpers/SolidDatasetType";
 import SOLIDQUIZ from "../helpers/SOLIDQUIZ";
 
-export async function createShareLink(workspaceUri: string, shareUri: string, fetch: SolidFetch_Type) {
+export async function createShareLink(workspaceUri: string, individualWebId: string, shareUri: string, fetch: SolidFetch_Type) {
     const linksUrl = `${workspaceUri}${SHARE_LINKS_CONTAINER_DATASET}`;
     let linksDataset = await getOrCreateLinksDataset(linksUrl, fetch);
 
     const shareLinkThing = buildThing(createThing())
       .addUrl(RDF.type, SOLIDQUIZ.ShareLink.value)
       .addUrl(SOLIDQUIZ.shareLinksLink.value, shareUri)
+      .addUrl(SOLIDQUIZ.shareLinksIndividual.value, individualWebId)
       .build();
 
     linksDataset = setThing(linksDataset, shareLinkThing);

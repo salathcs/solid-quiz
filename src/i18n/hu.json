@@ -93,10 +93,13 @@
 
     "shares.title": "Megosztások",
     "shares.listCol.type": "Típus",
+    "shares.listCol.shareType": "Megosztás",
     "shares.listCol.title": "Megosztás tárgya",
     "shares.listCol.created": "Létrehozva",
     "shares.list.typeQuiz": "Kvíz",
     "shares.list.typeQuizResult": "Kvíz eredmény",
+    "shares.list.shareTypePublic": "Publikus",
+    "shares.list.shareTypePersonal": "Személyes",
     "shares.list.modal.text": "Biztosan törli a megosztást?",
     "shares.list.modal.shareOk": "Megosztás törölve!",
 

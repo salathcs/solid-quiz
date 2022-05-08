@@ -8,7 +8,7 @@ import { WorkspaceContext } from '../../../contexts/WorkspaceContext';
 import { SolidDataset_Type } from '../../../helpers/SolidDatasetType';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
-import { getPublicDatasets, mergeQuizzes } from '../../../helpers/QuizListHelper';
+import { getLocalSharesDatasets, getPublicDatasets, mergeQuizzes } from '../../../helpers/QuizListHelper';
 import { PageSwitcherContext } from '../../../contexts/PageSwitcherContext';
 import { Button } from 'react-bootstrap';
 import { TranslateContext } from '../../../contexts/TranslateContext';
@@ -28,13 +28,14 @@ export const QuizListLoader: React.FC<Props> = (props: Props) => {
 			const quizzesContainerUri = await quizService.getQuizzesContainer(workspaceUrl);
 			const fetchedQuizDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.Quiz.value, session.fetch);
 
-			//load public
+			//load public shares
 			const fetchedPublicQuizDatasets = await getPublicDatasets();
 
-			//TODO: shared
+			//load local shares
+			const fetchedLocalSharesQuizDatasets = await getLocalSharesDatasets(workspaceUrl, session.fetch);
 
 			//merge
-			const mergedQuizDatasets = mergeQuizzes(fetchedQuizDatasets, fetchedPublicQuizDatasets);
+			const mergedQuizDatasets = mergeQuizzes(fetchedQuizDatasets, fetchedPublicQuizDatasets, fetchedLocalSharesQuizDatasets);
 	
 			setQuizDatasets(mergedQuizDatasets);
 		});	

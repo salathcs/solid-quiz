@@ -13,7 +13,6 @@ import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
 import { DatasetAndThing } from './../../../models/DatasetAndThing';
 import SOLIDQUIZ from '../../../helpers/SOLIDQUIZ';
-import { getPublicDatasets, mergeQuizzes } from '../../../helpers/QuizListHelper';
 
 export const ModifyQuiz: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -26,18 +25,11 @@ export const ModifyQuiz: React.FC<Props> = (props: Props) => {
 
 	useEffect(() => {
 		SpinAround(async () => {
+			//just owned quizzes
 			const quizzesContainerUri = await quizService.getQuizzesContainer(workspaceUrl);
 			const fetchedQuizDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.Quiz.value, session.fetch);
 	
-			//load public
-			const fetchedPublicQuizDatasets = await getPublicDatasets();
-
-			//TODO: shared
-
-			//merge
-			const mergedQuizDatasets = mergeQuizzes(fetchedQuizDatasets, fetchedPublicQuizDatasets);
-
-			setQuizDatasets(mergedQuizDatasets);
+			setQuizDatasets(fetchedQuizDatasets);
 		});	
 	}, [workspaceUrl, session.fetch, SpinAround, syncState]);
 
