@@ -36,6 +36,7 @@
     "shareQuiz.modal.share.text": "Choose from the list, or type someone's webId!",
     "shareQuiz.modal.share.cancel": "Cancel",
     "shareQuiz.modal.share.share": "Share",
+    "shareQuiz.modal.share.ok": "Sharing completed!",
 
     "playGame.title": "New game",
     "playGame.modal.confirmClose": "Caution all results will be lost. Are you sure you want to interrupt the game?",
@@ -78,7 +79,7 @@
     "createQuiz.result.title": "Quiz successfully created!",
     "createQuiz.result.quizTitle": "Quiz title:",
     "createQuiz.result.questionNumber": "Questions number:",
-    "createQuiz.result.share": "Do you want to share the quiz? Click!",
+    "createQuiz.result.share": "Do you want to share the quiz? CLICK!",
 
     "modifyQuiz.title": "Modify quiz",
     "modifyQuiz.modal.text": "Do you want to edit the selected item?",

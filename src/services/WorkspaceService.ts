@@ -28,14 +28,13 @@ export function getWorkSpaceLocation(profileThing: Thing): string {
 }
 
 export async function getOrCreateWorkSpace(workspaceUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type> {
-    const indexUrl = `${workspaceUri}index.ttl`;
     try {
-      const workspace = await getSolidDataset(indexUrl, { fetch });
+      const workspace = await getSolidDataset(workspaceUri, { fetch });
       return workspace;
     } catch (error: any) {
       if (error.statusCode === 404) {
         const workspace = await saveSolidDatasetAt(
-          indexUrl,
+          workspaceUri,
           createSolidDataset(),
           {
             fetch,

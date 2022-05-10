@@ -65,7 +65,7 @@ export const QuizShare: React.FC<Props> = (props: Props) => {
 			else {
 				await shareQuizWithFriend(webId, agentUri, workspaceUrl, props.datasetAndThing, session.fetch);
 	
-				setInfoModal(t("shareQuiz.modal.publish.ok"));
+				setInfoModal(t("shareQuiz.modal.share.ok"));
 			}
 		});	
 	};

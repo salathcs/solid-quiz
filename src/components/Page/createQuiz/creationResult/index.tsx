@@ -35,7 +35,7 @@ export const CreationResult: React.FC<Props> = (props: Props) => {
 				<p className='questionNumber-text'>{t("createQuiz.result.questionNumber")} {questionNumber}</p>
 			</Row>
 			<Row>
-				<p className='sharing-text'>{t("createQuiz.result.share")} {title}</p>
+				<p className='sharing-text'>{t("createQuiz.result.share")}</p>
 			</Row>
 			<Row>				
 				<QuizShare datasetAndThing={props.quizData} />

@@ -36,6 +36,7 @@
     "shareQuiz.modal.share.text": "Válassz valakit a felsoroltakból, vagy add meg a webId-jét!",
     "shareQuiz.modal.share.cancel": "Mégse",
     "shareQuiz.modal.share.share": "Megosztás",
+    "shareQuiz.modal.share.ok": "Megosztás sikeres!",
 
     "playGame.title": "Új játék",
     "playGame.modal.confirmClose": "Vigyázat minden eredménye elveszik. Biztosan félbe szakítja a játékot?",
