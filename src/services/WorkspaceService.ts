@@ -1,4 +1,4 @@
-import { createSolidDataset, deleteSolidDataset, getSolidDataset, getThing, getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
+import { createSolidDataset, deleteSolidDataset, getSolidDataset, getSourceUrl, getThing, getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
 import { LDP, RDF } from '@inrupt/vocab-common-rdf';
 import { WS } from "@inrupt/vocab-solid";
 import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
@@ -51,7 +51,7 @@ export async function getOrCreateWorkSpace(workspaceUri: string, fetch: SolidFet
   }
   
 export async function deleteDataset(dataset: SolidDataset_Type, fetch: SolidFetch_Type) {
-    const uri = dataset.internal_resourceInfo.sourceIri;
+    const uri = getSourceUrl(dataset);
 
     deleteSolidDataset(uri, { fetch });
   }
