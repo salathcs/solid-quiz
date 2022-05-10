@@ -1,11 +1,28 @@
 import { DatasetAndThing } from "../models/DatasetAndThing";
-import { SolidDataset_Type } from "../constants/SolidDatasetType";
+import { SolidDataset_Type, SolidFetch_Type } from "../constants/SolidDatasetType";
 import * as workspaceService from '../services/WorkspaceService';
 import * as sharesService from '../services/SharesService';
 import SOLIDQUIZ from "./SOLIDQUIZ";
-import { getUrl, Thing, getInteger, getDatetime } from '@inrupt/solid-client';
+import { getUrl, Thing, getInteger, getDatetime, getThing, getUrlAll } from '@inrupt/solid-client';
 import { NUMBER_OF_CORRECT_ANSWERS, QUIZ_RESULT_CREATED } from "../constants/SolidQuizMissingValues";
 import { getSolidDataset } from '@inrupt/solid-client';
+import { LDP } from "@inrupt/vocab-common-rdf";
+
+export async function getQuizResultsFromContainer(containerUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
+    const containerDataset = await getSolidDataset(containerUri, { fetch });
+    const datasetThing = getThing(containerDataset, containerUri);
+
+    if (datasetThing === null) {
+        console.log("Cannot found container: " + containerDataset);
+        return [];
+    }
+
+    const containedResources = getUrlAll(datasetThing, LDP.contains);
+    
+    const quizResultDatasets = await getQuizResultDatasets(containedResources, fetch);
+
+    return quizResultDatasets;
+  }
 
 export function getQuizResultsFromDatasets(quizResultDatasets: SolidDataset_Type[], quizResultOf: Thing): DatasetAndThing[] {
     const quizResultsThings: DatasetAndThing[] = [];
@@ -47,6 +64,14 @@ export function getSavedQuizResultName(datasetUri: string, localThing: Thing) {
     const resultsName = localThing.url.substring(indexOfSeparator + 1);
     
     return `${datasetUri}#${resultsName}`;
+}
+
+export function getQuizNameFromQuizThing(quizThing: Thing) {
+    const indexOfSeparator = quizThing.url.lastIndexOf('#');
+
+    const quizName = quizThing.url.substring(indexOfSeparator + 1);
+    
+    return quizName;
 }
 
 export async function getPublicQuizResultDatasets(quizResultOf: Thing): Promise<DatasetAndThing[]> {
@@ -110,6 +135,42 @@ async function checkQuizResultsQuizOf(quizResultUri: string, quizResultOf: Thing
         if (quizUri === quizResultOf.url){
             return { dataset: quizResultDataset, thing: quizResultThing };
         }
+    }
+
+    return null;
+}
+
+async function getQuizResultDatasets(quizContainerContainedUris: string[], fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
+    const rv: SolidDataset_Type[] = [];
+
+    const promiseList: Promise<SolidDataset_Type | null>[] = [];
+
+    for (let i = 0; i < quizContainerContainedUris.length; i++) {
+        const quizResultUri = quizContainerContainedUris[i];
+
+        promiseList.push(tryGetQuizResultDataset(quizResultUri, fetch));
+    }
+
+    const fetchedPromises = await Promise.all(promiseList);
+
+    for (let i = 0; i < fetchedPromises.length; i++) {
+        const promiseResult = fetchedPromises[i];
+
+        if (promiseResult !== null) {
+            rv.push(promiseResult);
+        }
+    }
+
+    return rv;
+}
+
+async function tryGetQuizResultDataset(quizResultUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type | null> {
+    try {
+        const dataset = await getSolidDataset(quizResultUri, { fetch });
+
+        return dataset;
+    } catch (error) {
+        console.log(error);
     }
 
     return null;

@@ -13,34 +13,48 @@ import { SOLID_QUIZ_POD_PROFILE } from '../constants/DefaultValues';
 import { Thing } from '@inrupt/solid-client';
 import { saveSolidDatasetAt } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';
+import { ShareLinkFetchModel } from '../models/ShareLinkFetchModel';
 
 export async function getAllShareThingByShareLink(workspaceUrl: string, fetch: SolidFetch_Type): Promise<ShareLinkModel[]> {
     const shareLinks = await shareLinksService.getAllShareLink(workspaceUrl, fetch);
 
-    const rv: ShareLinkModel[] = [];
-
+    //fetch together
+    const promiseList: Promise<ShareLinkFetchModel>[] = [];
     for (let i = 0; i < shareLinks.length; i++) {
         const shareLink = shareLinks[i];
-        
+
         const resourceUri = getUrl(shareLink, SOLIDQUIZ.shareLinksLink.value) ?? "error";
 
-        let shareDataset = await tryGetShareWhitoutFetch(resourceUri);
-        if (shareDataset === null) {
-            shareDataset = await tryGetShareWitchFetch(resourceUri, fetch);
-        }
+        promiseList.push(tryGetShare(resourceUri, shareLink, fetch));
+    }    
+    const fetchedPromises = await Promise.all(promiseList);
 
-        if (shareDataset !== null) {
-            const thing = getThing(shareDataset, resourceUri);
+    const rv: ShareLinkModel[] = [];
+
+    for (let i = 0; i < fetchedPromises.length; i++) {
+        const shareLinkFetchModel = fetchedPromises[i];
+
+        if (shareLinkFetchModel.shareDataset !== null) {
+            const thing = getThing(shareLinkFetchModel.shareDataset, shareLinkFetchModel.resourceUri);
 
             if (thing !== null) {
-                const isPubliclyShared = checkIfPubliclyShared(shareLink);
+                const isPubliclyShared = checkIfPubliclyShared(shareLinkFetchModel.shareLink);
 
-                rv.push({ shareThing: thing, shareLinkThing: shareLink, isPubliclyShared });
+                rv.push({ shareThing: thing, shareLinkThing: shareLinkFetchModel.shareLink, isPubliclyShared });
             }
         }
     }
 
     return rv;
+}
+
+async function tryGetShare(resourceUri: string, shareLink: Thing, fetch: SolidFetch_Type): Promise<ShareLinkFetchModel> {
+    let shareDataset = await tryGetShareWhitoutFetch(resourceUri);
+    if (shareDataset === null) {
+        shareDataset = await tryGetShareWitchFetch(resourceUri, fetch);
+    }
+
+    return { resourceUri, shareLink, shareDataset };
 }
 
 export async function fetchQuizTitle(quizUri: string, lang: string, fetch: SolidFetch_Type): Promise<string | null> {

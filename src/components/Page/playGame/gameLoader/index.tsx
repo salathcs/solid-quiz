@@ -9,6 +9,7 @@ import { GameStatus } from '../../../../models/GameStatus';
 import { MULTI_LANGUAGE_SUPPORT } from '../../../../constants/SolidQuizMissingValues';
 import * as quizResultService from '../../../../services/QuizResultService';
 import { WorkspaceContext } from '../../../../contexts/WorkspaceContext';
+import { getQuizNameFromQuizThing } from '../../../../helpers/QuizResultsListHelper';
 
 export const GameLoader: React.FC<Props> = (props: Props) => {
 	const { webId, workspaceUrl } = useContext(WorkspaceContext);
@@ -18,7 +19,8 @@ export const GameLoader: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		const multiLang = getBoolean(props.quizData.thing, MULTI_LANGUAGE_SUPPORT) ?? false;
 		const questionsCount = getUrlAll(props.quizData.thing, SOLIDQUIZ.quizQuestion.value).length;
-		const quizResultNameUri = quizResultService.createQuizResultUri(workspaceUrl);
+		const quizName = getQuizNameFromQuizThing(props.quizData.thing);
+		const quizResultNameUri = quizResultService.createQuizResultUri(workspaceUrl, quizName);
 		const quizResultThing = quizResultService.createQuizResult(props.quizData.thing, webId);
 
 		setMultiLang(multiLang);

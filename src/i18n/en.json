@@ -34,6 +34,7 @@
     "shareQuiz.modal.publish.alreadyPublished": "Quiz is already published!",
     "shareQuiz.modal.share.title": "Sharing with the selected person",
     "shareQuiz.modal.share.text": "Choose from the list, or type someone's webId!",
+    "shareQuiz.modal.share.webid": "WebId",
     "shareQuiz.modal.share.cancel": "Cancel",
     "shareQuiz.modal.share.share": "Share",
     "shareQuiz.modal.share.ok": "Sharing completed!",

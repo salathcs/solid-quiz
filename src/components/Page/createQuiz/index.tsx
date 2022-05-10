@@ -7,6 +7,7 @@ import { Alert, Button } from 'react-bootstrap';
 import { QuizForm } from './quizForm';
 import { QuizContainer } from './../../../models/QuizContainer';
 import * as quizService from '../../../services/QuizService'
+import * as quizResultService from '../../../services/QuizResultService'
 import * as questionService from '../../../services/QuestionService'
 import * as quizContainerConverter from '../../../helpers/QuizContainerConverter'
 import { QuizFormModel } from '../../../models/QuizFormModel';
@@ -109,6 +110,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 			}
 			
 			const savedQuizThing = await quizService.saveNewQuiz(quizContainer, workspaceUrl, session.fetch);
+			await quizResultService.createQuizResultsContainer(workspaceUrl, quizContainer.quizName, session.fetch); 
 
 			setCreationResult(savedQuizThing);
 		});	

@@ -5,9 +5,7 @@ import { useSession } from '@inrupt/solid-ui-react';
 import { WorkspaceContext } from '../../../../contexts/WorkspaceContext';
 import { SpinnerContext } from '../../../../contexts/SpinnerContext';
 import * as quizResultsService from '../../../../services/QuizResultService';
-import * as workspaceService from '../../../../services/WorkspaceService';
-import { getPublicQuizResultDatasets, getQuizResultsFromDatasets, mergeQuizResults, sortQuizResultDatas } from '../../../../helpers/QuizResultsListHelper';
-import SOLIDQUIZ from '../../../../helpers/SOLIDQUIZ';
+import { getPublicQuizResultDatasets, getQuizNameFromQuizThing, getQuizResultsFromContainer, getQuizResultsFromDatasets, mergeQuizResults, sortQuizResultDatas } from '../../../../helpers/QuizResultsListHelper';
 import { DatasetAndThing } from '../../../../models/DatasetAndThing';
 import { ResultsList } from './resultsList';
 
@@ -20,8 +18,9 @@ export const ResultsLoader: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		SpinAround(async () => {
 			//load locales
-			const quizzesContainerUri = await quizResultsService.getQuizResultsContainer(workspaceUrl);
-			const fetchedQuizResultDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.QuizResult.value, session.fetch);
+			const quizName = getQuizNameFromQuizThing(props.quizData.thing);
+			const quizzesContainerUri = quizResultsService.getQuizResultsContainer(workspaceUrl, quizName); 
+			const fetchedQuizResultDatasets = await getQuizResultsFromContainer(quizzesContainerUri, session.fetch);
 			const filteredQuizResultsData = getQuizResultsFromDatasets(fetchedQuizResultDatasets, props.quizData.thing);
 
 			//load public

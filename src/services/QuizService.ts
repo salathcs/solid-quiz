@@ -36,7 +36,7 @@ export function getQuizzesContainer(workspaceUri: string) {
 }
 
 export function getSpecificQuizUri(workspaceUri: string, quizTitle: string) {
-    return `${getQuizzesContainer(workspaceUri)}${quizTitle}.ttl`;
+    return `${getQuizzesContainer(workspaceUri)}${quizTitle}/${quizTitle}.ttl`;
 }
 
 export async function createQuizzesContainer(workspaceUri: string, fetch: SolidFetch_Type) {

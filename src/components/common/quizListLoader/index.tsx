@@ -1,18 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import * as quizService from '../../../services/QuizService';
-import * as workspaceService from '../../../services/WorkspaceService';
 import { useSession } from '@inrupt/solid-ui-react';
 import { WorkspaceContext } from '../../../contexts/WorkspaceContext';
 import { SolidDataset_Type } from '../../../constants/SolidDatasetType';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
-import { getLocalSharesDatasets, getPublicDatasets, mergeQuizzes } from '../../../helpers/QuizListHelper';
+import { getLocalSharesDatasets, getOwnQuizzes, getPublicDatasets, mergeQuizzes } from '../../../helpers/QuizListHelper';
 import { PageSwitcherContext } from '../../../contexts/PageSwitcherContext';
 import { Button } from 'react-bootstrap';
 import { TranslateContext } from '../../../contexts/TranslateContext';
-import SOLIDQUIZ from '../../../helpers/SOLIDQUIZ';
 
 export const QuizListLoader: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
@@ -25,8 +22,7 @@ export const QuizListLoader: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		SpinAround(async () => {
 			//load locales
-			const quizzesContainerUri = await quizService.getQuizzesContainer(workspaceUrl);
-			const fetchedQuizDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.Quiz.value, session.fetch);
+			const fetchedQuizDatasets = await getOwnQuizzes(workspaceUrl, session.fetch);
 
 			//load public shares
 			const fetchedPublicQuizDatasets = await getPublicDatasets();

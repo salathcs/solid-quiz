@@ -1,5 +1,5 @@
-import { createSolidDataset, deleteSolidDataset, getSolidDataset, getSourceUrl, getThing, getThingAll, getUrl, getUrlAll, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
-import { LDP, RDF } from '@inrupt/vocab-common-rdf';
+import { createSolidDataset, deleteSolidDataset, getSolidDataset, getSourceUrl, getThing, getThingAll, getUrl, saveSolidDatasetAt, Thing, Url, UrlString } from "@inrupt/solid-client";
+import { RDF } from '@inrupt/vocab-common-rdf';
 import { WS } from "@inrupt/vocab-solid";
 import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
 import { SolidFetch_Type, SolidDataset_Type } from "../constants/SolidDatasetType";
@@ -95,42 +95,4 @@ export function getAllThingByUris(workspace: SolidDataset_Type, uris: string[]):
     });
 
     return result;    
-}
-
-export async function getDatasetsFromContainerBasedOnType(container: string, type: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
-  const containerDataset = await getSolidDataset(container, { fetch });
-  const things = getThingAll(containerDataset);
-
-  const datasets: SolidDataset_Type[] = [];
-
-  for (let i = 0; i < things.length; i++) {
-    const thing = things[i];
-    
-    const typeUrls = getUrlAll(thing, RDF.type);
-
-    const resourceTypeUrl = typeUrls.find((item) => item === LDP.Resource);
-    if (resourceTypeUrl !== undefined) {
-      const dataset = await tryGetDataset(thing.url, fetch);
-
-      if (dataset !== null && getFirstThingByRDFType(dataset, type) !== null) {
-        datasets.push(dataset);
-      }
-    }
-  }  
-
-  return datasets;
-}
-
-
-//privates
-async function tryGetDataset(datasetUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type | null> {
-  try {
-    const dataset = await getSolidDataset(datasetUri, { fetch });
-
-    return dataset
-  } catch (error) {
-    console.log("fetching dataset failed, error: " + error);
-  }
-
-  return null;
 }

@@ -1,6 +1,6 @@
 import { buildThing, createThing, Thing, createSolidDataset, setThing, saveSolidDatasetAt, getSolidDataset } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
-import { QUIZ_RESULTS_CONTAINER } from '../constants/DefaultValues';
+import { QUIZZES_CONTAINER, QUIZ_RESULTS_CONTAINER } from '../constants/DefaultValues';
 import { QUIZ_RESULT_CREATED, SUCCESS_OF_QUESTION_RESULT } from '../constants/SolidQuizMissingValues';
 import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
@@ -39,15 +39,15 @@ export async function saveQuizResult(quizResultUri: string, quizResultThing: Thi
     });
 }
 
-export function getQuizResultsContainer(workspaceUri: string) {
-    return `${workspaceUri}${QUIZ_RESULTS_CONTAINER}`;
+export function getQuizResultsContainer(workspaceUri: string, quizName: string) {
+    return `${workspaceUri}${QUIZZES_CONTAINER}${quizName}/${QUIZ_RESULTS_CONTAINER}`;
 }
-export function createQuizResultUri(workspaceUri: string) {
-    return `${getQuizResultsContainer(workspaceUri)}${new Date().getTime()}.ttl`;
+export function createQuizResultUri(workspaceUri: string, quizName: string) {
+    return `${getQuizResultsContainer(workspaceUri, quizName)}${new Date().getTime()}.ttl`;
 }
 
-export async function createQuizResultsContainer(workspaceUri: string, fetch: SolidFetch_Type) {
-    const quizResultsWorkspace = getQuizResultsContainer(workspaceUri);
+export async function createQuizResultsContainer(workspaceUri: string, quizName: string, fetch: SolidFetch_Type) {
+    const quizResultsWorkspace = getQuizResultsContainer(workspaceUri, quizName);
 
     if (await isQuizResultsExists(quizResultsWorkspace)) {
         return;

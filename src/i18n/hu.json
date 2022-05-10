@@ -34,6 +34,7 @@
     "shareQuiz.modal.publish.alreadyPublished": "A kvízt már korábban közzétetted!",
     "shareQuiz.modal.share.title": "Megosztás a kiválasztott személlyel",
     "shareQuiz.modal.share.text": "Válassz valakit a felsoroltakból, vagy add meg a webId-jét!",
+    "shareQuiz.modal.share.webid": "WebId",
     "shareQuiz.modal.share.cancel": "Mégse",
     "shareQuiz.modal.share.share": "Megosztás",
     "shareQuiz.modal.share.ok": "Megosztás sikeres!",

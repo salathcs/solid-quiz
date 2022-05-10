@@ -11,44 +11,43 @@ import { getUrlAll } from '@inrupt/solid-client';
 import { SOLID_QUIZ_POD_PROFILE } from '../constants/DefaultValues';
 
 export async function handlePublishQuiz(webId: string, workspaceUri: string, quizData: DatasetAndThing, fetch: SolidFetch_Type) {
-    //create fallback acl (without this we loose control over the resource)
-    await aclService.createFallbackAclForOwner(webId, quizData.dataset, fetch);
-    //create acl for the resource
-    await aclService.createPublicAclForNewResource(quizData.dataset, fetch);
-
     //create public share
     const shareThing = await sharesService.publishQuiz(quizData.thing.url);
 
     //create local shareLink
     await shareLinksService.createShareLink(workspaceUri, SOLID_QUIZ_POD_PROFILE, shareThing.url, fetch);
+
+    //create fallback acl (without this we loose control over the resource)
+    await aclService.createFallbackAclForOwner(webId, quizData.dataset, fetch);
+    //create acl for the resource
+    await aclService.createPublicAclForNewResource(quizData.dataset, fetch);
 }
 
 export async function handlePublishQuizResult(webId: string, workspaceUri: string, quizResultData: DatasetAndThing, fetch: SolidFetch_Type) {
-    //create fallback acl (without this we loose control over the resource)
-    await aclService.createFallbackAclForOwner(webId, quizResultData.dataset, fetch);
-    //create acl for the resource
-    await aclService.createPublicAclForNewResource(quizResultData.dataset, fetch);
-
     //create public share
     const shareThing = await sharesService.publishQuizResult(quizResultData.thing.url);
 
     //create local shareLink
     await shareLinksService.createShareLink(workspaceUri, SOLID_QUIZ_POD_PROFILE, shareThing.url, fetch);
+
+    //create fallback acl (without this we loose control over the resource)
+    await aclService.createFallbackAclForOwner(webId, quizResultData.dataset, fetch);
+    //create acl for the resource
+    await aclService.createPublicAclForNewResource(quizResultData.dataset, fetch);
 }
 
 export async function shareQuizWithFriend(webId: string, friendsWebId: string, ownWorkSpace: string, quizResultData: DatasetAndThing, fetch: SolidFetch_Type) {
+    //create public share
     const friendsShareSpace = await getFriendsShareSpace(friendsWebId);
+    const shareThing = await sharesService.shareQuiz(friendsShareSpace, quizResultData.thing.url);
+
+    //create local shareLink
+    await shareLinksService.createShareLink(ownWorkSpace, friendsWebId, shareThing.url, fetch);
 
     //create fallback acl (without this we loose control over the resource)
     await aclService.createFallbackAclForOwner(webId, quizResultData.dataset, fetch);
     //create acl for the resource
     await aclService.createAgentAclForNewResource(friendsWebId, quizResultData.dataset, fetch);
-
-    //create public share
-    const shareThing = await sharesService.shareQuiz(friendsShareSpace, quizResultData.thing.url);
-
-    //create local shareLink
-    await shareLinksService.createShareLink(ownWorkSpace, friendsWebId, shareThing.url, fetch);
 }
 
 export async function checkForQuizShare(quizData: DatasetAndThing, fetch: SolidFetch_Type): Promise<boolean> {
@@ -72,7 +71,6 @@ export async function getFriendsList(webId: string, fetch: SolidFetch_Type): Pro
 
 
 //privates
-
 async function getFriendsShareSpace(friendsWebId: string): Promise<string> {
     const friendsProfileDataset = await getSolidDataset(friendsWebId);
     const friendsProfileThing = getThing(friendsProfileDataset, friendsWebId);

@@ -3,8 +3,7 @@ import { Props } from './types';
 import './styles.scoped.css';
 import { TranslateContext } from '../../../contexts/TranslateContext';
 import { PageSwitcherContext } from '../../../contexts/PageSwitcherContext';
-import { Button } from 'react-bootstrap';
-import * as quizService from '../../../services/QuizService';
+import { Button } from 'react-bootstrap'
 import * as workspaceService from '../../../services/WorkspaceService';
 import { useSession } from '@inrupt/solid-ui-react';
 import { WorkspaceContext } from '../../../contexts/WorkspaceContext';
@@ -12,7 +11,7 @@ import { SolidDataset_Type } from '../../../constants/SolidDatasetType';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
 import { DatasetAndThing } from './../../../models/DatasetAndThing';
-import SOLIDQUIZ from '../../../helpers/SOLIDQUIZ';
+import { getOwnQuizzes } from '../../../helpers/QuizListHelper';
 
 export const ModifyQuiz: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
@@ -26,8 +25,7 @@ export const ModifyQuiz: React.FC<Props> = (props: Props) => {
 	useEffect(() => {
 		SpinAround(async () => {
 			//just owned quizzes
-			const quizzesContainerUri = await quizService.getQuizzesContainer(workspaceUrl);
-			const fetchedQuizDatasets = await workspaceService.getDatasetsFromContainerBasedOnType(quizzesContainerUri, SOLIDQUIZ.Quiz.value, session.fetch);
+			const fetchedQuizDatasets = await getOwnQuizzes(workspaceUrl, session.fetch);
 	
 			setQuizDatasets(fetchedQuizDatasets);
 		});	
