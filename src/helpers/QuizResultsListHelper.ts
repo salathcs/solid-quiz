@@ -143,14 +143,13 @@ async function checkQuizResultsQuizOf(quizResultUri: string, quizResultOf: Thing
 async function getQuizResultDatasets(quizContainerContainedUris: string[], fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
     const rv: SolidDataset_Type[] = [];
 
+    //fetch together
     const promiseList: Promise<SolidDataset_Type | null>[] = [];
-
     for (let i = 0; i < quizContainerContainedUris.length; i++) {
         const quizResultUri = quizContainerContainedUris[i];
 
         promiseList.push(tryGetQuizResultDataset(quizResultUri, fetch));
     }
-
     const fetchedPromises = await Promise.all(promiseList);
 
     for (let i = 0; i < fetchedPromises.length; i++) {

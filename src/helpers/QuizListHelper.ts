@@ -202,8 +202,9 @@ function validateDatasetForQuizType(quizUri: string, dataset: SolidDataset_Type)
 }
 
 async function tryGetSharedDatasetsAtOnce(sharedQuizThings: Thing[], fetch: SolidFetch_Type | undefined) {
+    
+    //fetch together
     const promises: Promise<SolidDataset_Type | null>[] = [];
-
     for (let i = 0; i < sharedQuizThings.length; i++) {
         const thing = sharedQuizThings[i];
         
@@ -211,7 +212,6 @@ async function tryGetSharedDatasetsAtOnce(sharedQuizThings: Thing[], fetch: Soli
 
         promises.push(tryGetDataset(quizDatasetUri, fetch));
     }
-
     const fetchedPromises = await Promise.all(promises);
 
     return fetchedPromises;

@@ -1,4 +1,4 @@
-import { createAcl, getResourceAcl, getSolidDatasetWithAcl, hasAccessibleAcl, saveAclFor, setAgentResourceAccess, setPublicResourceAccess } from "@inrupt/solid-client";
+import { createAcl, getAgentAccess, getResourceAcl, getSolidDatasetWithAcl, getSourceUrl, hasAccessibleAcl, saveAclFor, setAgentResourceAccess, setPublicResourceAccess } from "@inrupt/solid-client";
 import { SolidDataset_Type, SolidFetch_Type } from "../constants/SolidDatasetType";
 
 export async function createPublicAclForNewResource(dataset: SolidDataset_Type, fetch: SolidFetch_Type) {
@@ -48,6 +48,10 @@ export async function createAgentAclForNewResource(friendsWebId: string, dataset
 
 export async function createFallbackAclForOwner(webId: string, dataset: SolidDataset_Type, fetch: SolidFetch_Type) {
     try {
+        if (await checkForOwnerRights(webId, dataset, fetch)) {
+            return;
+        }
+
         //check for control right (createAcl wont work if this check missing)
         if (!hasAccessibleAcl(dataset)) {
             throw new Error("Has no control right!");
@@ -115,4 +119,24 @@ export async function takeAwayAgentAcl(resourceUri: string, agentWebId: string, 
       
       // save the new public Acl:
       await saveAclFor(resourceDataset, updatedAcl, { fetch });
+}
+
+
+//privates
+async function checkForOwnerRights(webId: string, dataset: SolidDataset_Type, fetch: SolidFetch_Type): Promise<boolean> {
+    try {
+        const datasetUri = getSourceUrl(dataset);
+        const datasetWithAcl = await getSolidDatasetWithAcl(datasetUri, { fetch });
+        const agentAccess = getAgentAccess(datasetWithAcl, webId);
+
+        return agentAccess !== null && 
+                agentAccess.read &&
+                agentAccess.write &&
+                agentAccess.append &&
+                agentAccess.control;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return false;
 }
