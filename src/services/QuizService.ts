@@ -2,7 +2,7 @@ import { addInteger, addUrl, buildThing, createSolidDataset, createThing, getSol
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { QUIZZES_CONTAINER } from '../constants/DefaultValues';
 import { CREATED, MULTI_LANGUAGE_SUPPORT, NUMBER_OF_QUESTIONS, TITLE } from '../constants/SolidQuizMissingValues';
-import { SolidDataset_Type, SolidFetch_Type } from '../helpers/SolidDatasetType';
+import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
 import { QuizFormModel } from '../models/QuizFormModel';
 import { QuizContainer } from './../models/QuizContainer';

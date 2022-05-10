@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { SolidDataset_Type } from '../../../helpers/SolidDatasetType';
+import { SolidDataset_Type } from '../../../constants/SolidDatasetType';
 import { defaultWorkspaceContext, WorkspaceContext } from '../../../contexts/WorkspaceContext';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { useSession } from '@inrupt/solid-ui-react';

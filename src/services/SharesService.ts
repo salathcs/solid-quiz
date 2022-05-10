@@ -1,6 +1,6 @@
 import { getSolidDataset, saveSolidDatasetAt, createSolidDataset, setThing, createThing, buildThing, hasAccessibleAcl, createAcl, setPublicResourceAccess, saveAclFor, getSourceUrl } from '@inrupt/solid-client';
 import { SHARES_CONTAINER_DATASET, SOLID_QUIZ_POD_SHARES_DATASET } from '../constants/DefaultValues';
-import { SolidDataset_Type, SolidFetch_Type } from '../helpers/SolidDatasetType';
+import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import SOLIDQUIZ from './../helpers/SOLIDQUIZ';
 import { Thing } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';

@@ -1,6 +1,6 @@
-import { SolidDataset_Type, SolidFetch_Type } from './SolidDatasetType';
+import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import * as shareLinksService from '../services/ShareLinksService';
-import { getSolidDataset, getBoolean, hasAccessibleAcl, removeThing, getSolidDatasetWithAcl, getResourceAcl, setPublicResourceAccess, saveAclFor, setAgentResourceAccess } from '@inrupt/solid-client';
+import { getSolidDataset, getBoolean, hasAccessibleAcl, removeThing, getSolidDatasetWithAcl, getResourceAcl, setPublicResourceAccess, saveAclFor, setAgentResourceAccess, getStringNoLocale } from '@inrupt/solid-client';
 import { getUrl } from '@inrupt/solid-client';
 import SOLIDQUIZ from './SOLIDQUIZ';
 import { getThing } from '@inrupt/solid-client';
@@ -11,6 +11,7 @@ import { ShareLinkModel } from '../models/ShareLinkModel';
 import { SOLID_QUIZ_POD_PROFILE } from '../constants/DefaultValues';
 import { Thing } from '@inrupt/solid-client';
 import { saveSolidDatasetAt } from '@inrupt/solid-client';
+import { FOAF } from '@inrupt/vocab-common-rdf';
 
 export async function getAllShareThingByShareLink(workspaceUrl: string, fetch: SolidFetch_Type): Promise<ShareLinkModel[]> {
     const shareLinks = await shareLinksService.getAllShareLink(workspaceUrl, fetch);
@@ -89,6 +90,27 @@ export async function removeSharing(shareLinkModel: ShareLinkModel, fetch: Solid
 
     //remove link
     removeShareLink(shareLinkModel.shareLinkThing, fetch);
+}
+
+export async function tryGetName(webId: string): Promise<string | null> {
+    try {
+        const dataset = await getSolidDataset(webId);
+        const thing = getThing(dataset, webId);
+        if (thing === null) {
+            return null;
+        }
+
+        let name = getStringNoLocale(thing, FOAF.firstName);
+        if (name === null) {
+            name = getStringNoLocale(thing, FOAF.name);
+        }
+
+        return name;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return null;
 }
 
 

@@ -2,7 +2,7 @@ import { createSolidDataset, deleteSolidDataset, getSolidDataset, getSourceUrl, 
 import { LDP, RDF } from '@inrupt/vocab-common-rdf';
 import { WS } from "@inrupt/vocab-solid";
 import { SOLID_QUIZ_WORKSPACE } from "../constants/DefaultValues";
-import { SolidFetch_Type, SolidDataset_Type } from "../helpers/SolidDatasetType";
+import { SolidFetch_Type, SolidDataset_Type } from "../constants/SolidDatasetType";
   
 export async function getProfileThing(webId: string, fetch: SolidFetch_Type): Promise<Thing> {
   const profileDataset = await getSolidDataset(webId, {

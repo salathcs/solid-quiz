@@ -1,5 +1,5 @@
 import { Thing, getBoolean, getUrlAll, getUrl } from '@inrupt/solid-client';
-import { SolidDataset_Type } from './SolidDatasetType';
+import { SolidDataset_Type } from '../constants/SolidDatasetType';
 import { QuizContainer } from './../models/QuizContainer';
 import * as questionService from '../services/QuestionService';
 import * as quizService from '../services/QuizService';

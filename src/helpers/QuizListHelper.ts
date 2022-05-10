@@ -1,5 +1,5 @@
 import { DatasetAndThing } from "../models/DatasetAndThing";
-import { SolidDataset_Type, SolidFetch_Type } from "./SolidDatasetType";
+import { SolidDataset_Type, SolidFetch_Type } from "../constants/SolidDatasetType";
 import * as workspaceService from '../services/WorkspaceService';
 import SOLIDQUIZ from "./SOLIDQUIZ";
 import * as sharesService from '../services/SharesService';

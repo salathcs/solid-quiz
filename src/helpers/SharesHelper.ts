@@ -3,7 +3,7 @@ import * as sharesService from '../services/SharesService';
 import * as shareLinksService from '../services/ShareLinksService';
 import * as workspaceService from '../services/WorkspaceService';
 import { DatasetAndThing } from './../models/DatasetAndThing';
-import { SolidDataset_Type, SolidFetch_Type } from './SolidDatasetType';
+import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import { getSolidDataset } from '@inrupt/solid-client';
 import { getThing } from '@inrupt/solid-client';
 import { FOAF } from '@inrupt/vocab-common-rdf';

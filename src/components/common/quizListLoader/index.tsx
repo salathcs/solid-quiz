@@ -5,7 +5,7 @@ import * as quizService from '../../../services/QuizService';
 import * as workspaceService from '../../../services/WorkspaceService';
 import { useSession } from '@inrupt/solid-ui-react';
 import { WorkspaceContext } from '../../../contexts/WorkspaceContext';
-import { SolidDataset_Type } from '../../../helpers/SolidDatasetType';
+import { SolidDataset_Type } from '../../../constants/SolidDatasetType';
 import { SpinnerContext } from '../../../contexts/SpinnerContext';
 import { QuizList } from './quizList';
 import { getLocalSharesDatasets, getPublicDatasets, mergeQuizzes } from '../../../helpers/QuizListHelper';

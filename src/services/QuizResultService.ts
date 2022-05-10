@@ -2,7 +2,7 @@ import { buildThing, createThing, Thing, createSolidDataset, setThing, saveSolid
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { QUIZ_RESULTS_CONTAINER } from '../constants/DefaultValues';
 import { QUIZ_RESULT_CREATED, SUCCESS_OF_QUESTION_RESULT } from '../constants/SolidQuizMissingValues';
-import { SolidDataset_Type, SolidFetch_Type } from '../helpers/SolidDatasetType';
+import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import SOLIDQUIZ from '../helpers/SOLIDQUIZ';
 import { NestedLocalDataset } from '../models/NestedLocalDataset';
 

@@ -1,4 +1,4 @@
-import { SolidDataset_Type } from "../../../../helpers/SolidDatasetType";
+import { SolidDataset_Type } from "../../../../constants/SolidDatasetType";
 import { DatasetAndThing } from "../../../../models/DatasetAndThing";
 
 export interface Props {

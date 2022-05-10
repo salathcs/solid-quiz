@@ -1,7 +1,7 @@
 import { buildThing, createSolidDataset, createThing, getSolidDataset, getThingAll, saveSolidDatasetAt, setThing, Thing } from "@inrupt/solid-client";
 import { RDF } from "@inrupt/vocab-common-rdf";
 import { SHARE_LINKS_CONTAINER_DATASET } from "../constants/DefaultValues";
-import { SolidDataset_Type, SolidFetch_Type } from "../helpers/SolidDatasetType";
+import { SolidDataset_Type, SolidFetch_Type } from "../constants/SolidDatasetType";
 import SOLIDQUIZ from "../helpers/SOLIDQUIZ";
 
 export async function createShareLink(workspaceUri: string, individualWebId: string, shareUri: string, fetch: SolidFetch_Type) {

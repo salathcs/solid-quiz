@@ -1,5 +1,5 @@
 import React from "react";
-import { SolidDataset_Type } from "../helpers/SolidDatasetType";
+import { SolidDataset_Type } from "../constants/SolidDatasetType";
 
 export interface IWorkspaceContext {
     workspace: SolidDataset_Type | null,
