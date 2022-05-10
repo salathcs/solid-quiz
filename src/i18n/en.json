@@ -16,6 +16,7 @@
     "page.common.yesno.confirmDeleteText": "Are you sure to delete the selected element?",
     "page.common.info.btnOk": "Ok",
     "page.common.info.title": "Information",
+    "page.common.list.empty": "The list has no elements!",
 
     "mainMenu.title": "Main menu",
     "mainMenu.btn.playGame": "Play game",

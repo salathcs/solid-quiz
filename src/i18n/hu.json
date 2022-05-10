@@ -16,6 +16,7 @@
     "page.common.yesno.confirmDeleteText": "Biztosan törli a kijelölt elemet?",
     "page.common.info.btnOk": "Rendben",
     "page.common.info.title": "Információ",
+    "page.common.list.empty": "Nem található elem a listában!",
 
     "mainMenu.title": "Főmenü",
     "mainMenu.btn.playGame": "Játék",

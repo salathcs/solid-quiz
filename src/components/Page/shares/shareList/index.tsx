@@ -16,6 +16,10 @@ export const ShareList: React.FC<Props> = (props: Props) => {
 		);
 	}, [props.shareLinkModels, props.setSyncState]);
 
+	if (props.shareLinkModels.length === 0) {
+		return <h2 className='empty-list-style'>{t("page.common.list.empty")}</h2>
+	}
+
 	return (
 		<Container>
 			<Row className='row-style'>

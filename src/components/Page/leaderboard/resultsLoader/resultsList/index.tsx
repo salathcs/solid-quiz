@@ -24,6 +24,10 @@ export const ResultsList: React.FC<Props> = (props: Props) => {
 		);
 	}, [lang, props.quizData.thing, props.quizResultDatasets]);
 
+	if (elements.length === 0) {
+		return <h2 className='empty-list-style'>{t("page.common.list.empty")}</h2>
+	}
+
 	return (
 		<Container>
 			<h3 className='main-title'>{quizTitle} {t("leaderboard.quizResult.title")}</h3>
