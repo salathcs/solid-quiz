@@ -1,4 +1,4 @@
-import { getSolidDataset, saveSolidDatasetAt, createSolidDataset, setThing, createThing, buildThing, hasAccessibleAcl, createAcl, setPublicResourceAccess, saveAclFor, getSourceUrl } from '@inrupt/solid-client';
+import { getSolidDataset, saveSolidDatasetAt, createSolidDataset, setThing, createThing, buildThing, hasAccessibleAcl, createAcl, setPublicResourceAccess, saveAclFor, getSourceUrl, setAgentResourceAccess } from '@inrupt/solid-client';
 import { SHARES_CONTAINER_DATASET, SOLID_QUIZ_POD_SHARES_DATASET } from '../constants/DefaultValues';
 import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import SOLIDQUIZ from './../helpers/SOLIDQUIZ';
@@ -101,7 +101,7 @@ export function getSharesDataset(workspaceUri: string) {
     return `${workspaceUri}${SHARES_CONTAINER_DATASET}`;
 }
 
-export async function createSharesIndexForPublic(workspaceUri: string, fetch: SolidFetch_Type) {
+export async function createSharesIndexForPublic(workspaceUri: string, webId:string, fetch: SolidFetch_Type) {
     const sharesUri = getSharesDataset(workspaceUri);
 
     if (await isLocalSharesExists(sharesUri)) {
@@ -114,15 +114,26 @@ export async function createSharesIndexForPublic(workspaceUri: string, fetch: So
         throw new Error("Has no control right!");
     }
 
-    const newAcl = createAcl(sharesDataset);
+    const ownerAcl = createAcl(sharesDataset);
 
-    const updatedAcl = setPublicResourceAccess(
-        newAcl,
-        { read: true, append: true, write: true, control: false }
+    const ownerUpdatedAcl = setAgentResourceAccess(
+        ownerAcl,
+        webId,
+        { read: true, append: true, write: true, control: true }
+      );
+      
+    // save the new public Acl:
+    await saveAclFor(sharesDataset, ownerUpdatedAcl, { fetch });
+
+    const publicAcl = createAcl(sharesDataset);
+
+    const updatedPublicAcl = setPublicResourceAccess(
+        publicAcl,
+        { read: true, append: true, write: false, control: false }
       );
       
       // save the new public Acl:
-      await saveAclFor(sharesDataset, updatedAcl, { fetch });
+      await saveAclFor(sharesDataset, updatedPublicAcl, { fetch });
 }
 
 

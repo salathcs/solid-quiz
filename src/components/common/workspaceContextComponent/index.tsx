@@ -42,7 +42,7 @@ export const WorkspaceContextComponent: React.FC<Props> = (props: Props) => {
 			const fetchedWorkspace = await workspaceService.getOrCreateWorkSpace(workSpaceLocation, session.fetch);
 
 			await quizService.createQuizzesContainer(workSpaceLocation, session.fetch);
-			await sharesService.createSharesIndexForPublic(workSpaceLocation, session.fetch);
+			await sharesService.createSharesIndexForPublic(workSpaceLocation, session.info.webId, session.fetch);
 
 			setWorkspaceUrl(workSpaceLocation);
 			setWorkspace(fetchedWorkspace);
