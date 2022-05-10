@@ -103,6 +103,7 @@
     "shares.list.shareTypePersonal": "Személyes",
     "shares.list.modal.text": "Biztosan törli a megosztást?",
     "shares.list.modal.shareOk": "Megosztás törölve!",
+    "shares.element.fetchFailed": "Nem elérhető",
 
     "helpPage.title": "Súgó",
 

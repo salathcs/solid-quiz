@@ -1,6 +1,7 @@
 import { SolidDataset_Type, SolidFetch_Type } from '../constants/SolidDatasetType';
 import * as shareLinksService from '../services/ShareLinksService';
-import { getSolidDataset, getBoolean, hasAccessibleAcl, removeThing, getSolidDatasetWithAcl, getResourceAcl, setPublicResourceAccess, saveAclFor, setAgentResourceAccess, getStringNoLocale } from '@inrupt/solid-client';
+import * as aclService from '../services/AclService';
+import { getSolidDataset, getBoolean, removeThing, getStringNoLocale } from '@inrupt/solid-client';
 import { getUrl } from '@inrupt/solid-client';
 import SOLIDQUIZ from './SOLIDQUIZ';
 import { getThing } from '@inrupt/solid-client';
@@ -42,42 +43,52 @@ export async function getAllShareThingByShareLink(workspaceUrl: string, fetch: S
     return rv;
 }
 
-export async function fetchQuizTitle(quizUri: string, lang: string, fetch: SolidFetch_Type): Promise<string> {
-    const dataset = await getSolidDataset(quizUri, { fetch });
-    const thing = getThing(dataset, quizUri);
+export async function fetchQuizTitle(quizUri: string, lang: string, fetch: SolidFetch_Type): Promise<string | null> {
+    try {        
+        const dataset = await getSolidDataset(quizUri, { fetch });
+        const thing = getThing(dataset, quizUri);
 
-    if (thing === null){
-        return "fetch failed";
+        if (thing === null){
+            return "fetch failed";
+        }
+
+        const multiLang = getBoolean(thing, MULTI_LANGUAGE_SUPPORT) ?? false;
+        const title = getString(thing, TITLE, multiLang, lang);
+
+        return title;
+    } catch (error) {
+        console.log(error);
+        return null;
     }
-
-    const multiLang = getBoolean(thing, MULTI_LANGUAGE_SUPPORT) ?? false;
-    const title = getString(thing, TITLE, multiLang, lang);
-
-    return title;
 }
 
-export async function fetchQuizTitleFromResult(quizResultUri: string, lang: string, fetch: SolidFetch_Type): Promise<string> {
-    const dataset = await getSolidDataset(quizResultUri, { fetch });
-    const thing = getThing(dataset, quizResultUri);
+export async function fetchQuizTitleFromResult(quizResultUri: string, lang: string, fetch: SolidFetch_Type): Promise<string | null> {
+    try {        
+        const dataset = await getSolidDataset(quizResultUri, { fetch });
+        const thing = getThing(dataset, quizResultUri);
 
-    if (thing === null){
-        return "fetch failed";
+        if (thing === null){
+            return "fetch failed";
+        }
+
+        const quizUri = getUrl(thing, SOLIDQUIZ.quizResultOf.value) ?? "error";
+        
+        return fetchQuizTitle(quizUri, lang, fetch);
+    } catch (error) {
+        console.log(error);
+        return null;
     }
-
-    const quizUri = getUrl(thing, SOLIDQUIZ.quizResultOf.value) ?? "error";
-    
-    return fetchQuizTitle(quizUri, lang, fetch);
 }
 
 export async function removeSharing(shareLinkModel: ShareLinkModel, fetch: SolidFetch_Type) {
     //take away acl from resource (set the specified acls every right to false)
     const resourceUri = getUrl(shareLinkModel.shareThing, SOLIDQUIZ.sharedResource.value) ?? "error";
     if (shareLinkModel.isPubliclyShared) {
-        await takeAwayPublicAcl(resourceUri, fetch);
+        await aclService.takeAwayPublicAcl(resourceUri, fetch);
     }
     else {
         const agentWebId = getUrl(shareLinkModel.shareLinkThing, SOLIDQUIZ.shareLinksIndividual.value) ?? "error";
-        await takeAwayAgentAcl(resourceUri, agentWebId, fetch);
+        await aclService.takeAwayAgentAcl(resourceUri, agentWebId, fetch);
     }
     
     //remove shares source
@@ -161,51 +172,4 @@ async function removeShareLink(shareLinkThing: Thing, fetch: SolidFetch_Type) {
     shareLinkDataset = removeThing(shareLinkDataset, shareLinkThing.url);
 
     await saveSolidDatasetAt(shareLinkThing.url, shareLinkDataset, { fetch });
-}
-
-async function takeAwayPublicAcl(resourceUri: string, fetch: SolidFetch_Type) {
-    const resourceDataset = await getSolidDatasetWithAcl(resourceUri, { fetch });
-
-    //check for control right (createAcl wont work if this check missing)
-    if (!hasAccessibleAcl(resourceDataset)) {
-        throw new Error("Has no control right!");
-    }
-
-    const resourceAcl = getResourceAcl(resourceDataset);
-
-    if (resourceAcl === null) {
-        return;
-    }
-
-    const updatedAcl = setPublicResourceAccess(
-        resourceAcl,
-        { read: false, append: false, write: false, control: false }
-      );
-      
-      // save the new public Acl:
-      await saveAclFor(resourceDataset, updatedAcl, { fetch });
-}
-
-async function takeAwayAgentAcl(resourceUri: string, agentWebId: string, fetch: SolidFetch_Type) {
-    const resourceDataset = await getSolidDatasetWithAcl(resourceUri, { fetch });
-
-    //check for control right (createAcl wont work if this check missing)
-    if (!hasAccessibleAcl(resourceDataset)) {
-        throw new Error("Has no control right!");
-    }
-
-    const resourceAcl = getResourceAcl(resourceDataset);
-
-    if (resourceAcl === null) {
-        return;
-    }
-
-    const updatedAcl = setAgentResourceAccess(
-        resourceAcl,
-        agentWebId,
-        { read: false, append: false, write: false, control: false }
-      );
-      
-      // save the new public Acl:
-      await saveAclFor(resourceDataset, updatedAcl, { fetch });
 }

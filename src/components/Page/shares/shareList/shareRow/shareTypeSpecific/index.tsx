@@ -11,14 +11,14 @@ import SOLIDQUIZ from './../../../../../../helpers/SOLIDQUIZ';
 
 export const ShareTypeSpecific: React.FC<Props> = (props: Props) => {
 	const { session } = useSession();
-	const { lang } = useContext(TranslateContext);
+	const { t, lang } = useContext(TranslateContext);
 	const { SpinAround } = useContext(SpinnerContext);
 	const [title, setTitle] = useState("");
 	
 	useEffect(() => {
 		SpinAround(async () => {
 			const resourceUri = getUrl(props.shareThing, SOLIDQUIZ.sharedResource.value) ?? "error";
-			let actTitle: string = "";
+			let actTitle: string | null = null;
 
 			if (props.isQuizShare) {
 				actTitle = await fetchQuizTitle(resourceUri, lang, session.fetch);
@@ -27,9 +27,14 @@ export const ShareTypeSpecific: React.FC<Props> = (props: Props) => {
 				actTitle = await fetchQuizTitleFromResult(resourceUri, lang, session.fetch);
 			}
 
+			//fetch failed
+			if (actTitle === null) {
+				actTitle = t("shares.element.fetchFailed");
+			}
+
 			setTitle(actTitle);
 		});	
-	}, [session.fetch, SpinAround, lang, props.isQuizShare, props.shareThing]);
+	}, [session.fetch, SpinAround, lang, t, props.isQuizShare, props.shareThing]);
 
 	return (
 		<>
