@@ -26,9 +26,10 @@ export function createQuizContainer(quizName: string, quizFormModel: QuizFormMod
 
 //quiz resource name, contained inside the pod, when saving will get file extension: .ttl
 export function createQuizResourceName(quizFormModel: QuizFormModel): string {
-    const trimedEn = quizFormModel.quizTitleEn.replace(/\s/g, "");
+  return new Date().getTime().toString();
+    /*const trimedEn = quizFormModel.quizTitleEn.replace(/\s/g, "");
     const trimedHu = quizFormModel.quizTitleHu.replace(/\s/g, "");
-    return `${trimedEn}_${trimedHu}`;
+    return `${trimedEn}_${trimedHu}`;*/
 }
 
 export function getQuizzesContainer(workspaceUri: string) {
