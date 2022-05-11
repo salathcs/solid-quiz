@@ -1,4 +1,4 @@
-import { createAcl, getAgentAccess, getResourceAcl, getSolidDatasetWithAcl, getSourceUrl, hasAccessibleAcl, saveAclFor, setAgentResourceAccess, setPublicResourceAccess } from "@inrupt/solid-client";
+import { createAcl, getAgentAccess, getResourceAcl, getSolidDatasetWithAcl, getSourceUrl, hasAccessibleAcl, hasResourceAcl, saveAclFor, setAgentResourceAccess, setPublicResourceAccess } from "@inrupt/solid-client";
 import { SolidDataset_Type, SolidFetch_Type } from "../constants/SolidDatasetType";
 
 export async function createPublicAclForNewResource(dataset: SolidDataset_Type, fetch: SolidFetch_Type) {
@@ -127,6 +127,9 @@ async function checkForOwnerRights(webId: string, dataset: SolidDataset_Type, fe
     try {
         const datasetUri = getSourceUrl(dataset);
         const datasetWithAcl = await getSolidDatasetWithAcl(datasetUri, { fetch });
+        if (!hasResourceAcl(datasetWithAcl)) {
+            return false;
+        }
         const agentAccess = getAgentAccess(datasetWithAcl, webId);
 
         return agentAccess !== null && 
