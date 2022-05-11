@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { APP_NAME } from '../../constants/DefaultValues';
 import { Props } from './types';
 import { Providers } from './providers';
-import './styles.css';
+import './styles.scoped.css';
 import { TranslateContext } from '../../contexts/TranslateContext';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 
@@ -45,7 +45,7 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                             redirectUrl={window.location.href}
                             authOptions={authOptions}
                         >
-                            <Button variant="primary" size='lg'>{t("auth.button.login")}</Button>
+                            <Button variant="primary" size='lg' className='login-btn'>{t("auth.button.login")}</Button>
                         </LoginButton>
                     </Col>
                 </Row>

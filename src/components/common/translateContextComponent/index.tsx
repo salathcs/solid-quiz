@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Props } from './types';
-import './styles.css';
+import './styles.scoped.css';
 import { defaultTranslateState, TranslateContext } from '../../../contexts/TranslateContext';
 import { isSupportedLanguage, translate } from '../../../i18n/Locales';
 import { LanguageSelector } from './languageSelector';

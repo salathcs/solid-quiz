@@ -11,11 +11,11 @@ function App() {
   const appContent = session.info.isLoggedIn ? <Page /> : <Authenticate />;
 
   return (
-    <SpinnerContextComponent>
-      <TranslateContextComponent>
+    <TranslateContextComponent>
+      <SpinnerContextComponent>
         {appContent}
-      </TranslateContextComponent>
-    </SpinnerContextComponent>
+      </SpinnerContextComponent>
+    </TranslateContextComponent>
   );
 }
 
