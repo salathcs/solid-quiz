@@ -36,6 +36,20 @@ export const QuestionNavigationButtons: React.FC<Props> = (props: Props) => {
 		}
 	}
 
+	const onFinishClick = () => {
+		const error = questionCreateModelValidator.validateModel(props.questionModel);
+		if (error === null) {
+			if (isCrurrentQuestionCreatedYet()) {
+				props.onNextNew();
+			}
+			else{
+				props.onNext();
+			}
+		}
+
+		props.onFinishClick();
+	}
+
 	return (
 		<>
 			<Row className='question-btn-row'>
@@ -48,6 +62,12 @@ export const QuestionNavigationButtons: React.FC<Props> = (props: Props) => {
 			</Row>
 			{alert !== null && 
 			<Row className='alert-row'><Alert variant='danger'>{alert}</Alert></Row>}
+
+			<Row className='finish-btn-row'>
+				<Col>
+					<Button variant="success" size='lg' onClick={onFinishClick}>{t("createQuiz.question.finishQuiz")}</Button>
+				</Col>
+			</Row>
 		</>
 	);
 }

@@ -1,4 +1,4 @@
-import { addInteger, addUrl, buildThing, createSolidDataset, createThing, getSolidDataset, getSourceUrl, getThing, saveSolidDatasetAt, setThing, Thing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
+import { addInteger, addUrl, buildThing, createSolidDataset, createThing, getSolidDataset, getSourceUrl, getThing, saveSolidDatasetAt, setThing, ThingBuilder, ThingLocal } from '@inrupt/solid-client';
 import { RDF } from '@inrupt/vocab-common-rdf';
 import { QUIZZES_CONTAINER } from '../constants/DefaultValues';
 import { CREATED, MULTI_LANGUAGE_SUPPORT, NUMBER_OF_QUESTIONS, TITLE } from '../constants/SolidQuizMissingValues';
@@ -80,7 +80,7 @@ export async function saveNewQuiz(quizContainer: QuizContainer, workspaceUri: st
     fetch: fetch,
   });
   
-  const savedThingUri = getSavedQuizThingsUri(quizContainer.quiz, updatedDataset);
+  const savedThingUri = getSavedQuizThingsUri(quizContainer.quizName, updatedDataset);
   const savedThing = getThing(updatedDataset, savedThingUri);
 
   if (savedThing === null) {
@@ -134,14 +134,10 @@ function addAnswersToDataset(nestedDataset: NestedLocalDataset, questionContaine
   }
 }
 
-function getSavedQuizThingsUri(localThing: Thing, updatedDataset: SolidDataset_Type): string {
-    const indexOfSeparator = localThing.url.lastIndexOf('/');
-
-    const name = localThing.url.substring(indexOfSeparator + 1);
-
+function getSavedQuizThingsUri(quizName: string, updatedDataset: SolidDataset_Type): string {
     const datasetUri = getSourceUrl(updatedDataset);
 
-    return `${datasetUri}#${name}`;
+    return `${datasetUri}#${quizName}`;
 }
 
 async function isQuizzesExists(uri: string): Promise<boolean> {

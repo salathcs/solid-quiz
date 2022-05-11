@@ -5,4 +5,5 @@ export interface Props {
     onPrev: () => void,
     onNext: () => void,
     onNextNew: () => void,
+    onFinishClick: () => void
 }

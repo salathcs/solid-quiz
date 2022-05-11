@@ -1,4 +1,4 @@
-import { Thing, getBoolean, getUrlAll, getUrl } from '@inrupt/solid-client';
+import { Thing, getBoolean, getUrlAll, getUrl, removeUrl } from '@inrupt/solid-client';
 import { SolidDataset_Type } from '../constants/SolidDatasetType';
 import { QuizContainer } from './../models/QuizContainer';
 import * as questionService from '../services/QuestionService';
@@ -26,6 +26,12 @@ export function convert(quizThing: Thing, quizDataset: SolidDataset_Type, lang: 
 function createQuizContainer(quizThing: Thing, multiLang: boolean, lang: string): QuizContainer {
     const quizFormModel = createQuizFormModel(quizThing, multiLang, lang);
     const quizName = quizService.createQuizResourceName(quizFormModel);
+
+    const questionUris = getUrlAll(quizThing, SOLIDQUIZ.quizQuestion.value);
+    for (let i = 0; i < questionUris.length; i++) {
+        const uri = questionUris[i];
+        quizThing = removeUrl(quizThing, SOLIDQUIZ.quizQuestion.value, uri);
+    }
 
     return {quizName, quizFormModel, quiz: quizThing, questions: []};
 }

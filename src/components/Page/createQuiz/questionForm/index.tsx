@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { TranslateContext } from '../../../../contexts/TranslateContext';
 import { QuestionAnswers } from './questionAnswers';
 import { QuestionCreateModel } from '../../../../models/QuestionCreateModel';
@@ -94,13 +94,7 @@ export const QuestionForm: React.FC<Props> = (props: Props) => {
 			<QuestionTextLoader questionModel={questionModel} onChange={setQuestionModel} />
 			<QuestionAnswers questionModel={questionModel} onChange={setQuestionModel} /> 
 
-			<QuestionNavigationButtons questionModel={questionModel} onPrev={onPrev} onNext={onNext} onNextNew={onNextNew} />
-
-			<Row className='finish-btn-row'>
-				<Col>
-					<Button variant="success" size='lg' onClick={handleClickFinish}>{t("createQuiz.question.finishQuiz")}</Button>
-				</Col>
-			</Row>
+			<QuestionNavigationButtons questionModel={questionModel} onPrev={onPrev} onNext={onNext} onNextNew={onNextNew} onFinishClick={handleClickFinish} />
 		</Container>
 	);
 }
