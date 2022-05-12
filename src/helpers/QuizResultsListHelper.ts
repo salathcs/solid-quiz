@@ -9,7 +9,13 @@ import { getSolidDataset } from '@inrupt/solid-client';
 import { LDP } from "@inrupt/vocab-common-rdf";
 
 export async function getQuizResultsFromContainer(containerUri: string, fetch: SolidFetch_Type): Promise<SolidDataset_Type[]> {
-    const containerDataset = await getSolidDataset(containerUri, { fetch });
+    const containerDataset = await tryGetQuizResultDataset(containerUri, fetch);
+
+    if (containerDataset === null) {
+        console.log("Quiz result dataset caonnot found, returns empty list! DatasetUri: " + containerUri);
+        return [];
+    }
+
     const datasetThing = getThing(containerDataset, containerUri);
 
     if (datasetThing === null) {
