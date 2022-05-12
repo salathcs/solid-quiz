@@ -111,6 +111,7 @@
     "helpPage.title": "Súgó",
 
     "error.share.notFoundShares": "Az ismerős megosztásai nem találhatók! Ez a személy játszott már a Solid kvízzel?",
+    "error.share.notFoundSharesGlobal": "A megosztások mappa nem elérhető!",
 
     "tmp": ""
 }

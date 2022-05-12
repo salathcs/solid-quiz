@@ -111,6 +111,7 @@
     "helpPage.title": "Help page",
 
     "error.share.notFoundShares": "Friend shares cannot found! Does this person already played with Solid quiz?",
+    "error.share.notFoundSharesGlobal": "Shares folder unavialable!",
 
     "tmp": ""
 }
