@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/solid-quiz/static/css/main.0f1f0637.chunk.css",
-    "main.js": "/solid-quiz/static/js/main.c7a4b830.chunk.js",
-    "main.js.map": "/solid-quiz/static/js/main.c7a4b830.chunk.js.map",
+    "main.css": "/solid-quiz/static/css/main.c0ffc91a.chunk.css",
+    "main.js": "/solid-quiz/static/js/main.6ed99a30.chunk.js",
+    "main.js.map": "/solid-quiz/static/js/main.6ed99a30.chunk.js.map",
     "runtime-main.js": "/solid-quiz/static/js/runtime-main.598bf8e0.js",
     "runtime-main.js.map": "/solid-quiz/static/js/runtime-main.598bf8e0.js.map",
     "static/css/2.21540cf3.chunk.css": "/solid-quiz/static/css/2.21540cf3.chunk.css",
@@ -12,14 +12,14 @@
     "static/js/3.6921ad6c.chunk.js.map": "/solid-quiz/static/js/3.6921ad6c.chunk.js.map",
     "index.html": "/solid-quiz/index.html",
     "static/css/2.21540cf3.chunk.css.map": "/solid-quiz/static/css/2.21540cf3.chunk.css.map",
-    "static/css/main.0f1f0637.chunk.css.map": "/solid-quiz/static/css/main.0f1f0637.chunk.css.map",
+    "static/css/main.c0ffc91a.chunk.css.map": "/solid-quiz/static/css/main.c0ffc91a.chunk.css.map",
     "static/js/2.467ca39e.chunk.js.LICENSE.txt": "/solid-quiz/static/js/2.467ca39e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.598bf8e0.js",
     "static/css/2.21540cf3.chunk.css",
     "static/js/2.467ca39e.chunk.js",
-    "static/css/main.0f1f0637.chunk.css",
-    "static/js/main.c7a4b830.chunk.js"
+    "static/css/main.c0ffc91a.chunk.css",
+    "static/js/main.6ed99a30.chunk.js"
   ]
 }
