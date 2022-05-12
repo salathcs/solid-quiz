@@ -1,7 +1,7 @@
 {
   "name": "solid-quiz",
   "homepage": "https://salathcs.github.io/solid-quiz",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",

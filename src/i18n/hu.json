@@ -109,10 +109,17 @@
     "shares.list.modal.shareOk": "Megosztás törölve!",
     "shares.element.fetchFailed": "Nem elérhető",
 
-    "helpPage.title": "Súgó",
-
     "error.share.notFoundShares": "Az ismerős megosztásai nem találhatók! Ez a személy játszott már a Solid kvízzel?",
     "error.share.notFoundSharesGlobal": "A megosztások mappa nem elérhető!",
 
-    "tmp": ""
+    "helpPage.title": "Súgó",
+    "helpPage.text1": "A Solid kvíz alkalmazás segítségével létrehozhatsz, megoszthatsz és végig játszhatsz általad, vagy mások által kreált kvízeket.",
+    "helpPage.text2": "Az alkalmazás Solid környezethez készült. Mindenki a saját pod-jában tárolja az általa készített adatokat.",
+    "helpPage.text3": "Megosztás révén ezek az adatokat hozzáférhetővé válnak mások számára is.",
+    "helpPage.text4": "Az alkalmazás kvíz megosztásakor lehetőséget ad, közzé tételre. Ez egy közös pod a",
+    "helpPage.text5": "-en keresztül történik (az adatok továbbra is nálad maradnak).",
+    "helpPage.text6": "Kvízek eredményeit csak közzé tenni van lehetőséged, de egy kvíz esetén megoszthatod azt csak a kiválasztott személlyel (ilyenkor csak ő kap hozzáférést).",
+    "helpPage.text7": "A megosztást bármikor visszavonhatod, és ezáltal újra csak te férhetsz hozzá az adataidhoz.",
+    "helpPage.text8": "Jó szórakozást!",
+    "helpPage.text9": "Az alkalmazást készítette:"
 }

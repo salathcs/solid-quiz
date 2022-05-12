@@ -109,10 +109,17 @@
     "shares.list.modal.shareOk": "Sharing removed!",
     "shares.element.fetchFailed": "Not accessible",
 
-    "helpPage.title": "Help page",
-
     "error.share.notFoundShares": "Friend shares cannot found! Does this person already played with Solid quiz?",
     "error.share.notFoundSharesGlobal": "Shares folder unavialable!",
 
-    "tmp": ""
+    "helpPage.title": "Help page",
+    "helpPage.text1": "With the Solid Quiz app, you can create, share, and play quizzes created by you or others.",
+    "helpPage.text2": "The application is designed for Solid environments. Everyone stores the data they create in their own pod.",
+    "helpPage.text3": "By sharing, this data becomes available to others.",
+    "helpPage.text4": "The app allows you to publish when sharing a quiz. This is done on a common pod ",
+    "helpPage.text5": "(data will remain with you).",
+    "helpPage.text6": "You can only publish the results of quizzes, but in the case of a quiz, you can share it with just the selected person (in this case, only he or she will have access).",
+    "helpPage.text7": "You can unshare at any time, and only you will be able to access your data again.",
+    "helpPage.text8": "Have fun!",
+    "helpPage.text9": "The application was created by:"
 }
