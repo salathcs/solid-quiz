@@ -79,6 +79,7 @@
     "createQuiz.question.correctAnswerRequired": "A helyes válasz kitöltése kötelező!",
     "createQuiz.question.answerRequired": "Minden felvett válasz kitöltése kötelező!",
     "createQuiz.result.title": "Sikeresen létrehoztad a kvízt!",
+    "createQuiz.result.modifyTitle": "Sikeresen módosítottad a kvízt!",
     "createQuiz.result.quizTitle": "A kvíz neve:",
     "createQuiz.result.questionNumber": "Létrehozott kérdések száma:",
     "createQuiz.result.share": "Szeretnéd megosztani a kvízt? KATTINTS!",
@@ -109,5 +110,7 @@
 
     "helpPage.title": "Súgó",
 
-    "question.text": "Kérdés szövege"
+    "error.share.notFoundShares": "Az ismerős megosztásai nem találhatók! Ez a személy játszott már a Solid kvízzel?",
+
+    "tmp": ""
 }

@@ -117,7 +117,7 @@ export const CreateQuiz: React.FC<Props> = (props: Props) => {
 	}
 
 	if (creationResult !== null) {
-		return <CreationResult quizData={creationResult} />;
+		return <CreationResult quizData={creationResult} isModify={firstFormModel !== undefined} />;
 	}
 
 	const content = quizContainer === null ? 

@@ -1,12 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import { Props } from './types';
 import './styles.scoped.css';
 import { defaultSpinnerState, SpinnerContext } from '../../../contexts/SpinnerContext';
 import { Spinner } from './spinner';
 import SpinnerCounter from '../../../helpers/SpinnerCounter';
 import { InfoModal } from '../infoModal';
+import { TranslateContext } from './../../../contexts/TranslateContext';
 
 export const SpinnerContextComponent: React.FC<Props> = (props: Props) => {
+	const { t } = useContext(TranslateContext);
 	const [showSpinner, setShowSpinner] = useState(defaultSpinnerState.Spinner);
 	const [spinnerCounter] = useState<SpinnerCounter>(new SpinnerCounter());
 	const [error, setError] = useState<string | null>(null);
@@ -25,11 +27,18 @@ export const SpinnerContextComponent: React.FC<Props> = (props: Props) => {
 		ShowSpinner();
 		await delegate().catch((error: any) => {
 			console.log(error);
-			setError(error);
+
+			const translatedError = t(error.message);
+			if (translatedError !== undefined && translatedError !== null && translatedError.length > 0) {
+				setError(translatedError);
+			}
+			else{
+				setError(error);
+			}
 		}).finally(() =>{
 		  HideSpinner();
 		});
-	}, [ShowSpinner, HideSpinner]);
+	}, [ShowSpinner, HideSpinner, t]);
 
 	return (
 		<SpinnerContext.Provider value={{

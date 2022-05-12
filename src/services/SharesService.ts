@@ -28,7 +28,7 @@ export async function publishQuiz(quizUri: string): Promise<Thing> {
 }
 
 export async function shareQuiz(friendsShareSpace: string, quizUri: string): Promise<Thing> {
-    const friendsSharesDataset = await getSolidDataset(friendsShareSpace);
+    const friendsSharesDataset = await tryGetFirendsShareDataset(friendsShareSpace);
     const newPublicShareThing = createPublishedThing(quizUri, SOLIDQUIZ.Quiz.value);
 
     let publicSharesDataset = setThing(friendsSharesDataset, newPublicShareThing);
@@ -184,4 +184,18 @@ function getSavedShareThingsUri(localThing: Thing, updatedDataset: SolidDataset_
     const datasetUri = getSourceUrl(updatedDataset);
 
     return `${datasetUri}#${name}`;
+}
+
+async function tryGetFirendsShareDataset(friendsShareSpace: string): Promise<SolidDataset_Type> {    
+    try {
+        const friendsSharesDataset = await getSolidDataset(friendsShareSpace);
+
+        return friendsSharesDataset;
+    } catch (error: any) {
+        if (error.statusCode === 401 || error.statusCode === 403 || error.statusCode === 404) {
+            throw new Error("error.share.notFoundShares");
+        }
+
+        throw error;
+    }
 }

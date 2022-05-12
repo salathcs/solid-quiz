@@ -1,8 +1,7 @@
-import { Thing, getBoolean, getUrlAll, getUrl, removeUrl } from '@inrupt/solid-client';
+import { Thing, getBoolean, getUrlAll, getUrl, removeUrl, removeInteger, getIntegerAll } from '@inrupt/solid-client';
 import { SolidDataset_Type } from '../constants/SolidDatasetType';
 import { QuizContainer } from './../models/QuizContainer';
 import * as questionService from '../services/QuestionService';
-import * as quizService from '../services/QuizService';
 import * as workspaceService from '../services/WorkspaceService';
 import { QuizFormModel } from './../models/QuizFormModel';
 import { ANSWER_TEXT, MULTI_LANGUAGE_SUPPORT, QUESTION_TEXT, TITLE } from '../constants/SolidQuizMissingValues';
@@ -12,6 +11,7 @@ import SOLIDQUIZ from './SOLIDQUIZ';
 import { AnswerContainer } from './../models/AnswerContainer';
 import { QuestionCreateModel } from '../models/QuestionCreateModel';
 import { AnswerCreateModel } from './../models/AnswerCreateModel';
+import { NUMBER_OF_QUESTIONS } from './../constants/SolidQuizMissingValues';
 
 export function convert(quizThing: Thing, quizDataset: SolidDataset_Type, lang: string): QuizContainer {  
     const multiLang = getBoolean(quizThing, MULTI_LANGUAGE_SUPPORT) ?? false; 
@@ -25,13 +25,19 @@ export function convert(quizThing: Thing, quizDataset: SolidDataset_Type, lang: 
 
 function createQuizContainer(quizThing: Thing, multiLang: boolean, lang: string): QuizContainer {
     const quizFormModel = createQuizFormModel(quizThing, multiLang, lang);
-    const quizName = quizService.createQuizResourceName(quizFormModel);
+    const quizName = getFragmentFromUri(quizThing.url);
 
     const questionUris = getUrlAll(quizThing, SOLIDQUIZ.quizQuestion.value);
     for (let i = 0; i < questionUris.length; i++) {
         const uri = questionUris[i];
         quizThing = removeUrl(quizThing, SOLIDQUIZ.quizQuestion.value, uri);
     }
+
+    const numberOfQuestins = getIntegerAll(quizThing, NUMBER_OF_QUESTIONS);
+    for (let i = 0; i < numberOfQuestins.length; i++) {
+        const value = numberOfQuestins[i];
+        quizThing = removeInteger(quizThing, NUMBER_OF_QUESTIONS, value);
+    }    
 
     return {quizName, quizFormModel, quiz: quizThing, questions: []};
 }

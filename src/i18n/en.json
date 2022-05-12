@@ -79,6 +79,7 @@
     "createQuiz.question.correctAnswerRequired": "Correct answer is required!",
     "createQuiz.question.answerRequired": "Need to fill every answer options!",
     "createQuiz.result.title": "Quiz successfully created!",
+    "createQuiz.result.modifyTitle": "Quiz successfully modified!",
     "createQuiz.result.quizTitle": "Quiz title:",
     "createQuiz.result.questionNumber": "Questions number:",
     "createQuiz.result.share": "Do you want to share the quiz? CLICK!",
@@ -109,5 +110,7 @@
 
     "helpPage.title": "Help page",
 
-    "question.text": "Question text"
+    "error.share.notFoundShares": "Friend shares cannot found! Does this person already played with Solid quiz?",
+
+    "tmp": ""
 }
