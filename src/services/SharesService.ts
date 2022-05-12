@@ -28,7 +28,7 @@ export async function publishQuiz(quizUri: string): Promise<Thing> {
 }
 
 export async function shareQuiz(friendsShareSpace: string, quizUri: string): Promise<Thing> {
-    const friendsSharesDataset = await getSolidDataset(friendsShareSpace);
+    const friendsSharesDataset = await tryGetFirendsShareDataset(friendsShareSpace);
     const newPublicShareThing = createPublishedThing(quizUri, SOLIDQUIZ.Quiz.value);
 
     let publicSharesDataset = setThing(friendsSharesDataset, newPublicShareThing);
@@ -64,7 +64,13 @@ export async function publishQuizResult(quizResultUri: string): Promise<Thing> {
 }
 
 export async function getPublishedShares(shareTypeFilter: string): Promise<Thing[]> {
-    const publicSharesDataset = await getOrCreateShares(SOLID_QUIZ_POD_SHARES_DATASET);
+    const publicSharesDataset = await tryGetShares(SOLID_QUIZ_POD_SHARES_DATASET);
+
+    if (publicSharesDataset === null) {
+        console.log("Public shares not found, returns empty array!");
+        return [];
+    }
+
     const publicSharesThings = getThingAll(publicSharesDataset);
 
     const rv: Thing[] = [];
@@ -154,8 +160,19 @@ async function getOrCreateShares(uri: string): Promise<SolidDataset_Type> {
       console.log(error);
     }
 
-    throw new Error('shares folder unavailable');
+    throw new Error('error.share.notFoundSharesGlobal');
 }
+
+async function tryGetShares(uri: string): Promise<SolidDataset_Type | null> {
+    try {
+        const shares = await getOrCreateShares(uri);
+
+        return shares;
+    } catch (error) {
+        return null;
+    }
+}
+
 async function isLocalSharesExists(uri: string): Promise<boolean> {
     try {
       await getSolidDataset(uri);
@@ -184,4 +201,18 @@ function getSavedShareThingsUri(localThing: Thing, updatedDataset: SolidDataset_
     const datasetUri = getSourceUrl(updatedDataset);
 
     return `${datasetUri}#${name}`;
+}
+
+async function tryGetFirendsShareDataset(friendsShareSpace: string): Promise<SolidDataset_Type> {    
+    try {
+        const friendsSharesDataset = await getSolidDataset(friendsShareSpace);
+
+        return friendsSharesDataset;
+    } catch (error: any) {
+        if (error.statusCode === 401 || error.statusCode === 403 || error.statusCode === 404) {
+            throw new Error("error.share.notFoundShares");
+        }
+
+        throw error;
+    }
 }

@@ -26,7 +26,7 @@ export const CreationResult: React.FC<Props> = (props: Props) => {
 
 	return (
 		<>
-			<h3 className='main-title'>{t("createQuiz.result.title")}</h3>
+			<h3 className='main-title'>{props.isModify ? t("createQuiz.result.modifyTitle") : t("createQuiz.result.title")}</h3>
 
 			<Row>
 				<p className='quizTitle-text'>{t("createQuiz.result.quizTitle")} {title}</p>

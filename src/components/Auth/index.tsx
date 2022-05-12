@@ -5,7 +5,7 @@ import { Props } from './types';
 import { Providers } from './providers';
 import './styles.scoped.css';
 import { TranslateContext } from '../../contexts/TranslateContext';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 
 export const Authenticate: React.FC<Props> = (props: Props) => {
 	const { t } = useContext(TranslateContext);
@@ -38,7 +38,7 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                         <Providers id="providers" />
                     </Col>
                 </Row>
-                <Row className='mt-5'>
+                <Row className='mt-4'>
                     <Col>
                         <LoginButton
                             oidcIssuer={oidcIssuer}
@@ -48,6 +48,9 @@ export const Authenticate: React.FC<Props> = (props: Props) => {
                             <Button variant="primary" size='lg' className='login-btn'>{t("auth.button.login")}</Button>
                         </LoginButton>
                     </Col>
+                </Row>
+                <Row className='mt-3'>
+                    <Alert>{t("auth.button.note")}</Alert>
                 </Row>
             </Container>
         </Container>
