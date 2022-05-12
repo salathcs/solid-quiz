@@ -5,7 +5,7 @@
     "auth.title": "Solid quiz login page",
     "auth.label": "Choose a provider and log in to your pod!",
     "auth.button.login": "Log in",
-    "auth.button.note": "Note: Application also requires access/control rights!",
+    "auth.button.note": "Note: Application also requires access / control rights!",
 
     "page.title": "Solid Quiz",
     "page.common.back": "Back",

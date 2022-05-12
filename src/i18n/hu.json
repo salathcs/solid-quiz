@@ -5,7 +5,7 @@
     "auth.title": "Solid kvíz bejelentkezés",
     "auth.label": "Válassz egy pod kiszolgálót a belépéshez!",
     "auth.button.login": "Bejelentkezés",
-    "auth.button.note": "Megjegyzés: Az alkalmazás számára szükségesek a hozzáférés/vezérlő jogosultságok is!",
+    "auth.button.note": "Megjegyzés: Az alkalmazás számára szükségesek a hozzáférési / vezérlő jogosultságok is!",
 
     "page.title": "Solid Kvíz",
     "page.common.back": "Vissza",
