@@ -1,4 +1,13 @@
 .main-title{
     margin-top: 70px;
-    margin-bottom: 90px;
+    margin-bottom: 50px;
+}
+
+.back-btn{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+p{
+    font-size: large;
 }

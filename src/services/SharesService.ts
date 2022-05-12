@@ -135,7 +135,7 @@ export async function createSharesIndexForPublic(workspaceUri: string, webId:str
 
     const updatedPublicAcl = setPublicResourceAccess(
         publicAcl,
-        { read: true, append: true, write: false, control: false }
+        { read: true, append: true, write: true, control: false }
       );
       
       // save the new public Acl:
